@@ -31,16 +31,6 @@ void CSettings::initPinModes()
   pinMode(_pinStatusLed, OUTPUT);
 }
 
-void CSettings::saveSettings()
-{
-  
-}
-
-void CSettings::loadSettings()
-{
-  
-}
-
 bool saveToFlash(const char *dataToStore, int startAddr)
 {
   int i = 0;
@@ -64,4 +54,38 @@ String readFromFlash(int startAddr)
       break;
   }
   return String(dataArray);
+}
+
+bool CSettings::saveSettings()
+{
+  Serial.println("[Settings] Saving...");
+  //Save all settings
+  Serial.println("[Settings] Saving done.");
+  return true;
+}
+
+bool CSettings::loadSettingsWeather()
+{
+  Serial.println("[Weather settings] Loading...");
+  if (*_weather_city_name)
+  {
+    //load city name
+  }
+  if (*_weather_country_code)
+  {
+    //load coutry code
+  }
+  if (*_weather_api_key)
+  {
+    //load key
+  }
+  Serial.println("[Weather settings] Loading done.");
+  return true;
+}
+
+bool CSettings::loadSettings()
+{
+  Serial.println("[General settings] Loading...");
+  Serial.println("[General settings] Loading done.");
+  return true;
 }

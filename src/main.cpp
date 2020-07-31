@@ -59,13 +59,6 @@ void IRAM_ATTR ISR_buttonMin()
 
 void setup()
 {
-  
-  
-  
-  Network.resetSettings();
-
-
-
   //start serial communication for debugging
   Serial.begin(115200);
   Serial.println("[Status] Initializing...");
@@ -111,6 +104,8 @@ void setup()
       &TasksCore_0,
       0);
 
+  Settings.saveSettings();
+  
   Serial.println("[Status] Initializing done.");
   delay(1000);
 }

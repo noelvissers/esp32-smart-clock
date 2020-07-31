@@ -26,7 +26,7 @@ class CSettings
 {
 public:
   void initPinModes();
-  void saveToFlash(const char *dataToStore, int startAddr);
-  void saveSettings();
-  void loadSettings();
+  bool saveSettings();
+  bool loadSettingsWeather();
+  bool loadSettings();
 };

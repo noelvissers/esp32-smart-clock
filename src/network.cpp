@@ -28,7 +28,7 @@ bool CNetwork::autoConnect()
   {
     Serial.println("[Network] Connected.");
 
-    strcpy(_weather_city_name, city_config.getValue());
+  	strcpy(_weather_city_name, city_config.getValue());
     strcpy(_weather_country_code, country_config.getValue());
     strcpy(_weather_api_key, key_config.getValue());
 
