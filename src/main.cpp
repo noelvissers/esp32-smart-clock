@@ -1,8 +1,8 @@
 /**
  * @project       Smart Clock
- * @description   <desc.>
- * @author        No­ël Vissers
- * @version       <git hash>
+ * @documentation https://github.com/noelvissers/esp32-smart-clock 
+ * @author        noelvissers
+ * @date          31/07/2020
  */
 
 #include <Arduino.h>
