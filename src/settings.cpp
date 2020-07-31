@@ -20,6 +20,12 @@ unsigned int _pinRtcSDA = 42; //I2C_SDA
 
 unsigned int _pinLDR = 10; //AI
 
+//Openweathermap.org settings
+char *_server = "api.openweathermap.org";
+char *_apiKey = "KEY";
+char *_cityName = "CITY_NAME";
+char *_countryCode = "COUNRTY_CODE";
+
 void CSettings::initPinModes()
 {
     pinMode(_pinButtonPlus, INPUT);

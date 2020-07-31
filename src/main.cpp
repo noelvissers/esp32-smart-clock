@@ -8,12 +8,14 @@
 #include <Arduino.h>
 #include "settings.h"
 #include "display.h"
+#include "network.h"
 
 //create objects
 TaskHandle_t TasksCore_0;
 
 CSettings Settings;
 CDisplay Display;
+CNetwork Network;
 
 //main loop on core 0 (network functions)
 void Core_0(void *parameter)
@@ -67,26 +69,28 @@ void setup()
   attachInterrupt(_pinButtonSelect, ISR_buttonSelect, FALLING);
   attachInterrupt(_pinButtonMin, ISR_buttonMin, FALLING);
 
-  //Display.setBrightness(_brightness);
+  //TODO: Display.setBrightness(_brightness);
   Serial.println("[Status] Initializing [-][-][-]");
 
   //Setup network connection
-  /**
-   * TODO:...
-  */
-  Serial.println("[Status] Initializing [X][-][-]");
+  Network.resetSettings();
+  if (!Network.autoConnect())
+  {
+    //Handle error
+  }
+  Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
 
   //Get Time
   /**
    * TODO:...
    */
-  Serial.println("[Status] Initializing [X][X][-]");
+  Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 
   //Get Weather
   /**
    * TODO:...
    */
-  Serial.println("[Status] Initializing [X][X][X]");
+  Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
 
   //create thread in core 0
   xTaskCreatePinnedToCore(
