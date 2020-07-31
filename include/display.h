@@ -2,6 +2,6 @@
 
 class CDisplay
 {
-    public:
-    void update();
+public:
+  void update();
 };

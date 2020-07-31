@@ -2,5 +2,4 @@
 
 void CDisplay::update()
 {
-    
 }

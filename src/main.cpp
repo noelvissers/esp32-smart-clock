@@ -9,6 +9,7 @@
 #include "settings.h"
 #include "display.h"
 #include "network.h"
+#include "weather.h"
 
 //create objects
 TaskHandle_t TasksCore_0;
@@ -16,6 +17,7 @@ TaskHandle_t TasksCore_0;
 CSettings Settings;
 CDisplay Display;
 CNetwork Network;
+CWeather Weather;
 
 //main loop on core 0 (network functions)
 void Core_0(void *parameter)
@@ -69,11 +71,10 @@ void setup()
   attachInterrupt(_pinButtonSelect, ISR_buttonSelect, FALLING);
   attachInterrupt(_pinButtonMin, ISR_buttonMin, FALLING);
 
-  //TODO: Display.setBrightness(_brightness);
+  Settings.loadSettings();
   Serial.println("[Status] Initializing [-][-][-]");
 
   //Setup network connection
-  Network.resetSettings();
   if (!Network.autoConnect())
   {
     //Handle error
@@ -112,4 +113,6 @@ void loop()
   /**
    * TODO: Menu (only update time when needed)
    */
+  Weather.update();
+  delay(60000);
 }

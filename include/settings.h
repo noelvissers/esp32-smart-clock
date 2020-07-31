@@ -1,16 +1,13 @@
 #pragma once
 
-//Smart Clock settings:
-extern int _brightness;
-
 //Hardware settings:
 extern unsigned int _pinButtonPlus;
 extern unsigned int _pinButtonSelect;
 extern unsigned int _pinButtonMin;
 
 extern unsigned int _pinDisplayMOSI; //SPI_MOSI
-extern unsigned int _pinDisplaySS; //SPI_SS
-extern unsigned int _pinDisplaySCK; //SPI_SCK
+extern unsigned int _pinDisplaySS;   //SPI_SS
+extern unsigned int _pinDisplaySCK;  //SPI_SCK
 
 extern unsigned int _pinStatusLed;
 
@@ -21,6 +18,9 @@ extern unsigned int _pinLDR; //AI
 
 class CSettings
 {
-    public:
-    void initPinModes();
+public:
+  void initPinModes();
+  void saveToFlash(const char *dataToStore, int startAddr);
+  void saveSettings();
+  void loadSettings();
 };
