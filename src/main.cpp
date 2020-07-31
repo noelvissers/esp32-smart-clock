@@ -103,6 +103,7 @@ void setup()
       0);
 
   Serial.println("[Status] Initializing done.");
+  delay(1000);
 }
 
 //main loop on core 1
