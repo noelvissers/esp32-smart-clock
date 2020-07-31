@@ -15,6 +15,18 @@ The include directory contains all the header files needed for this project.
 ### `/src`
 The src directory contains all the .cpp files and the main (SmartClock.cpp) file.
 
+## Software
+### Language
+This project is written in C++.
+### IDE
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
+- [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
+### Libraries
+- TODO
+### Documentation 
+- See comments in source files.
+
 ## Hardware
 - [ESP32-WROOM-32D](https://aliexpress.com/item/4000103411061.html?spm=a2g0o.productlist.0.0.65194be4xhn0yb&algo_pvid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2&algo_expid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2-1&btsid=0b0a187915827913900936140e29eb&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_)
 - [Micro USB cable extender](https://aliexpress.com/item/32859863965.html?spm=a2g0s.9042311.0.0.27424c4du3jPcB)
@@ -42,15 +54,3 @@ TODO...
 
 ### Case
 TODO...
-
-## Software
-### Language
-This project is written in C++.
-### IDE
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
-- [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
-### Libraries
-- TODO
-### Explanation 
-- See comments in source files.
