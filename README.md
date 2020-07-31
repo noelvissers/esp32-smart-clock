@@ -30,7 +30,7 @@ The src directory contains all the .cpp files and the main (SmartClock.cpp) file
 - [<value> Potmeter for LDR adjustments](https://aliexpress.com/item/4000109378348.html?spm=a2g0s.9042311.0.0.27424c4dp3I9x0)
 - 4x [5mm M3 standoff](https://aliexpress.com/item/32982370726.html?spm=a2g0s.9042311.0.0.27424c4dp3I9x0)
 - 4x [4mm M3 screw](https://aliexpress.com/item/4000193782706.html?spm=a2g0o.detail.1000014.3.49a055c56TTvvg&gps-id=pcDetailBottomMoreOtherSeller&scm=1007.13338.128125.0&scm_id=1007.13338.128125.0&scm-url=1007.13338.128125.0&pvid=237d7521-e37e-4988-b3a8-f84ffeda019e)
-- + Other various components like resistors and capacitors (see schematic).
+- \+ Other various components like resistors and capacitors (see schematic).
 
 The electonics for this project are pretty simple. I choose to use TH components instead of SMD components (and in some cases breakout boards) since these are easier to solder and replace by hand. In a future 'perfect' version, this is something that could change; have all the components on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.
 
