@@ -29,22 +29,28 @@ bool CWeather::update()
     if (httpCode > 0)
     {
       String weather_data = client.getString();
-      Serial.println("[Weather] HTTP CODE: " + httpCode);
-      Serial.println("[Weather] DATA: " + weather_data);
-
       DeserializationError error = deserializeJson(doc, weather_data);
       if (!error)
       {
         JsonObject root = doc.as<JsonObject>();
 
-        _temperature = root["main"]["temp"];
-        _humidity = root["main"]["humidity"];
-        _pressure = root["main"]["pressure"];
-
-        return true;
+        if (root["cod"] != 401)
+        {
+          _temperature = root["main"]["temp"];
+          _humidity = root["main"]["humidity"];
+          _pressure = root["main"]["pressure"];
+          return true;
+        }
+        else
+        {
+          Serial.println("[Weather] ERROR: Wrong City code, Country code or API key.");
+        }
       }
-      Serial.print(F("[Weather] DeserializeJson() failed: "));
-      Serial.println(error.c_str());
+      else
+      {
+        Serial.print(F("[Weather] DeserializeJson() failed: "));
+        Serial.println(error.c_str());
+      }
     }
     else
     {
@@ -56,6 +62,8 @@ bool CWeather::update()
   {
     Serial.println("[Weather] ERROR: No network connection.");
   }
-  //set weather things to invalid value
+  _temperature = -1.0;
+  _humidity = -1;
+  _pressure = -1;
   return false;
 }
