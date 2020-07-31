@@ -59,6 +59,13 @@ void IRAM_ATTR ISR_buttonMin()
 
 void setup()
 {
+  
+  
+  
+  Network.resetSettings();
+
+
+
   //start serial communication for debugging
   Serial.begin(115200);
   Serial.println("[Status] Initializing...");
@@ -88,9 +95,10 @@ void setup()
   Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 
   //Get Weather
-  /**
-   * TODO:...
-   */
+  if (!Weather.update())
+  {
+    //Handle error
+  }
   Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
 
   //create thread in core 0

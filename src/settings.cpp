@@ -18,6 +18,11 @@ unsigned int _pinRtcSDA = 42; //I2C_SDA
 
 unsigned int _pinLDR = 10; //AI
 
+char _weather_city_name[64] = "";
+char _weather_country_code[3] = "";
+char _weather_endpoint[64] = "http://api.openweathermap.org/data/2.5/weather?q=";
+char _weather_api_key[64] = ""; //e01213e3d481a166153ab05e2af5aa76
+
 void CSettings::initPinModes()
 {
   pinMode(_pinButtonPlus, INPUT);
@@ -28,10 +33,12 @@ void CSettings::initPinModes()
 
 void CSettings::saveSettings()
 {
+  
 }
 
 void CSettings::loadSettings()
 {
+  
 }
 
 bool saveToFlash(const char *dataToStore, int startAddr)
