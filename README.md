@@ -1,4 +1,8 @@
 # Smart Clock
+
+[![Build Status](https://travis-ci.com/noelvissers/esp32-smart-clock.svg?token=iFxUVHtLTBXHs7qouyTv&branch=master)](https://travis-ci.com/noelvissers/esp32-smart-clock)
+
+
 The 'Smart Clock' is a clock that displays time, date, temperature and weather forecasts. It can auto change display brightness and almost everything is configurable (like 12 hour or 24 hour clock, temperature in °C or °F, date in days-months or months-days format and auto or manual brightness control).
 Hardware files are made in Altium and software is written in C++.
 
