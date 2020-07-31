@@ -113,6 +113,4 @@ void loop()
   /**
    * TODO: Menu (only update time when needed)
    */
-  Weather.update();
-  delay(60000);
 }
