@@ -39,7 +39,7 @@ bool saveToFlash(const char *dataToStore, int startAddr)
     EEPROM.write(startAddr + i, dataToStore[i]);
   }
   EEPROM.write(startAddr + i, '\0');
-  return EEPROM.commit();
+  return true;
 }
 
 String readFromFlash(int startAddr)
@@ -61,24 +61,27 @@ bool CSettings::saveSettings()
   Serial.println("[Settings] Saving...");
   //Save all settings
   Serial.println("[Settings] Saving done.");
-  return true;
+  return EEPROM.commit();
 }
 
 bool CSettings::loadSettingsWeather()
 {
   Serial.println("[Weather settings] Loading...");
-  if (*_weather_city_name)
+  if (strlen(_weather_city_name) == 0)
   {
     //load city name
   }
-  if (*_weather_country_code)
+  printf("City name = %s\n", _weather_city_name);
+  if (strlen(_weather_country_code) == 0)
   {
     //load coutry code
   }
-  if (*_weather_api_key)
+  printf("Country code = %s\n", _weather_country_code);
+  if (strlen(_weather_api_key) == 0)
   {
     //load key
   }
+  printf("API key = %s\n", _weather_api_key);
   Serial.println("[Weather settings] Loading done.");
   return true;
 }
