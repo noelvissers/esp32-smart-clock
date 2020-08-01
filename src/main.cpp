@@ -88,6 +88,7 @@ void setup()
   Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 
   //Get Weather
+  Settings.loadSettingsWeather();
   if (!Weather.update())
   {
     //Handle error
@@ -105,7 +106,7 @@ void setup()
       0);
 
   Settings.saveSettings();
-  
+
   Serial.println("[Status] Initializing done.");
   delay(1000);
 }
