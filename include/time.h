@@ -1,6 +1,6 @@
 #pragma once
 
-extern long _unixtime;
+extern long _onlineTimeUnix;
 
 class CTime
 {

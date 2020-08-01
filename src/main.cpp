@@ -10,6 +10,7 @@
 #include "display.h"
 #include "network.h"
 #include "weather.h"
+#include "rtc.h"
 
 //create objects
 TaskHandle_t TasksCore_0;
@@ -18,6 +19,7 @@ CConfig Config;
 CDisplay Display;
 CNetwork Network;
 CWeather Weather;
+CRtc Rtc;
 
 //main loop on core 0 (network functions)
 void Core_0(void *parameter)
@@ -65,6 +67,7 @@ void setup()
 
   //init classes
   Config.initPinModes();
+  Rtc.init();
 
   //attatch interrupts for buttons
   attachInterrupt(_pinButtonPlus, ISR_buttonPlus, FALLING);

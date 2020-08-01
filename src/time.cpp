@@ -5,18 +5,75 @@
 #include "HTTPClient.h"
 #include "ArduinoJson.h"
 
-long _unixtime = -1;
-int _dayOfWeek = -1;
-char _datetime[64] = "";
+uint16_t _onlineTimeYear = 2020;
+uint8_t _onlineTimeMonth = 1;
+uint8_t _onlineTimeDay = 1;
+uint8_t _onlineTimeHour = 0;
+uint8_t _onlineTimeMinute = 0;
+uint8_t _onlineTimeSecond = 0;
+long _onlineTimeUnix = -1; //read by update
+int _onlineDayOfWeek = -1; //read by update
+bool _onlineDst = false;   //read by update
+
+char _onlineDatetime[64] = "";
+
+bool convertTime()
+{
+  //Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like istringstream)
+  Serial.println("[Time] Converting 'datetime' to vars...");
+  int count = 0;
+  String temp = "";
+  for (int i = 0; i < strlen(_onlineDatetime); i++)
+  {
+    if ((_onlineDatetime[i] == '-') && (count == 0))
+    {
+      _onlineTimeYear = temp.toInt();
+      temp = "";
+      count++;
+    }
+    if ((_onlineDatetime[i] == '-') && (count == 1))
+    {
+      _onlineTimeMonth = temp.toInt();
+      temp = "";
+      count++;
+    }
+    if ((_onlineDatetime[i] == 'T') && (count == 2))
+    {
+      _onlineTimeDay = temp.toInt();
+      temp = "";
+      count++;
+    }
+    if ((_onlineDatetime[i] == ':') && (count == 3))
+    {
+      _onlineTimeHour = temp.toInt();
+      temp = "";
+      count++;
+    }
+    if ((_onlineDatetime[i] == ':') && (count == 4))
+    {
+      _onlineTimeMinute = temp.toInt();
+      temp = "";
+      count++;
+    }
+    if ((_onlineDatetime[i] == '.') && (count == 5))
+    {
+      _onlineTimeSecond = temp.toInt();
+    }
+    temp = temp + _onlineDatetime[i];
+  }
+
+  return true;
+}
 
 bool timeSync()
 {
   Serial.println("[Time] Syncing with RTC...");
 
-  if (false /*current time != rtc time*/) //if more than 2mins difference
+  if ((_timeYear != _onlineTimeYear) || (_timeMonth != _onlineTimeMonth) || (_timeDay != _onlineTimeDay) || (_timeHour != _onlineTimeHour) || (((_timeMinute + 2) <= _onlineTimeMinute) || ((_timeMinute - 2) >= _onlineTimeMinute))) //if more than 2mins difference
   {
     Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
-    //set time rtc with online time
+    CRtc Rtc;
+    Rtc.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
     Serial.println("[I][Time] RTC set.");
   }
   else
@@ -45,15 +102,17 @@ bool CTime::update()
       DeserializationError error = deserializeJson(doc, timeData);
       if (!error)
       {
-        _unixtime = doc["unixtime"];
-        _dayOfWeek = doc["day_of_week"];
-        strcpy(_datetime, doc["datetime"]);
+        _onlineTimeUnix = doc["unixtime"];
+        _onlineDayOfWeek = doc["day_of_week"];
+        _onlineDst = doc["dst"];
+        strcpy(_onlineDatetime, doc["datetime"]);
 
         Serial.println("[Time] Data received.");
 
+        convertTime();
         timeSync();
         Serial.println("[Time] Done.");
-        
+
         return true;
       }
       else
