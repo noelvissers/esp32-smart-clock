@@ -9,9 +9,9 @@ bool CNetwork::autoConnect()
   wm.setDebugOutput(false);
 
   //Add setting fields to config portal
-  WiFiManagerParameter city_config("CITY_NAME", "City name", _weather_city_name, 64, "placeholder=\"Amsterdam\"");
-  WiFiManagerParameter country_config("COUNTRY_CODE", "Country code", _weather_country_code, 3, "placeholder=\"NL\"");
-  WiFiManagerParameter key_config("API_KEY", "API key", _weather_api_key, 64, "placeholder=\"<key>\"");
+  WiFiManagerParameter city_config("CITY_NAME", "City name", _weatherCityName, 64, "placeholder=\"Amsterdam\"");
+  WiFiManagerParameter country_config("COUNTRY_CODE", "Country code", _weatherCountryCode, 3, "placeholder=\"NL\"");
+  WiFiManagerParameter key_config("API_KEY", "API key", _weatherApiKey, 64, "placeholder=\"<key>\"");
   wm.addParameter(&city_config);
   wm.addParameter(&country_config);
   wm.addParameter(&key_config);
@@ -28,9 +28,9 @@ bool CNetwork::autoConnect()
   {
     Serial.println("[Network] Connected.");
 
-  	strcpy(_weather_city_name, city_config.getValue());
-    strcpy(_weather_country_code, country_config.getValue());
-    strcpy(_weather_api_key, key_config.getValue());
+  	strcpy(_weatherCityName, city_config.getValue());
+    strcpy(_weatherCountryCode, country_config.getValue());
+    strcpy(_weatherApiKey, key_config.getValue());
 
     return true;
   }

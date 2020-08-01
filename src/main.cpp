@@ -82,13 +82,14 @@ void setup()
   Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
 
   //Get Time
+  //Settings.loadSettingsTime();
   /**
    * TODO:...
    */
   Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 
   //Get Weather
-  Settings.loadSettingsWeather();
+  //Settings.loadSettingsWeather();
   if (!Weather.update())
   {
     //Handle error

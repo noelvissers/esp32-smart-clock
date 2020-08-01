@@ -19,8 +19,8 @@ bool CWeather::update()
   {
     Serial.println("[Weather] Connected to network.");
     Serial.println("[Weather] Connecting to server...");
-    Serial.println((_weather_endpoint) + String(_weather_city_name) + "," + String(_weather_country_code) + "&APPID=" + String(_weather_api_key));
-    client.begin(String(_weather_endpoint) + String(_weather_city_name) + "," + String(_weather_country_code) + "&APPID=" + String(_weather_api_key));
+    Serial.println((_weatherEndpoint) + String(_weatherCityName) + "," + String(_weatherCountryCode) + "&APPID=" + String(_weatherApiKey));
+    client.begin(String(_weatherEndpoint) + String(_weatherCityName) + "," + String(_weatherCountryCode) + "&APPID=" + String(_weatherApiKey));
     int httpCode = client.GET();
 
     if (httpCode > 0)

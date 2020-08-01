@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "settings.h"
-#include "EEPROM.h"
+#include "SPIFFS.h"
+#include "ArduinoJson.h"
 
 //Hardware settings:
 unsigned int _pinButtonPlus = 12;
@@ -18,10 +19,10 @@ unsigned int _pinRtcSDA = 42; //I2C_SDA
 
 unsigned int _pinLDR = 10; //AI
 
-char _weather_city_name[64] = "";
-char _weather_country_code[3] = "";
-char _weather_endpoint[64] = "http://api.openweathermap.org/data/2.5/weather?q=";
-char _weather_api_key[64] = ""; //e01213e3d481a166153ab05e2af5aa76
+char _weatherCityName[64] = "";
+char _weatherCountryCode[3] = "";
+char _weatherEndpoint[64] = "http://api.openweathermap.org/data/2.5/weather?q=";
+char _weatherApiKey[64] = "";
 
 void CSettings::initPinModes()
 {
@@ -31,64 +32,103 @@ void CSettings::initPinModes()
   pinMode(_pinStatusLed, OUTPUT);
 }
 
-bool saveToFlash(const char *dataToStore, int startAddr)
-{
-  int i = 0;
-  for (; i < strlen(dataToStore); i++)
-  {
-    EEPROM.write(startAddr + i, dataToStore[i]);
-  }
-  EEPROM.write(startAddr + i, '\0');
-  return true;
-}
-
-String readFromFlash(int startAddr)
-{
-  char dataArray[128];
-  char dataChar;
-  for (int i = 0; i < 128; i++)
-  {
-    dataChar = EEPROM.read(startAddr + i);
-    dataArray[i] = dataChar;
-    if (dataChar == '\0')
-      break;
-  }
-  return String(dataArray);
-}
-
 bool CSettings::saveSettings()
 {
   Serial.println("[Settings] Saving...");
-  //Save all settings
-  Serial.println("[Settings] Saving done.");
-  return EEPROM.commit();
-}
 
-bool CSettings::loadSettingsWeather()
-{
-  Serial.println("[Weather settings] Loading...");
-  if (strlen(_weather_city_name) == 0)
+  if (SPIFFS.begin(true))
   {
-    //load city name
+    File fSettings = SPIFFS.open("/config.json", FILE_WRITE);
+
+    if (!fSettings)
+    {
+      DynamicJsonDocument doc(1024);
+      doc["general"]["brightness"] = 1; //migrate to top of file (so its accessable)
+      doc["general"]["autoBrightness"] = true;
+      doc["general"]["autoCycle"] = false;
+      doc["general"]["timeFormat"] = "24h";
+      doc["general"]["dateFormat"] = "ddmm";
+
+      doc["weather"]["weatherCityName"] = _weatherCityName;
+      doc["weather"]["weatherCountryCode"] = _weatherCountryCode;
+      doc["weather"]["weatherApiKey"] = _weatherApiKey;
+
+      doc["time"]["timeApiKey"] = "";
+
+      serializeJson(doc, Serial);    //print
+      serializeJson(doc, fSettings); //print to file
+
+      fSettings.close();
+
+      Serial.println("[Settings] Saving done.");
+      return true;
+    }
+    else
+    {
+      Serial.println("[E][Settings] An error occurred while opening the file.");
+    }
   }
-  printf("City name = %s\n", _weather_city_name);
-  if (strlen(_weather_country_code) == 0)
+  else
   {
-    //load coutry code
+    Serial.println("[E][Settings] An error occurred while mounting SPIFFS.");
   }
-  printf("Country code = %s\n", _weather_country_code);
-  if (strlen(_weather_api_key) == 0)
-  {
-    //load key
-  }
-  printf("API key = %s\n", _weather_api_key);
-  Serial.println("[Weather settings] Loading done.");
-  return true;
+  return false;
 }
 
 bool CSettings::loadSettings()
 {
-  Serial.println("[General settings] Loading...");
-  Serial.println("[General settings] Loading done.");
-  return true;
+  Serial.println("[Settings] Loading...");
+
+  if (SPIFFS.begin(true))
+  {
+    if (SPIFFS.exists("/config.json"))
+    {
+      File fSettings = SPIFFS.open("/config.json", FILE_READ);
+
+      if (fSettings)
+      {
+        DynamicJsonDocument doc(1024);
+        DeserializationError error = deserializeJson(doc, fSettings);
+        if (!error)
+        {
+          strcpy(_weatherCityName, doc["weather"]["weatherCityName"]);
+          strcpy(_weatherCountryCode, doc["weather"]["weatherCountryCode"]);
+          strcpy(_weatherApiKey, doc["weather"]["weatherApiKey"]);
+          strcpy(_weatherCityName, doc["weather"]["weatherCityName"]);
+
+          fSettings.close();
+          Serial.println("[Settings] Loading done.");
+          return true;
+        }
+        else
+        {
+          Serial.println("[E][Settings] A deserialization error occurred:");
+          Serial.println(error.c_str());
+        }
+      }
+      else
+      {
+        Serial.println("[E][Settings] An error occurred while opening the file.");
+      }
+    }
+    else
+    {
+      Serial.println("[E][Settings] File does not exist.");
+    }
+  }
+  else
+  {
+    Serial.println("[E][Settings] An error occurred while mounting SPIFFS.");
+  }
+  return false;
+}
+
+void CSettings::formatSettings()
+{
+  if (!SPIFFS.format())
+  {
+    Serial.println("[E][Settings] An error occurred while formatting SPIFFS.");
+  }
+  Serial.println("[Settings] Restarting ESP32...");
+  ESP.restart();
 }
