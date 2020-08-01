@@ -6,7 +6,7 @@
  */
 
 #include <Arduino.h>
-#include "settings.h"
+#include "config.h"
 #include "display.h"
 #include "network.h"
 #include "weather.h"
@@ -14,7 +14,7 @@
 //create objects
 TaskHandle_t TasksCore_0;
 
-CSettings Settings;
+CConfig Config;
 CDisplay Display;
 CNetwork Network;
 CWeather Weather;
@@ -64,14 +64,14 @@ void setup()
   Serial.println("[Status] Initializing...");
 
   //init classes
-  Settings.initPinModes();
+  Config.initPinModes();
 
   //attatch interrupts for buttons
   attachInterrupt(_pinButtonPlus, ISR_buttonPlus, FALLING);
   attachInterrupt(_pinButtonSelect, ISR_buttonSelect, FALLING);
   attachInterrupt(_pinButtonMin, ISR_buttonMin, FALLING);
 
-  Settings.loadSettings();
+  Config.loadSettings();
   Serial.println("[Status] Initializing [-][-][-]");
 
   //Setup network connection
@@ -82,14 +82,14 @@ void setup()
   Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
 
   //Get Time
-  //Settings.loadSettingsTime();
+  //Config.loadSettingsTime();
   /**
    * TODO:...
    */
   Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 
   //Get Weather
-  //Settings.loadSettingsWeather();
+  //Config.loadSettingsWeather();
   if (!Weather.update())
   {
     //Handle error
@@ -106,8 +106,7 @@ void setup()
       &TasksCore_0,
       0);
 
-  Settings.saveSettings();
-
+  Config.saveSettings();
   Serial.println("[Status] Initializing done.");
   delay(1000);
 }

@@ -1,7 +1,6 @@
 #include "weather.h"
-#include "data.h"
 #include "WiFi.h"
-#include "settings.h"
+#include "config.h"
 #include "HTTPClient.h"
 #include "ArduinoJson.h"
 
@@ -9,6 +8,7 @@ float _temperature = -1.0;
 int _humidity = -1;
 int _pressure = -1;
 
+//probs dont want this global.... vv
 HTTPClient client;
 DynamicJsonDocument doc(1024);
 
@@ -19,17 +19,16 @@ bool CWeather::update()
   {
     Serial.println("[Weather] Connected to network.");
     Serial.println("[Weather] Connecting to server...");
-    Serial.println((_weatherEndpoint) + String(_weatherCityName) + "," + String(_weatherCountryCode) + "&APPID=" + String(_weatherApiKey));
     client.begin(String(_weatherEndpoint) + String(_weatherCityName) + "," + String(_weatherCountryCode) + "&APPID=" + String(_weatherApiKey));
     int httpCode = client.GET();
 
     if (httpCode > 0)
     {
-      String weather_data = client.getString();
-      DeserializationError error = deserializeJson(doc, weather_data);
+      String weatherData = client.getString();
+      DeserializationError error = deserializeJson(doc, weatherData);
       if (!error)
       {
-        JsonObject root = doc.as<JsonObject>();
+        JsonObject root = doc.as<JsonObject>(); //?
 
         if (root["cod"] != 401)
         {
@@ -47,7 +46,7 @@ bool CWeather::update()
       }
       else
       {
-        Serial.print(F("[Weather] DeserializeJson() failed: "));
+        Serial.print(F("[E][Weather] DeserializeJson() failed: "));
         Serial.println(error.c_str());
       }
     }

@@ -1,5 +1,5 @@
 #include "network.h"
-#include "settings.h"
+#include "config.h"
 #include <WiFiManager.h>
 
 bool CNetwork::autoConnect()
