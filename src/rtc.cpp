@@ -1,7 +1,7 @@
 #include "rtc.h"
 #include "RTClib.h"
 
-RTC_DS3231 Time;
+RTC_DS3231 RtcTime;
 
 uint16_t _timeYear;
 uint8_t _timeMonth;
@@ -20,7 +20,7 @@ bool checkDST()
 
 void CRtc::update() //Copy RTC values to time data
 {
-  DateTime now = Time.now();
+  DateTime now = RtcTime.now();
 
   _timeYear = now.year();
   _timeMonth = now.month();
@@ -38,14 +38,14 @@ void CRtc::update() //Copy RTC values to time data
 
 void CRtc::setTime(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
 {
-  Time.adjust(DateTime(year, month, day, hour, minute, second));
+  RtcTime.adjust(DateTime(year, month, day, hour, minute, second));
 }
 
 bool CRtc::init()
 {
-  if (!Time.begin())
+  if (RtcTime.begin())
   {
-    if (Time.lostPower())
+    if (RtcTime.lostPower())
     {
       Serial.println("[I][Rtc] RTC lost power. Setting time with online time on next check.");
     }

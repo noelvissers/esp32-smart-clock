@@ -14,8 +14,8 @@ unsigned int _pinDisplaySCK = 35;  //SPI_SCK
 
 unsigned int _pinStatusLed = 11;
 
-unsigned int _pinRtcSCL = 39; //I2C_SCL
-unsigned int _pinRtcSDA = 42; //I2C_SDA
+//unsigned int _pinRtcSCL = 39; //I2C_SCL, Already defined in rtc lib
+//unsigned int _pinRtcSDA = 42; //I2C_SDA, Already defined in rtc lib
 
 unsigned int _pinLDR = 10; //AI
 

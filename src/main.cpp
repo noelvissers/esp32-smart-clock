@@ -1,8 +1,6 @@
 /**
  * @project       Smart Clock
  * @documentation https://github.com/noelvissers/esp32-smart-clock 
- * @author        noelvissers
- * @date          31/07/2020
  */
 
 #include <Arduino.h>
@@ -11,6 +9,7 @@
 #include "network.h"
 #include "weather.h"
 #include "rtc.h"
+#include "time.h"
 
 //create objects
 TaskHandle_t TasksCore_0;
@@ -20,6 +19,7 @@ CDisplay Display;
 CNetwork Network;
 CWeather Weather;
 CRtc Rtc;
+CTime Time;
 
 //main loop on core 0 (network functions)
 void Core_0(void *parameter)
@@ -66,8 +66,8 @@ void setup()
   Serial.println("[Status] Initializing...");
 
   //init classes
-  Config.initPinModes();
   Rtc.init();
+  Config.initPinModes();
 
   //attatch interrupts for buttons
   attachInterrupt(_pinButtonPlus, ISR_buttonPlus, FALLING);
@@ -85,10 +85,11 @@ void setup()
   Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
 
   //Get Time
-  //Config.loadSettingsTime();
-  /**
-   * TODO:...
-   */
+  Rtc.update();
+  if(!Time.update())
+  {
+    //Handle error
+  }
   Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 
   //Get Weather
@@ -109,7 +110,7 @@ void setup()
       &TasksCore_0,
       0);
 
-  Config.saveSettings();
+  //Config.saveSettings();
   Serial.println("[Status] Initializing done.");
   delay(1000);
 }
@@ -120,4 +121,8 @@ void loop()
   /**
    * TODO: Menu (only update time when needed)
    */
+
+  Rtc.update();
+  printf("%02u:%02u:%02u\n", _timeHour, _timeMinute, _timeSecond);
+  delay(1000);
 }

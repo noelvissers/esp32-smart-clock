@@ -11,8 +11,8 @@ extern unsigned int _pinDisplaySCK;
 
 extern unsigned int _pinStatusLed;
 
-extern unsigned int _pinRtcSCL;
-extern unsigned int _pinRtcSDA;
+//extern unsigned int _pinRtcSCL; 
+//extern unsigned int _pinRtcSDA;
 
 extern unsigned int _pinLDR;
 

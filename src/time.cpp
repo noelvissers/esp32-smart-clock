@@ -117,7 +117,7 @@ bool CTime::update()
         Serial.println("[Time] Data received.");
 
         convertTime();
-        //timeSync();
+        timeSync();
         Serial.println("[Time] Done.");
 
         return true;
