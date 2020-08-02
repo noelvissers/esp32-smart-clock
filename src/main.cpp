@@ -20,16 +20,30 @@ CWeather Weather;
 CRtc Rtc;
 CTime Time;
 
-//main loop on core 0 (network functions)
+//Main loop on core 0 (network functions)
 void Core_0(void *parameter)
 {
   for (;;)
   {
-    //Update online time/date/weather/etc...
-    /**
-     * 
-     */
-    delay(150000); //Do an update every 2.5 minutes.
+    if (!Weather.update())
+    {
+      Serial.println("[E][CORE_0] Error while updating weather.");
+    }
+    else
+    {
+      Serial.println("[CORE_0] Weather data received.");
+    }
+
+    if (!Time.update())
+    {
+      Serial.println("[E][CORE_0] Error while updating online time.");
+    }
+    else
+    {
+      Serial.println("[CORE_0] Syncing online time done.");
+    }
+
+    delay(150000); //Do an update every 2.5 minutes
   }
 }
 
@@ -60,7 +74,7 @@ void IRAM_ATTR ISR_buttonMin()
 
 void setup()
 {
-  Network.resetSettings();
+  //Network.resetSettings();
   //start serial communication for debugging
   Serial.begin(115200);
   Serial.println("[Status] Initializing...");
@@ -76,28 +90,47 @@ void setup()
 
   Config.loadSettings();
   Serial.println("[Status] Initializing [-][-][-]");
+  //Display status
+  delay(1000); //Add delay to show status on screen, or it will skip too fast
 
   //Setup network connection
   if (!Network.autoConnect())
   {
-    //Handle error
+    Serial.println("[E][Status] Error while configuring network.");
   }
-  Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
+  else
+  {
+    //Set network status to enabled
+    Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
+  }
+  //Display status
+  delay(1000); //Add delay to show status on screen, or it will skip too fast
 
   //Get Time
   Rtc.update();
-  if(!Time.update())
+  if (!Time.update())
   {
-    //Handle error
+    Serial.println("[E][Status] Error while configuring online time.");
   }
-  Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
+  else
+  {
+    //Set time status to enabled
+    Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
+  }
+  //Display status
+  delay(1000); //Add delay to show status on screen, or it will skip too fast
 
   //Get Weather
   if (!Weather.update())
   {
-    //Handle error
+    Serial.println("[E][Status] Error while configuring weather.");
   }
-  Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
+  else
+  {
+    //Set weather status to enabled
+    Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
+  }
+  //Display status
 
   //Create thread in core 0
   xTaskCreatePinnedToCore(
@@ -111,7 +144,7 @@ void setup()
 
   Config.saveSettings();
   Serial.println("[Status] Initializing done.");
-  delay(1000);
+  delay(1000); //Add delay to show status on screen, or it will skip too fast
 }
 
 //main loop on core 1
