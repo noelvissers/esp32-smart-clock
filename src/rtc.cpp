@@ -3,18 +3,21 @@
 
 RTC_DS3231 RtcTime;
 
-uint16_t _timeYear;
-uint8_t _timeMonth;
-uint8_t _timeDay;
-uint8_t _timeHour;
-uint8_t _timeMinute;
-uint8_t _timeSecond;
+uint16_t _timeYear = 2020;
+uint8_t _timeMonth = 1;
+uint8_t _timeDay = 1;
+uint8_t _timeHour = 0;
+uint8_t _timeMinute = 0;
+uint8_t _timeSecond = 0;
 
-uint8_t _timeDayOfWeek;
-bool _timeDst = 0;
+uint8_t _timeDayOfWeek = -1; //0 = sunday, 6 = saturday
+bool _timeDst = false;
 
 bool checkDST()
 {
+  //Check all possible DST conditions
+  //Check if DST is already enabled / differs from set DST
+  //check this for < 3 seconds so it doesnt loop for an hour
   return true;
 }
 
@@ -32,7 +35,9 @@ void CRtc::update() //Copy RTC values to time data
 
   if (checkDST())
   {
-    //Check with online
+    //Check if online time has different DST
+      //Sync time
+    //If local DST and online DST is same do nothing.
   }
 }
 
@@ -56,4 +61,9 @@ bool CRtc::init()
     Serial.println("[E][Rtc] Could not find RTC.");
   }
   return false;
+}
+
+bool CRtc::checkRtc()
+{
+  return RtcTime.begin();
 }

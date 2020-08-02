@@ -5,10 +5,11 @@
 extern uint16_t _timeYear;
 extern uint8_t _timeMonth;
 extern uint8_t _timeDay;
-extern uint8_t _timeDayOfWeek;
 extern uint8_t _timeHour;
 extern uint8_t _timeMinute; 
 extern uint8_t _timeSecond;
+
+extern uint8_t _timeDayOfWeek; //0 = sunday, 6 = saturday
 
 class CRtc
 {
@@ -16,4 +17,5 @@ public:
   bool init();
   void update();
   void setTime(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
+  bool checkRtc();
 };

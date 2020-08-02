@@ -11,6 +11,7 @@ uint8_t _onlineTimeDay = 1;
 uint8_t _onlineTimeHour = 0;
 uint8_t _onlineTimeMinute = 0;
 uint8_t _onlineTimeSecond = 0;
+
 long _onlineTimeUnix = -1; //read by update
 int _onlineDayOfWeek = -1; //read by update, 0 = sunday, 6 = saturday
 bool _onlineDst = false;   //read by update
@@ -76,11 +77,18 @@ bool timeSync()
 
   if ((_timeYear != _onlineTimeYear) || (_timeMonth != _onlineTimeMonth) || (_timeDay != _onlineTimeDay) || (_timeHour != _onlineTimeHour) || (((_timeMinute + 2) <= _onlineTimeMinute) || ((_timeMinute - 2) >= _onlineTimeMinute))) //if more than 2mins difference
   {
-    Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
     CRtc Rtc;
-    Rtc.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
-    Serial.println("[I][Time] RTC set.");
-    return true;
+    if (Rtc.checkRtc())
+    {
+      Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
+      Rtc.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
+      Serial.println("[I][Time] RTC set.");
+      return true;
+    }
+    else
+    {
+      Serial.println("[E][Time] Could not find RTC.");
+    }
   }
   else
   {
@@ -139,6 +147,3 @@ bool CTime::update()
   }
   return false;
 }
-
-// add fuction to get current hours/minutes etc...
-// Check all possible daylight saving times > if true, check online time 5Head (in rtc)

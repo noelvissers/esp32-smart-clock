@@ -13,7 +13,6 @@
 
 //create objects
 TaskHandle_t TasksCore_0;
-
 CConfig Config;
 CDisplay Display;
 CNetwork Network;
@@ -61,6 +60,7 @@ void IRAM_ATTR ISR_buttonMin()
 
 void setup()
 {
+  Network.resetSettings();
   //start serial communication for debugging
   Serial.begin(115200);
   Serial.println("[Status] Initializing...");
@@ -93,14 +93,13 @@ void setup()
   Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 
   //Get Weather
-  //Config.loadSettingsWeather();
   if (!Weather.update())
   {
     //Handle error
   }
   Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
 
-  //create thread in core 0
+  //Create thread in core 0
   xTaskCreatePinnedToCore(
       Core_0,
       "TasksCore_0",
@@ -110,7 +109,7 @@ void setup()
       &TasksCore_0,
       0);
 
-  //Config.saveSettings();
+  Config.saveSettings();
   Serial.println("[Status] Initializing done.");
   delay(1000);
 }
@@ -121,8 +120,5 @@ void loop()
   /**
    * TODO: Menu (only update time when needed)
    */
-
-  Rtc.update();
-  printf("%02u:%02u:%02u\n", _timeHour, _timeMinute, _timeSecond);
-  delay(1000);
+  delay(50);
 }

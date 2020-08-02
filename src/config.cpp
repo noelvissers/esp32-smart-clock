@@ -14,17 +14,17 @@ unsigned int _pinDisplaySCK = 35;  //SPI_SCK
 
 unsigned int _pinStatusLed = 11;
 
-//unsigned int _pinRtcSCL = 39; //I2C_SCL, Already defined in rtc lib
-//unsigned int _pinRtcSDA = 42; //I2C_SDA, Already defined in rtc lib
+//unsigned int _pinRtcSCL = 39; //SCL, Already auto defined in rtc lib
+//unsigned int _pinRtcSDA = 42; //SDA, Already auto defined in rtc lib
 
 unsigned int _pinLDR = 10; //AI
 
 //General settings:
 bool _autoBrightness = true;
 bool _autoCycle = false;
-char _timeFormat[4] = "24H";
-char _dateFormat[5] = "ddmm";
-char _temperatureFormat[2] = "C";
+char _timeFormat[4] = "24H";      //try to get this as option between 24H and 12H so no false strings can be put there.
+char _dateFormat[5] = "ddmm";     //try to get this as option between 'Day/Month' and 'Month/Day' so no false strings can be put there.
+char _temperatureFormat[2] = "C"; //try to get this as option between 'C' and 'F' so no false strings can be put there.
 
 //Weather settings:
 char _weatherCityName[64] = "";
@@ -35,6 +35,7 @@ char _weatherApiKey[64] = "";
 //Time settings:
 char _timeEndpoint[64] = "http://worldtimeapi.org/api/ip";
 
+//Set pinmodes for IO
 void CConfig::initPinModes()
 {
   pinMode(_pinButtonPlus, INPUT);
@@ -53,12 +54,14 @@ bool CConfig::saveSettings()
     File fSettings = SPIFFS.open("/config.json", FILE_WRITE); //Open file in write mode
 
     DynamicJsonDocument doc(1024); //Create temp. document to store string data in from SPIFFS
-    
+
     //Save settings
-    doc["weather"]["weatherCityName"] = "TEST";
+    doc["weather"]["weatherCityName"] = _weatherCityName;
+    doc["weather"]["weatherCountryCode"] = _weatherCountryCode;
+    doc["weather"]["weatherApiKey"] = _weatherApiKey;
 
     serializeJson(doc, fSettings); //Convert doc objects to strings and put them in fSettings file
-    fSettings.close(); //Close file
+    fSettings.close();             //Close file
 
     Serial.println("[Settings] Saving done.");
     return true;
@@ -70,7 +73,7 @@ bool CConfig::saveSettings()
   return false;
 }
 
-//General settings
+//Load all settings from memory
 bool CConfig::loadSettings()
 {
   Serial.println("[Settings] Loading...");
@@ -81,12 +84,23 @@ bool CConfig::loadSettings()
     {
       File fSettings = SPIFFS.open("/config.json", FILE_READ); //Open file in read only mode
 
-      DynamicJsonDocument doc(1024); //Make temp. document to store string data in from SPIFFS
+      DynamicJsonDocument doc(1024);                                //Make temp. document to store string data in from SPIFFS
       DeserializationError error = deserializeJson(doc, fSettings); //Convert strings from fSettings to objects and put them in doc
-      if (!error) //Chech if no errors occured while converting to objects
+      if (!error)                                                   //Chech if no errors occured while converting to objects
       {
-        //Load general settings
-        strcpy(_weatherCityName, doc["weather"]["weatherCityName"]);
+        //Load all settings, so that in network config the saved values are showed. If they're empty it means they need to be filled in.
+        if (doc["weather"]["weatherCityName"])
+        {
+          strcpy(_weatherCityName, doc["weather"]["weatherCityName"]);
+        }
+        if (doc["weather"]["weatherCountryCode"])
+        {
+          strcpy(_weatherCountryCode, doc["weather"]["weatherCountryCode"]);
+        }
+        if (doc["weather"]["weatherApiKey"])
+        {
+          strcpy(_weatherApiKey, doc["weather"]["weatherApiKey"]);
+        }
 
         fSettings.close(); //Close file
         Serial.println("[Settings] Loading done.");
@@ -110,6 +124,7 @@ bool CConfig::loadSettings()
   return false;
 }
 
+//Clear memory so no more settings are saved
 void CConfig::formatSettings()
 {
   if (!SPIFFS.format())
