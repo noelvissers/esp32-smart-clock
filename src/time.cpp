@@ -12,7 +12,7 @@ uint8_t _onlineTimeHour = 0;
 uint8_t _onlineTimeMinute = 0;
 uint8_t _onlineTimeSecond = 0;
 long _onlineTimeUnix = -1; //read by update
-int _onlineDayOfWeek = -1; //read by update
+int _onlineDayOfWeek = -1; //read by update, 0 = sunday, 6 = saturday
 bool _onlineDst = false;   //read by update
 
 char _onlineDatetime[64] = "";
@@ -30,32 +30,37 @@ bool convertTime()
       _onlineTimeYear = temp.toInt();
       temp = "";
       count++;
+      i++;
     }
-    if ((_onlineDatetime[i] == '-') && (count == 1))
+    else if ((_onlineDatetime[i] == '-') && (count == 1))
     {
       _onlineTimeMonth = temp.toInt();
       temp = "";
       count++;
+      i++;
     }
-    if ((_onlineDatetime[i] == 'T') && (count == 2))
+    else if ((_onlineDatetime[i] == 'T') && (count == 2))
     {
       _onlineTimeDay = temp.toInt();
       temp = "";
       count++;
+      i++;
     }
-    if ((_onlineDatetime[i] == ':') && (count == 3))
+    else if ((_onlineDatetime[i] == ':') && (count == 3))
     {
       _onlineTimeHour = temp.toInt();
       temp = "";
       count++;
+      i++;
     }
-    if ((_onlineDatetime[i] == ':') && (count == 4))
+    else if ((_onlineDatetime[i] == ':') && (count == 4))
     {
       _onlineTimeMinute = temp.toInt();
       temp = "";
       count++;
+      i++;
     }
-    if ((_onlineDatetime[i] == '.') && (count == 5))
+    else if ((_onlineDatetime[i] == '.') && (count == 5))
     {
       _onlineTimeSecond = temp.toInt();
     }
@@ -75,12 +80,14 @@ bool timeSync()
     CRtc Rtc;
     Rtc.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
     Serial.println("[I][Time] RTC set.");
+    return true;
   }
   else
   {
     Serial.println("[Time] RTC is already in sync.");
     return true;
   }
+  return false;
 }
 
 bool CTime::update()
@@ -110,7 +117,7 @@ bool CTime::update()
         Serial.println("[Time] Data received.");
 
         convertTime();
-        timeSync();
+        //timeSync();
         Serial.println("[Time] Done.");
 
         return true;
