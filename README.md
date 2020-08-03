@@ -62,8 +62,8 @@ TODO...
 TODO...
 
 ### Wishlist
-In a future 'perfect' version, these are the things that I would change:
-[x] Have Wifi configurable and not hardcoded.
-[ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.
-[ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).
-[ ] Auto detect location to configure weather.
+In a future 'perfect' version, these are the things that I would change:  
+- [x] Have Wifi configurable and not hardcoded.  
+- [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.  
+- [ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).  
+- [ ] Auto detect location to configure weather.  
