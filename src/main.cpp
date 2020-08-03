@@ -25,6 +25,7 @@ void Core_0(void *parameter)
 {
   for (;;)
   {
+    delay(150000); //Do an update every 2.5 minutes
     if (!Weather.update())
     {
       Serial.println("[E][CORE_0] Error while updating weather.");
@@ -33,7 +34,6 @@ void Core_0(void *parameter)
     {
       Serial.println("[CORE_0] Weather data received.");
     }
-
     if (!Time.update())
     {
       Serial.println("[E][CORE_0] Error while updating online time.");
@@ -42,8 +42,6 @@ void Core_0(void *parameter)
     {
       Serial.println("[CORE_0] Syncing online time done.");
     }
-
-    delay(150000); //Do an update every 2.5 minutes
   }
 }
 
@@ -114,6 +112,7 @@ void IRAM_ATTR ISR_buttonMin()
 void setup()
 {
   //Network.resetSettings();
+  //Config.formatSettings();
   //start serial communication for debugging
   Serial.begin(115200);
   Serial.println("[Status] Initializing...");
@@ -175,7 +174,7 @@ void setup()
   xTaskCreatePinnedToCore(
       Core_0,
       "TasksCore_0",
-      1000,
+      2048,
       NULL,
       1,
       &TasksCore_0,
@@ -192,7 +191,9 @@ void loop()
   /**
    * TODO: Menu (only update time when needed)
    */
-  delay(50);
+  Rtc.update();
+  printf("%04u/%02u/%02u - %u:%02u:%02u - Temperature: %i C - Humidity: %u %% - Pressure: %u hPa\n", _timeYear, _timeMonth, _timeDay, _timeHour, _timeMinute, _timeSecond, int((_temperature - 273.15)+0.5), _humidity, _pressure);
+  delay(1000);
 }
 
 //TODO: button handler:

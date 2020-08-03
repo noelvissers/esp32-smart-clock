@@ -8,33 +8,30 @@ float _temperature = -1.0;
 int _humidity = -1;
 int _pressure = -1;
 
-//probs dont want this global.... vv
-HTTPClient client;
-DynamicJsonDocument doc(1024);
-
 bool CWeather::update()
 {
   Serial.println("[Weather] Getting weather data...");
   if (WiFi.isConnected())
   {
     Serial.println("[Weather] Connected to network.");
+    HTTPClient client;
     Serial.println("[Weather] Connecting to server...");
     client.begin(String(_weatherEndpoint) + String(_weatherCityName) + "," + String(_weatherCountryCode) + "&APPID=" + String(_weatherApiKey));
     int httpCode = client.GET();
 
-    if (httpCode > 0)
+    if (httpCode != 0)
     {
+      DynamicJsonDocument doc(1024);
+
       String weatherData = client.getString();
       DeserializationError error = deserializeJson(doc, weatherData);
       if (!error)
       {
-        JsonObject root = doc.as<JsonObject>(); //?
-
-        if (root["cod"] != 401)
+        if (doc["cod"] != 401)
         {
-          _temperature = root["main"]["temp"];
-          _humidity = root["main"]["humidity"];
-          _pressure = root["main"]["pressure"];
+          _temperature = doc["main"]["temp"];
+          _humidity = doc["main"]["humidity"];
+          _pressure = doc["main"]["pressure"];
 
           Serial.println("[Weather] Data received.");
           return true;

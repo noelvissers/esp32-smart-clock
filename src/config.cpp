@@ -55,7 +55,7 @@ void CConfig::initPinModes()
 //Save all settings to memory
 bool CConfig::saveSettings()
 {
-  Serial.println("[Settings] Saving...");
+  Serial.println("[Config] Saving...");
 
   if (SPIFFS.begin(true)) //Start SPIFFS
   {
@@ -71,12 +71,12 @@ bool CConfig::saveSettings()
     serializeJson(doc, fSettings); //Convert doc objects to strings and put them in fSettings file
     fSettings.close();             //Close file
 
-    Serial.println("[Settings] Saving done.");
+    Serial.println("[Config] Saving done.");
     return true;
   }
   else
   {
-    Serial.println("[E][Settings] An error occurred while mounting SPIFFS.");
+    Serial.println("[E][Config] An error occurred while mounting SPIFFS.");
   }
   return false;
 }
@@ -84,7 +84,7 @@ bool CConfig::saveSettings()
 //Load all settings from memory
 bool CConfig::loadSettings()
 {
-  Serial.println("[Settings] Loading...");
+  Serial.println("[Config] Loading...");
 
   if (SPIFFS.begin(true)) //Start SPIFFS
   {
@@ -111,23 +111,23 @@ bool CConfig::loadSettings()
         }
 
         fSettings.close(); //Close file
-        Serial.println("[Settings] Loading done.");
+        Serial.println("[Config] Loading done.");
         return true;
       }
       else
       {
-        Serial.println("[E][Settings] A deserialization error occurred:");
+        Serial.println("[E][Config] A deserialization error occurred:");
         Serial.println(error.c_str());
       }
     }
     else
     {
-      Serial.println("[E][Settings] File does not exist.");
+      Serial.println("[E][Config] File does not exist.");
     }
   }
   else
   {
-    Serial.println("[E][Settings] An error occurred while mounting SPIFFS.");
+    Serial.println("[E][Config] An error occurred while mounting SPIFFS.");
   }
   return false;
 }
@@ -137,8 +137,8 @@ void CConfig::formatSettings()
 {
   if (!SPIFFS.format())
   {
-    Serial.println("[E][Settings] An error occurred while formatting SPIFFS.");
+    Serial.println("[E][Config] An error occurred while formatting SPIFFS.");
   }
-  Serial.println("[Settings] Restarting ESP32...");
+  Serial.println("[Config] Restarting ESP32...");
   //ESP.restart();
 }
