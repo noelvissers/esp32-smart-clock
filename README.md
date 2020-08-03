@@ -63,7 +63,8 @@ TODO...
 ### PCB assembly
 TODO... (print on board where components need to be. R1 R2 C1 U1 etc...)
 
-### Case
+## Case
+And ofcourse the most important part: the case.
 TODO...
 
 ### Wishlist
