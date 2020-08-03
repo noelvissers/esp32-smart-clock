@@ -16,11 +16,11 @@ This directory includes all the hardware files used in this project. The .pdf fi
 ### `/include`
 The include directory contains all the header files needed for this project. 
 ### `/src`
-The src directory contains all the .cpp files and the main (SmartClock.cpp) file.
+The src directory contains all the `.cpp` needed to run this project, including the `main.cpp` file.
 
 ## Software
 ### Language
-This project is written in C++ on the Arduino framework using PlatformIO and the Espressive 32 Dev. board.
+This project is written in C++ on the Arduino framework using PlatformIO.
 ### IDE
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
@@ -35,6 +35,8 @@ This project is written in C++ on the Arduino framework using PlatformIO and the
 - See comments in source files for the explanation of the code.
 
 ## Hardware
+The whole project is built on the ESP32. The board I used is the [ESP32-DevKitC V4](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html). This microcontroller is easy to use (uses the Arduino framework) and has built-in bluetooth and wifi connectivity. This controller also has two cores which is very usefull in some situations.
+### Components
 - [ESP32-WROOM-32D](https://aliexpress.com/item/4000103411061.html?spm=a2g0o.productlist.0.0.65194be4xhn0yb&algo_pvid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2&algo_expid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2-1&btsid=0b0a187915827913900936140e29eb&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_)
 - [Micro USB cable extender](https://aliexpress.com/item/32859863965.html?spm=a2g0s.9042311.0.0.27424c4du3jPcB)
 - [USB C (F) to micro USB (M)](https://aliexpress.com/item/33004521025.html?spm=a2g0s.9042311.0.0.27424c4du3jPcB)
@@ -53,11 +55,13 @@ This project is written in C++ on the Arduino framework using PlatformIO and the
 
 The electonics for this project are pretty simple. I choose to use TH components instead of SMD components (and in some cases breakout boards) since these are easier to solder and replace by hand. 
 
+## Circuits
+Below are the hardware circuits for the clock explained. 
 ### Ciruit_1
 TODO...
 
 ### PCB assembly
-TODO...
+TODO... (print on board where components need to be. R1 R2 C1 U1 etc...)
 
 ### Case
 TODO...
