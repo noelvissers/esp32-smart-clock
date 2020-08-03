@@ -26,7 +26,7 @@ This project is written in C++ on the Arduino framework using PlatformIO and the
 - [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
 - [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
 ### Libraries
-- Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`
+- Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`.
 ### Documentation 
 - //how to connect via portal etc
 - //valid inputs for portal
