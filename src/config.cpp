@@ -4,20 +4,20 @@
 #include "ArduinoJson.h"
 
 //Hardware settings:
-unsigned int _pinButtonPlus = 12;
-unsigned int _pinButtonSelect = 13;
-unsigned int _pinButtonMin = 14;
+unsigned int _pinButtonPlus = 32;
+unsigned int _pinButtonSelect = 33;
+unsigned int _pinButtonMin = 25;
 
-unsigned int _pinDisplayMOSI = 36; //SPI_MOSI
-unsigned int _pinDisplaySS = 22;   //SPI_SS
-unsigned int _pinDisplaySCK = 35;  //SPI_SCK
+unsigned int _pinDisplayMOSI = 23; //SPI_MOSI
+unsigned int _pinDisplaySS = 5;   //SPI_SS
+unsigned int _pinDisplaySCK = 18;  //SPI_SCK
 
-unsigned int _pinStatusLed = 11;
+unsigned int _pinStatusLed = 35;
 
-//unsigned int _pinRtcSCL = 39; //SCL, Already auto defined in rtc lib
-//unsigned int _pinRtcSDA = 42; //SDA, Already auto defined in rtc lib
+//unsigned int _pinRtcSCL = 22; //SCL, Already auto defined in rtc lib
+//unsigned int _pinRtcSDA = 21; //SDA, Already auto defined in rtc lib
 
-unsigned int _pinLDR = 10; //AI
+unsigned int _pinLDR = 34; //AI
 
 //General settings:
 bool _autoBrightness = true;
@@ -34,6 +34,14 @@ char _weatherApiKey[64] = "";
 
 //Time settings:
 char _timeEndpoint[64] = "http://worldtimeapi.org/api/ip";
+
+//Buttons:
+bool _buttonPlusPressed = false;
+unsigned long _lastButtonPlusPress = 0;
+bool _buttonSelectPressed = false;
+unsigned long _lastButtonSelectPress = 0;
+bool _buttonMinPressed = false;
+unsigned long _lastButtonMinPress = 0;
 
 //Set pinmodes for IO
 void CConfig::initPinModes()

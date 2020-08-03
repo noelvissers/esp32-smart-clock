@@ -50,26 +50,65 @@ void Core_0(void *parameter)
 //ISRs
 void IRAM_ATTR ISR_buttonPlus()
 {
-  //Button handler - Plus
-  /**
-   * 
-   */
+  if (digitalRead(_pinButtonPlus))
+  {
+    if ((millis() - 25 > _lastButtonPlusPress) && !_buttonPlusPressed)
+    {
+      _buttonPlusPressed = true;
+      _lastButtonPlusPress = millis();
+      //Press action
+    }
+  }
+  else
+  {
+    if (_buttonPlusPressed)
+    {
+      _buttonPlusPressed = false;
+    }
+  }
+  _lastButtonPlusPress = millis();
 }
 
 void IRAM_ATTR ISR_buttonSelect()
 {
-  //Button handler - Select
-  /**
-   * 
-   */
+  if (digitalRead(_pinButtonSelect))
+  {
+    if ((millis() - 25 > _lastButtonSelectPress) && !_buttonSelectPressed)
+    {
+      _buttonSelectPressed = true;
+      _lastButtonSelectPress = millis();
+      //Press action
+    }
+  }
+  else
+  {
+    if (_buttonSelectPressed)
+    {
+      _buttonSelectPressed = false;
+    }
+  }
+  _lastButtonSelectPress = millis();
 }
 
 void IRAM_ATTR ISR_buttonMin()
 {
-  //Button handler - Min
-  /**
-   * 
-   */
+  if (digitalRead(_pinButtonMin))
+  {
+    if ((millis() - 25 > _lastButtonMinPress) && !_buttonMinPressed)
+    {
+      _buttonMinPressed = true;
+      _lastButtonMinPress = millis();
+      //Press action
+    }
+  }
+  else
+  {
+    if (_buttonMinPressed)
+    {
+      _buttonMinPressed = false;
+    }
+  }
+  _lastButtonMinPress = millis();
 }
 
 void setup()
@@ -155,3 +194,8 @@ void loop()
    */
   delay(50);
 }
+
+//TODO: button handler:
+//  Brightness controll (plus/min button)
+//  Reset function (hold select for 5 sec)
+//  Cycle functions
