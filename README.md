@@ -28,9 +28,10 @@ This project is written in C++ on the Arduino framework using PlatformIO and the
 ### Libraries
 - Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`
 ### Documentation 
-- //how to connect etc
+- //how to connect via portal etc
 - //valid inputs for portal
 - //how to setup weather acc / key
+- //overall functionality (what do buttons do etc)
 - See comments in source files for the explanation of the code.
 
 ## Hardware
