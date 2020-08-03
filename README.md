@@ -67,7 +67,7 @@ TODO... (print on board where components need to be. R1 R2 C1 U1 etc...)
 And ofcourse the most important part: the case.
 TODO...
 
-### Wishlist
+## Wishlist
 These are features I don't expect to implement ever, but could be nice if I (or someone else) wants to expand on this project.
 - [x] Have Wifi configurable and not hardcoded.  
 - [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.  
