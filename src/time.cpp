@@ -75,13 +75,15 @@ bool timeSync()
 {
   Serial.println("[Time] Syncing with RTC...");
 
+  CRtc RtcSync;
+  RtcSync.update();
+
   if ((_timeYear != _onlineTimeYear) || (_timeMonth != _onlineTimeMonth) || (_timeDay != _onlineTimeDay) || (_timeHour != _onlineTimeHour) || (((_timeMinute + 2) <= _onlineTimeMinute) || ((_timeMinute - 2) >= _onlineTimeMinute))) //if more than 2mins difference
   {
-    CRtc Rtc;
-    if (Rtc.checkRtc())
+    if (RtcSync.checkRtc())
     {
       Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
-      Rtc.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
+      RtcSync.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
       Serial.println("[I][Time] RTC set.");
       return true;
     }

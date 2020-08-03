@@ -32,14 +32,6 @@ extern char _weatherApiKey[64];
 //Time settings:
 extern char _timeEndpoint[64];
 
-//Buttons:
-extern bool _buttonPlusPressed;
-extern unsigned long _lastButtonPlusPress;
-extern bool _buttonSelectPressed;
-extern unsigned long _lastButtonSelectPress;
-extern bool _buttonMinPressed;
-extern unsigned long _lastButtonMinPress;
-
 class CConfig
 {
 public:

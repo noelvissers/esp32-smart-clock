@@ -45,68 +45,74 @@ void Core_0(void *parameter)
   }
 }
 
-//ISRs
+//ISRs//Buttons:
+bool buttonPlusPressed = false;
+unsigned long lastButtonPlusPress = 0;
 void IRAM_ATTR ISR_buttonPlus()
 {
-  if (digitalRead(_pinButtonPlus))
+  if (!digitalRead(_pinButtonPlus))
   {
-    if ((millis() - 25 > _lastButtonPlusPress) && !_buttonPlusPressed)
+    if ((millis() - 25 > lastButtonPlusPress) && !buttonPlusPressed)
     {
-      _buttonPlusPressed = true;
-      _lastButtonPlusPress = millis();
+      buttonPlusPressed = true;
+      lastButtonPlusPress = millis();
       //Press action
     }
   }
   else
   {
-    if (_buttonPlusPressed)
+    if (buttonPlusPressed)
     {
-      _buttonPlusPressed = false;
+      buttonPlusPressed = false;
     }
   }
-  _lastButtonPlusPress = millis();
+  lastButtonPlusPress = millis();
 }
 
+bool buttonSelectPressed = false;
+unsigned long lastButtonSelectPress = 0;
 void IRAM_ATTR ISR_buttonSelect()
 {
-  if (digitalRead(_pinButtonSelect))
+  if (!digitalRead(_pinButtonSelect))
   {
-    if ((millis() - 25 > _lastButtonSelectPress) && !_buttonSelectPressed)
+    if ((millis() - 25 > lastButtonSelectPress) && !buttonSelectPressed)
     {
-      _buttonSelectPressed = true;
-      _lastButtonSelectPress = millis();
-      //Press action
+      buttonSelectPressed = true;
+      lastButtonSelectPress = millis();
     }
   }
   else
   {
-    if (_buttonSelectPressed)
+    if (buttonSelectPressed)
     {
-      _buttonSelectPressed = false;
+      buttonSelectPressed = false;
+      _state++;
     }
   }
-  _lastButtonSelectPress = millis();
+  lastButtonSelectPress = millis();
 }
 
+bool buttonMinPressed = false;
+unsigned long lastButtonMinPress = 0;
 void IRAM_ATTR ISR_buttonMin()
 {
-  if (digitalRead(_pinButtonMin))
+  if (!digitalRead(_pinButtonMin))
   {
-    if ((millis() - 25 > _lastButtonMinPress) && !_buttonMinPressed)
+    if ((millis() - 25 > lastButtonMinPress) && !buttonMinPressed)
     {
-      _buttonMinPressed = true;
-      _lastButtonMinPress = millis();
+      buttonMinPressed = true;
+      lastButtonMinPress = millis();
       //Press action
     }
   }
   else
   {
-    if (_buttonMinPressed)
+    if (buttonMinPressed)
     {
-      _buttonMinPressed = false;
+      buttonMinPressed = false;
     }
   }
-  _lastButtonMinPress = millis();
+  lastButtonMinPress = millis();
 }
 
 void setup()
@@ -120,11 +126,6 @@ void setup()
   //init classes
   Rtc.init();
   Config.initPinModes();
-
-  //attatch interrupts for buttons
-  attachInterrupt(_pinButtonPlus, ISR_buttonPlus, FALLING);
-  attachInterrupt(_pinButtonSelect, ISR_buttonSelect, FALLING);
-  attachInterrupt(_pinButtonMin, ISR_buttonMin, FALLING);
 
   Config.loadSettings();
   Serial.println("[Status] Initializing [-][-][-]");
@@ -181,6 +182,12 @@ void setup()
       0);
 
   Config.saveSettings();
+
+  //attatch interrupts for buttons
+  attachInterrupt(_pinButtonPlus, ISR_buttonPlus, CHANGE);
+  attachInterrupt(_pinButtonSelect, ISR_buttonSelect, CHANGE);
+  attachInterrupt(_pinButtonMin, ISR_buttonMin, CHANGE);
+
   Serial.println("[Status] Initializing done.");
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 }
@@ -189,10 +196,31 @@ void setup()
 void loop()
 {
   /**
-   * TODO: Menu (only update time when needed)
-   */
-  Rtc.update();
-  printf("%04u/%02u/%02u - %u:%02u:%02u - Temperature: %i C - Humidity: %u %% - Pressure: %u hPa\n", _timeYear, _timeMonth, _timeDay, _timeHour, _timeMinute, _timeSecond, int((_temperature - 273.15)+0.5), _humidity, _pressure);
+   * Do button check here
+   * If -/+ && autobrightness > autobrightness off
+   *  hold -/+ for autobrightness on
+  */
+  switch (_state)
+  {
+  case 0:
+    Display.showTime();
+    break;
+  case 1:
+    Display.showDate();
+    break;
+  case 2:
+    Display.showTemperature();
+    break;
+  case 3:
+    Display.showHumidity();
+    break;
+  case 4:
+    Display.showTimeBin();
+    break;
+  default:
+    _state = 0;
+    break;
+  }
   delay(1000);
 }
 
@@ -200,3 +228,4 @@ void loop()
 //  Brightness controll (plus/min button)
 //  Reset function (hold select for 5 sec)
 //  Cycle functions
+//  LDR

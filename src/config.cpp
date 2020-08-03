@@ -35,14 +35,6 @@ char _weatherApiKey[64] = "";
 //Time settings:
 char _timeEndpoint[64] = "http://worldtimeapi.org/api/ip";
 
-//Buttons:
-bool _buttonPlusPressed = false;
-unsigned long _lastButtonPlusPress = 0;
-bool _buttonSelectPressed = false;
-unsigned long _lastButtonSelectPress = 0;
-bool _buttonMinPressed = false;
-unsigned long _lastButtonMinPress = 0;
-
 //Set pinmodes for IO
 void CConfig::initPinModes()
 {
