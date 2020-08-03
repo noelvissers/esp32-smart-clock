@@ -2,11 +2,10 @@
 
 [![Build Status](https://travis-ci.com/noelvissers/esp32-smart-clock.svg?token=iFxUVHtLTBXHs7qouyTv&branch=master)](https://travis-ci.com/noelvissers/esp32-smart-clock)
 
-
-The 'Smart Clock' is a clock that displays time, date, temperature and weather forecasts. It can auto change display brightness and almost everything is configurable (like 12 hour or 24 hour clock, temperature in °C or °F, date in days-months or months-days format and auto or manual brightness control).
+The 'Smart Clock' is a clock that displays time, date and temperature. It can auto change display brightness and almost everything is configurable (like 12 hour or 24 hour clock, temperature in °C or °F, date in days-months or months-days format and auto or manual brightness control).  
 Hardware files are made in Altium and software is written in C++.
 
-< Insert picture >
+![Smart Clock](/thumbnail.png?raw=true "Smart Clock")
 
 'Smart Clock' is a project I started years ago with an idea for my arduino nano after seeing [this](https://www.instructables.com/id/Making-a-Wooden-LED-Clock/) project. I got the basics to work but wanted to expand on this idea.
 A lot more was possible with WiFi intergration on the ESP32, so thats what made me pick up this project again. 
@@ -21,15 +20,18 @@ The src directory contains all the .cpp files and the main (SmartClock.cpp) file
 
 ## Software
 ### Language
-This project is written in C++.
+This project is written in C++ on the Arduino framework using PlatformIO and the Espressive 32 Dev. board.
 ### IDE
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
 - [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
 ### Libraries
-- TODO
+- Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`
 ### Documentation 
-- See comments in source files.
+- //how to connect etc
+- //valid inputs for portal
+- //how to setup weather acc / key
+- See comments in source files for the explanation of the code.
 
 ## Hardware
 - [ESP32-WROOM-32D](https://aliexpress.com/item/4000103411061.html?spm=a2g0o.productlist.0.0.65194be4xhn0yb&algo_pvid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2&algo_expid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2-1&btsid=0b0a187915827913900936140e29eb&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_)
@@ -48,7 +50,7 @@ This project is written in C++.
 - 4x [4mm M3 screw](https://aliexpress.com/item/4000193782706.html?spm=a2g0o.detail.1000014.3.49a055c56TTvvg&gps-id=pcDetailBottomMoreOtherSeller&scm=1007.13338.128125.0&scm_id=1007.13338.128125.0&scm-url=1007.13338.128125.0&pvid=237d7521-e37e-4988-b3a8-f84ffeda019e)
 - \+ Other various components like resistors and capacitors (see schematic).
 
-The electonics for this project are pretty simple. I choose to use TH components instead of SMD components (and in some cases breakout boards) since these are easier to solder and replace by hand. In a future 'perfect' version, this is something that could change; have all the components on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.
+The electonics for this project are pretty simple. I choose to use TH components instead of SMD components (and in some cases breakout boards) since these are easier to solder and replace by hand. 
 
 ### Ciruit_1
 TODO...
@@ -58,3 +60,10 @@ TODO...
 
 ### Case
 TODO...
+
+### Wishlist
+In a future 'perfect' version, these are the things that I would change:
+[x] Have Wifi configurable and not hardcoded.
+[ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.
+[ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).
+[ ] Auto detect location to configure weather.
