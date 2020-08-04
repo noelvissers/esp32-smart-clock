@@ -10,6 +10,30 @@ Hardware files are made in Altium and software is written in C++.
 'Smart Clock' is a project I started years ago with an idea for my arduino nano after seeing [this](https://www.instructables.com/id/Making-a-Wooden-LED-Clock/) project. I got the basics to work but wanted to expand on this idea.
 A lot more was possible with WiFi intergration on the ESP32, so thats what made me pick up this project again. 
 
+## Features
+//Pics/different modes    
+//Picture config portal  
+//Automatic timezone/DST  
+
+## Table of content
+- [Features](#features)
+- [Project directories](#project-directories)
+- [Software](#software)
+  * [Language](#language)
+  * [IDE](#ide)
+  * [Libraries](#libraries)
+  * [Documentation](#documentation)
+- [Hardware](#hardware)
+  * [Components](#components)
+  * [Circuits](#circuits)
+    + [RTC](#rtc)
+    + [LDR](#ldr)
+    + [Display](#display)
+    + [Buttons](#buttons)
+    + [PCB assembly](#pcb-assembly)
+- [Case](#case)
+- [Wishlist](#wishlist)
+
 ## Project directories
 ### `/hardware`
 This directory includes all the hardware files used in this project. The .pdf files of the SmartClock schematic and PCB design are located in the main folder. The original Altium Designer files and gerber files are located in the subfolders.
@@ -55,17 +79,25 @@ The whole project is built on the ESP32. The board I used is the [ESP32-DevKitC 
 
 The electonics for this project are pretty simple. I choose to use TH components instead of SMD components (and in some cases breakout boards) since these are easier to solder and replace by hand. 
 
-## Circuits
+### Circuits
 Below are the hardware circuits for the clock explained. 
-### Ciruit_1
-TODO...
+#### RTC
+//Sch.
+#### LDR
+//Sch.
+#### Display
+//Sch.
+#### Buttons
+//Sch.
 
-### PCB assembly
-TODO... (print on board where components need to be. R1 R2 C1 U1 etc...)
+#### PCB assembly
+//Print on board where components need to be. R1 R2 C1 U1 etc...
+//Order of assembly
+//Mechanical design
 
 ## Case
 And ofcourse the most important part: the case.
-TODO...
+//Pictures
 
 ## Wishlist
 These are features I don't expect to implement ever, but could be nice if I (or someone else) wants to expand on this project.
