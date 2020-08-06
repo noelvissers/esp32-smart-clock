@@ -47,9 +47,7 @@ void CConfig::initPinModes()
 //Save all settings to memory
 bool CConfig::saveSettings()
 {
-#ifdef DEBUGGING
   Serial.println("[Config] Saving...");
-#endif
 
   if (SPIFFS.begin(true)) //Start SPIFFS
   {
@@ -70,9 +68,7 @@ bool CConfig::saveSettings()
     serializeJson(doc, fSettings); //Convert doc objects to strings and put them in fSettings file
     fSettings.close();             //Close file
 
-#ifdef DEBUGGING
     Serial.println("[Config] Saving done.");
-#endif
     return true;
   }
   else
@@ -159,6 +155,4 @@ void CConfig::formatSettings()
   {
     Serial.println("[E][Config] An error occurred while formatting SPIFFS.");
   }
-  // Serial.println("[Config] Restarting ESP32...");
-  //ESP.restart();
 }

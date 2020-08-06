@@ -13,5 +13,5 @@ public:
   void showBrightness();
   void brightnessUp();
   void brightnessDown();
-  void showBrightnessManual();
+  void showBrightnessAuto();
 };
