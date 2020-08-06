@@ -11,7 +11,7 @@ int brightness = 0; //0..15
 
 void updateBrightness()
 {
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Display] Updating brightness");
 #endif
   if (_autoBrightness)
@@ -25,7 +25,7 @@ void updateBrightness()
 
 void CDisplay::brightnessUp()
 {
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Display] Turning up brightness...");
 #endif
   if (_autoBrightness)
@@ -39,7 +39,7 @@ void CDisplay::brightnessUp()
 
 void CDisplay::brightnessDown()
 {
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Display] Turning down brightness...");
 #endif
   if (_autoBrightness)
@@ -54,7 +54,7 @@ void CDisplay::brightnessDown()
 void CDisplay::showTime()
 {
 //48 easter egg
-#ifdef DEBUG
+#ifdef DEBUGGING
   printf("[Display] Showing time... %u:%02u\n", _timeHour, _timeMinute);
 #endif
   updateBrightness();
@@ -64,7 +64,7 @@ void CDisplay::showTime()
 void CDisplay::showDate()
 {
   //if not showing brightness
-#ifdef DEBUG
+#ifdef DEBUGGING
   printf("[Display] Showing date (dd/mm: %02u/%02u)...\n", _timeDay, _timeMonth);
   printf("[Display] Showing date (mm/dd: %02u/%02u)...\n", _timeMonth, _timeDay);
 #endif
@@ -75,7 +75,7 @@ void CDisplay::showDate()
 void CDisplay::showTemperature()
 {
   //if not showing brightness
-#ifdef DEBUG
+#ifdef DEBUGGING
   printf("[Display] Showing temperature (%i °C)...\n", int((_temperature - 273.15) + 0.5));
   printf("[Display] Showing temperature (%i °F)...\n", int(((_temperature - 273.15) * 1.8) + 32.5));
 #endif
@@ -85,7 +85,7 @@ void CDisplay::showTemperature()
 void CDisplay::showHumidity()
 {
   //if not showing brightness
-#ifdef DEBUG
+#ifdef DEBUGGING
   printf("[Display] Showing humidity (%u %%)...\n", _humidity);
 #endif
   updateBrightness();
@@ -94,7 +94,7 @@ void CDisplay::showHumidity()
 void CDisplay::showTimeBin()
 {
   //if not showing brightness
-#ifdef DEBUG
+#ifdef DEBUGGING
   printf("[Display] Showing binairy time... %u:%02u\n", _timeHour, _timeMinute);
 #endif
   updateBrightness();
@@ -104,7 +104,7 @@ void CDisplay::showTimeBin()
 void CDisplay::showBrightness()
 {
   //show for 3 sec
-#ifdef DEBUG
+#ifdef DEBUGGING
   printf("[Display] Showing brightness... %u:%02u\n", _timeHour, _timeMinute);
 #endif
   updateBrightness();
@@ -113,7 +113,7 @@ void CDisplay::showBrightness()
 void CDisplay::showBrightnessManual()
 {
   //show for 3 sec
-#ifdef DEBUG
+#ifdef DEBUGGING
   printf("[Display] Showing manual brightness setting... %u:%02u\n", _timeHour, _timeMinute);
 #endif
   updateBrightness();

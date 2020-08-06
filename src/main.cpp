@@ -2,7 +2,7 @@
  * @project       Smart Clock
  * @documentation https://github.com/noelvissers/esp32-smart-clock 
  */
-#define DEBUG //Debug mode outputs the status of the clock over the serial port @115200. When this is off, only errors ([E]) and critical info ([I]) are outputted.
+#define DEBUGGING //Debug mode outputs the status of the clock over the serial port @115200. When this is off, only errors ([E]) and critical info ([I]) are outputted.
 
 #include <Arduino.h>
 #include "config.h"
@@ -33,7 +33,7 @@ void Core_0(void *parameter)
     }
     else
     {
-#ifdef DEBUG
+#ifdef DEBUGGING
       Serial.println("[CORE_0] Weather data received.");
 #endif
     }
@@ -43,7 +43,7 @@ void Core_0(void *parameter)
     }
     else
     {
-#ifdef DEBUG
+#ifdef DEBUGGING
       Serial.println("[CORE_0] Syncing online time done.");
 #endif
     }
@@ -129,7 +129,7 @@ void setup()
   //Config.formatSettings();
   //start serial communication for debugging
   Serial.begin(115200);
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Status] Initializing...");
 #endif
 
@@ -138,7 +138,7 @@ void setup()
   Config.initPinModes();
 
   Config.loadSettings();
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Status] Initializing [-][-][-]");
 #endif
   //Display status
@@ -152,7 +152,7 @@ void setup()
   else
   {
     //Set network status to enabled
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
 #endif
   }
@@ -168,7 +168,7 @@ void setup()
   else
   {
     //Set time status to enabled
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
 #endif
   }
@@ -183,7 +183,7 @@ void setup()
   else
   {
     //Set weather status to enabled
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
 #endif
   }
@@ -206,33 +206,24 @@ void setup()
   attachInterrupt(_pinButtonSelect, ISR_buttonSelect, CHANGE);
   attachInterrupt(_pinButtonMin, ISR_buttonMin, CHANGE);
 
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Status] Initializing done.");
 #endif
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 }
 
 //main loop on core 1
-
-/**
- * - set start time
- * - while held down > wait
- * - if held for >3 sec > autobrightness on
- * - display setting
- * - display brightness for 3 seconds in display class (set a time that brightness was pressed, check in other functions if this time expired)
- * - autobrightness in disp.cpp
- */
-
 void loop()
-{                                                        // Button checks
-  if (buttonPlusSet && buttonMinSet && !buttonSelectSet) //Both plus and min are pressed
+{
+  // Button checks
+  if (buttonPlusSet && buttonMinSet && !buttonSelectSet) // Both plus and min are pressed
   {
     while (buttonPlusPressed && buttonMinPressed)
     {
       if (lastButtonPlusPress - millis() > 3000)
       {
         _autoBrightness = true;
-#ifdef DEBUG
+#ifdef DEBUGGING
         Serial.println("[Status] Autobrightness set.");
 #endif
         break;
@@ -242,7 +233,7 @@ void loop()
     buttonSelectSet = false;
     buttonPlusSet = false;
   }
-  else if (buttonPlusSet && !buttonMinSet && !buttonSelectSet) //only plus was pressed
+  else if (buttonPlusSet && !buttonMinSet && !buttonSelectSet) // Only plus was pressed
   {
     Display.brightnessUp();
     while (buttonPlusPressed && !buttonMinPressed)
@@ -251,7 +242,7 @@ void loop()
       buttonPlusSet = false;
     buttonSelectSet = false;
   }
-  else if (!buttonPlusSet && buttonMinSet && !buttonSelectSet) //only min was pressed
+  else if (!buttonPlusSet && buttonMinSet && !buttonSelectSet) // Only min was pressed
   {
     Display.brightnessDown();
     while (!buttonPlusPressed && buttonMinPressed)
@@ -260,7 +251,7 @@ void loop()
       buttonMinSet = false;
     buttonSelectSet = false;
   }
-  else if (!buttonPlusSet && !buttonMinSet && buttonSelectSet) //Only select was pressed
+  else if (!buttonPlusSet && !buttonMinSet && buttonSelectSet) // Only select was pressed
   {
     while (buttonSelectPressed)
     {

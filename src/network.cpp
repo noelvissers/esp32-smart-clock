@@ -4,7 +4,7 @@
 
 bool CNetwork::autoConnect()
 {
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Network] Starting auto connect...");
 #endif
   WiFiManager wm;
@@ -19,7 +19,7 @@ bool CNetwork::autoConnect()
   wm.addParameter(&key_config);
 
 //Configure portal
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Network] Setting up portal...");
 #endif
   wm.setShowPassword(false);
@@ -27,12 +27,12 @@ bool CNetwork::autoConnect()
   wm.setConnectTimeout(60);       //Set 1 minute timeout for connecting
   wm.setClass("invert");          //Dark mode
 
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Network] Setting up connection (or connecting to saved network)...");
 #endif
   if (wm.autoConnect("SmartClock"))
   {
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Network] Connected.");
 #endif
 
@@ -52,7 +52,7 @@ void CNetwork::resetSettings()
   WiFiManager wm;
   wm.setDebugOutput(false);
   wm.resetSettings();
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Network] Settings reset.");
 #endif
 }

@@ -47,7 +47,7 @@ void CConfig::initPinModes()
 //Save all settings to memory
 bool CConfig::saveSettings()
 {
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Config] Saving...");
 #endif
 
@@ -65,7 +65,7 @@ bool CConfig::saveSettings()
     serializeJson(doc, fSettings); //Convert doc objects to strings and put them in fSettings file
     fSettings.close();             //Close file
 
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Config] Saving done.");
 #endif
     return true;

@@ -21,7 +21,7 @@ char _onlineDatetime[64] = "";
 bool convertTime()
 {
 //Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like istringstream)
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Time] Converting 'datetime' to vars...");
 #endif
   int count = 0;
@@ -75,7 +75,7 @@ bool convertTime()
 
 bool timeSync()
 {
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Time] Syncing with RTC...");
 #endif
 
@@ -98,7 +98,7 @@ bool timeSync()
   }
   else
   {
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Time] RTC is already in sync.");
 #endif
     return true;
@@ -108,16 +108,16 @@ bool timeSync()
 
 bool CTime::update()
 {
-#ifdef DEBUG
+#ifdef DEBUGGING
   Serial.println("[Time] Getting time data...");
 #endif
   if (WiFi.isConnected())
   {
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Time] Connected to network.");
 #endif
     HTTPClient client;
-#ifdef DEBUG
+#ifdef DEBUGGING
     Serial.println("[Time] Connecting to server...");
 #endif
     client.begin(_timeEndpoint);
@@ -136,13 +136,13 @@ bool CTime::update()
         _onlineDst = doc["dst"];
         strcpy(_onlineDatetime, doc["datetime"]);
 
-#ifdef DEBUG
+#ifdef DEBUGGING
         Serial.println("[Time] Data received.");
 #endif
 
         convertTime();
         timeSync();
-#ifdef DEBUG
+#ifdef DEBUGGING
         Serial.println("[Time] Done.");
 #endif
 
