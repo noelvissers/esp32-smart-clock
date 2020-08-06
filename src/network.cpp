@@ -4,7 +4,9 @@
 
 bool CNetwork::autoConnect()
 {
+#ifdef DEBUG
   Serial.println("[Network] Starting auto connect...");
+#endif
   WiFiManager wm;
   wm.setDebugOutput(false);
 
@@ -16,19 +18,25 @@ bool CNetwork::autoConnect()
   wm.addParameter(&country_config);
   wm.addParameter(&key_config);
 
-  //Configure portal
+//Configure portal
+#ifdef DEBUG
   Serial.println("[Network] Setting up portal...");
+#endif
   wm.setShowPassword(false);
   wm.setConfigPortalTimeout(180); //Set 3 minute timeout if not configured
   wm.setConnectTimeout(60);       //Set 1 minute timeout for connecting
   wm.setClass("invert");          //Dark mode
 
+#ifdef DEBUG
   Serial.println("[Network] Setting up connection (or connecting to saved network)...");
+#endif
   if (wm.autoConnect("SmartClock"))
   {
+#ifdef DEBUG
     Serial.println("[Network] Connected.");
+#endif
 
-  	strcpy(_weatherCityName, city_config.getValue());
+    strcpy(_weatherCityName, city_config.getValue());
     strcpy(_weatherCountryCode, country_config.getValue());
     strcpy(_weatherApiKey, key_config.getValue());
 
@@ -44,5 +52,7 @@ void CNetwork::resetSettings()
   WiFiManager wm;
   wm.setDebugOutput(false);
   wm.resetSettings();
+#ifdef DEBUG
   Serial.println("[Network] Settings reset.");
+#endif
 }

@@ -20,8 +20,10 @@ char _onlineDatetime[64] = "";
 
 bool convertTime()
 {
-  //Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like istringstream)
+//Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like istringstream)
+#ifdef DEBUG
   Serial.println("[Time] Converting 'datetime' to vars...");
+#endif
   int count = 0;
   String temp = "";
   for (int i = 0; i < strlen(_onlineDatetime); i++)
@@ -73,7 +75,9 @@ bool convertTime()
 
 bool timeSync()
 {
+#ifdef DEBUG
   Serial.println("[Time] Syncing with RTC...");
+#endif
 
   CRtc RtcSync;
   RtcSync.update();
@@ -94,7 +98,9 @@ bool timeSync()
   }
   else
   {
+#ifdef DEBUG
     Serial.println("[Time] RTC is already in sync.");
+#endif
     return true;
   }
   return false;
@@ -102,12 +108,18 @@ bool timeSync()
 
 bool CTime::update()
 {
+#ifdef DEBUG
   Serial.println("[Time] Getting time data...");
+#endif
   if (WiFi.isConnected())
   {
+#ifdef DEBUG
     Serial.println("[Time] Connected to network.");
+#endif
     HTTPClient client;
+#ifdef DEBUG
     Serial.println("[Time] Connecting to server...");
+#endif
     client.begin(_timeEndpoint);
     int httpCode = client.GET();
 
@@ -124,11 +136,15 @@ bool CTime::update()
         _onlineDst = doc["dst"];
         strcpy(_onlineDatetime, doc["datetime"]);
 
+#ifdef DEBUG
         Serial.println("[Time] Data received.");
+#endif
 
         convertTime();
         timeSync();
+#ifdef DEBUG
         Serial.println("[Time] Done.");
+#endif
 
         return true;
       }

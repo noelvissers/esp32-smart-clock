@@ -9,7 +9,7 @@ unsigned int _pinButtonSelect = 33;
 unsigned int _pinButtonMin = 25;
 
 unsigned int _pinDisplayMOSI = 23; //SPI_MOSI
-unsigned int _pinDisplaySS = 5;   //SPI_SS
+unsigned int _pinDisplaySS = 5;    //SPI_SS
 unsigned int _pinDisplaySCK = 18;  //SPI_SCK
 
 unsigned int _pinStatusLed = 35;
@@ -47,7 +47,9 @@ void CConfig::initPinModes()
 //Save all settings to memory
 bool CConfig::saveSettings()
 {
+#ifdef DEBUG
   Serial.println("[Config] Saving...");
+#endif
 
   if (SPIFFS.begin(true)) //Start SPIFFS
   {
@@ -63,7 +65,9 @@ bool CConfig::saveSettings()
     serializeJson(doc, fSettings); //Convert doc objects to strings and put them in fSettings file
     fSettings.close();             //Close file
 
+#ifdef DEBUG
     Serial.println("[Config] Saving done.");
+#endif
     return true;
   }
   else
@@ -131,6 +135,6 @@ void CConfig::formatSettings()
   {
     Serial.println("[E][Config] An error occurred while formatting SPIFFS.");
   }
-  Serial.println("[Config] Restarting ESP32...");
+  // Serial.println("[Config] Restarting ESP32...");
   //ESP.restart();
 }

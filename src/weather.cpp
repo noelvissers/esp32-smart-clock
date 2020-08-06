@@ -10,12 +10,18 @@ int _pressure = -1;
 
 bool CWeather::update()
 {
+#ifdef DEBUG
   Serial.println("[Weather] Getting weather data...");
+#endif
   if (WiFi.isConnected())
   {
+#ifdef DEBUG
     Serial.println("[Weather] Connected to network.");
+#endif
     HTTPClient client;
+#ifdef DEBUG
     Serial.println("[Weather] Connecting to server...");
+#endif
     client.begin(String(_weatherEndpoint) + String(_weatherCityName) + "," + String(_weatherCountryCode) + "&APPID=" + String(_weatherApiKey));
     int httpCode = client.GET();
 
@@ -33,7 +39,9 @@ bool CWeather::update()
           _humidity = doc["main"]["humidity"];
           _pressure = doc["main"]["pressure"];
 
+#ifdef DEBUG
           Serial.println("[Weather] Data received.");
+#endif
           return true;
         }
         else
