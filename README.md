@@ -8,7 +8,7 @@ Hardware files are made in Altium and software is written in C++.
 ![Smart Clock](/thumbnail.png?raw=true "Smart Clock")
 
 'Smart Clock' is a project I started years ago with an idea for my arduino nano after seeing [this](https://www.instructables.com/id/Making-a-Wooden-LED-Clock/) project. I got the basics to work but wanted to expand on this idea.
-A lot more was possible with WiFi intergration on the ESP32, so thats what made me pick up this project again. 
+A lot more was possible with WiFi intergration on the ESP32, so thats what made me pick up this project again. I'm most interested in hardware (that's also what I studied) but during this project I learned a lot about C++ in general, so it was a good learning experience. I know the code can get a lot cleaner if I remove some globals vars and structure some things a bit different, but I found a lot of that out while already being pretty far into the project. Maybe something to change in the future, but not for now.
 
 ## Features
 //Pics/different modes    
@@ -40,11 +40,11 @@ This directory includes all the hardware files used in this project. The .pdf fi
 ### `/include`
 The include directory contains all the header files needed for this project. 
 ### `/src`
-The src directory contains all the `.cpp` needed to run this project, including the `main.cpp` file.
+The src directory contains all the `.cpp` files needed to run this project, including the `main.cpp` file.
 
 ## Software
 ### Language
-This project is written in C++ on the Arduino framework using PlatformIO.
+This project is written in C++ on the Arduino framework using PlatformIO. 
 ### IDE
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
