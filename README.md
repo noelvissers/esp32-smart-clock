@@ -100,7 +100,7 @@ And ofcourse the most important part: the case.
 //Pictures
 
 ## Wishlist
-These are features I don't expect to implement ever, but could be nice if I (or someone else) wants to expand on this project.
+These are features I don't expect to implement, but could be nice for a future update.
 - [x] Have Wifi configurable and not hardcoded.  
 - [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.  
 - [ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).  
