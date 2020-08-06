@@ -3,11 +3,13 @@
 #include "config.h"
 #include "weather.h"
 #include "rtc.h"
+#include "ldr.h"
 
 CRtc RtcDisplay;
+CLdr Ldr;
 
-int _state = 0;
-int brightness = 0; //0..15
+unsigned int _state = 0;
+unsigned int brightness = 0; //0..15
 
 void updateBrightness()
 {
@@ -16,7 +18,7 @@ void updateBrightness()
 #endif
   if (_autoBrightness)
   {
-    //brightness = readLdr();
+    brightness = Ldr.read();
   }
   //Display.setbrightness(brightness);
 }

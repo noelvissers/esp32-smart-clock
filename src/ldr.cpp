@@ -7,4 +7,5 @@ unsigned int CLdr::read()
   //LDR value bright (global?)
   //LDR value Dark (global?)
   //return 0..15
+  return 0;
 }

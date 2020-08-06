@@ -1,6 +1,6 @@
 #pragma once
 
-extern int _state;
+extern unsigned int _state;
 
 class CDisplay
 {
