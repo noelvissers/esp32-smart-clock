@@ -19,9 +19,9 @@ extern unsigned int _pinLDR;
 //General settings:
 extern bool _autoBrightness;
 extern bool _autoCycle;
-extern char _timeFormat[4];
-extern char _dateFormat[5];
-extern char _temperatureFormat[2];
+extern bool _use24h;
+extern bool _useDdmm;
+extern bool _useCelcius;
 
 //Weather settings:
 extern char _weatherCityName[64];

@@ -22,9 +22,9 @@ unsigned int _pinLDR = 34; //AI
 //General settings:
 bool _autoBrightness = true;
 bool _autoCycle = false;
-char _timeFormat[4] = "24H";      //try to get this as option between 24H and 12H so no false strings can be put there.
-char _dateFormat[5] = "ddmm";     //try to get this as option between 'Day/Month' and 'Month/Day' so no false strings can be put there.
-char _temperatureFormat[2] = "C"; //try to get this as option between 'C' and 'F' so no false strings can be put there.
+bool _use24h = true;
+bool _useDdmm = true;
+bool _useCelcius = true;
 
 //Weather settings:
 char _weatherCityName[64] = "";
@@ -58,6 +58,11 @@ bool CConfig::saveSettings()
     DynamicJsonDocument doc(1024); //Create temp. document to store string data in from SPIFFS
 
     //Save settings
+    doc["general"]["autoBrightness"] = _autoBrightness;
+    doc["general"]["useDdmmFormat"] = _useDdmm;
+    doc["general"]["use24hFormat"] = _use24h;
+    doc["general"]["useCelciusUnit"] = _useCelcius;
+
     doc["weather"]["weatherCityName"] = _weatherCityName;
     doc["weather"]["weatherCountryCode"] = _weatherCountryCode;
     doc["weather"]["weatherApiKey"] = _weatherApiKey;
@@ -93,6 +98,25 @@ bool CConfig::loadSettings()
       if (!error)                                                   //Chech if no errors occured while converting to objects
       {
         //Load all settings, so that in network config the saved values are showed. If they're empty it means they need to be filled in.
+        //General settings
+        if (doc["general"]["autoBrightness"])
+        {
+          _autoBrightness = doc["general"]["autoBrightness"];
+        }
+        if (doc["general"]["useDdmmFormat"])
+        {
+          _useDdmm = doc["general"]["useDdmmFormat"];
+        }
+        if (doc["general"]["use24hFormat"])
+        {
+          _use24h = doc["general"]["use24hFormat"];
+        }
+        if (doc["general"]["useCelciusUnit"])
+        {
+          _useCelcius = doc["general"]["useCelciusUnit"];
+        }
+
+        //Weather API settings
         if (doc["weather"]["weatherCityName"])
         {
           strcpy(_weatherCityName, doc["weather"]["weatherCityName"]);

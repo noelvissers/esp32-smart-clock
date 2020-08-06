@@ -51,25 +51,26 @@ void Core_0(void *parameter)
 }
 
 //ISRs//Buttons:
-bool buttonPlusPressed = false;        //Current state of button (resets on release)
-bool buttonPlusSet = false;            //Toggled state of button (resets when button action is done / manually)
-unsigned long lastButtonPlusPress = 0; //last button press millis()
+bool buttonPlusPressed = false;        // Current state of button (resets on release)
+bool buttonPlusSet = false;            // Toggled state of button (resets when button action is done / manually)
+unsigned long lastButtonPlusPress = 0; // Last button press millis()
 void IRAM_ATTR ISR_buttonPlus()
 {
-  if (!digitalRead(_pinButtonPlus))
+  if (!digitalRead(_pinButtonPlus)) //C hek if falling edge
   {
-    if ((millis() - 25 > lastButtonPlusPress) && !buttonPlusPressed)
+    if ((millis() - 25 > lastButtonPlusPress) && !buttonPlusPressed) // Debounce
     {
+      //Set button states
       buttonPlusSet = true;
       buttonPlusPressed = true;
       lastButtonPlusPress = millis();
     }
   }
-  else
+  else //Rising edge
   {
-    if (buttonPlusPressed)
+    if (buttonPlusPressed) // Check if it was pressed to filter out false releases from bounce
     {
-      buttonPlusPressed = false;
+      buttonPlusPressed = false; // Reset button state
     }
   }
   lastButtonPlusPress = millis();
@@ -201,7 +202,7 @@ void setup()
 
   Config.saveSettings();
 
-  //attatch interrupts for buttons
+  //Attatch interrupts for buttons
   attachInterrupt(_pinButtonPlus, ISR_buttonPlus, CHANGE);
   attachInterrupt(_pinButtonSelect, ISR_buttonSelect, CHANGE);
   attachInterrupt(_pinButtonMin, ISR_buttonMin, CHANGE);
@@ -212,11 +213,11 @@ void setup()
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 }
 
-//main loop on core 1
+//Main loop on core 1
 void loop()
 {
   // Button checks
-  if (buttonPlusSet && buttonMinSet && !buttonSelectSet) // Both plus and min are pressed
+  if (buttonPlusSet && buttonMinSet && !buttonSelectSet) //Both plus and min are pressed
   {
     while (buttonPlusPressed && buttonMinPressed)
     {
@@ -233,7 +234,7 @@ void loop()
     buttonSelectSet = false;
     buttonPlusSet = false;
   }
-  else if (buttonPlusSet && !buttonMinSet && !buttonSelectSet) // Only plus was pressed
+  else if (buttonPlusSet && !buttonMinSet && !buttonSelectSet) //Only plus was pressed
   {
     Display.brightnessUp();
     while (buttonPlusPressed && !buttonMinPressed)
@@ -242,7 +243,7 @@ void loop()
       buttonPlusSet = false;
     buttonSelectSet = false;
   }
-  else if (!buttonPlusSet && buttonMinSet && !buttonSelectSet) // Only min was pressed
+  else if (!buttonPlusSet && buttonMinSet && !buttonSelectSet) //Only min was pressed
   {
     Display.brightnessDown();
     while (!buttonPlusPressed && buttonMinPressed)
@@ -251,7 +252,7 @@ void loop()
       buttonMinSet = false;
     buttonSelectSet = false;
   }
-  else if (!buttonPlusSet && !buttonMinSet && buttonSelectSet) // Only select was pressed
+  else if (!buttonPlusSet && !buttonMinSet && buttonSelectSet) //Only select was pressed
   {
     while (buttonSelectPressed)
     {
@@ -268,6 +269,9 @@ void loop()
     }
     //ESP did not reset
     _state++;
+#ifdef DEBUGGING
+    Serial.println("[Status] Changed state.");
+#endif
     buttonMinSet = false;
     buttonSelectSet = false;
     buttonPlusSet = false;
@@ -279,6 +283,7 @@ void loop()
     buttonPlusSet = false;
   }
 
+  /*
   switch (_state)
   {
   case 0:
@@ -300,8 +305,18 @@ void loop()
     _state = 0;
     break;
   }
-  delay(1000);
+  */
 }
 
 //TODO:
 //  LDR
+//  Add radio/dropdown menu (or checkbox since thats the only thing available probably) > https://github.com/kentaylor/WiFiManager/blob/master/examples/ConfigOnSwitchFS/ConfigOnSwitchFS.ino
+//    Add Autobrightness setting
+//    Add DDMM setting
+//    Add 12/24 setting:
+
+/**
+ * [ ] Autobrightness
+ * [ ] Use DDMM format
+ * [ ] Use 12h clock
+ */
