@@ -2,6 +2,7 @@
  * @project       Smart Clock
  * @documentation https://github.com/noelvissers/esp32-smart-clock 
  */
+#define DEBUG //Debug mode outputs the status of the clock over the serial port @115200. When this is off, only errors ([E]) and critical info ([I]) are outputted.
 
 #include <Arduino.h>
 #include "config.h"
@@ -32,7 +33,9 @@ void Core_0(void *parameter)
     }
     else
     {
+#ifdef DEBUG
       Serial.println("[CORE_0] Weather data received.");
+#endif
     }
     if (!Time.update())
     {
@@ -40,23 +43,26 @@ void Core_0(void *parameter)
     }
     else
     {
+#ifdef DEBUG
       Serial.println("[CORE_0] Syncing online time done.");
+#endif
     }
   }
 }
 
 //ISRs//Buttons:
-bool buttonPlusPressed = false;
-unsigned long lastButtonPlusPress = 0;
+bool buttonPlusPressed = false;        //Current state of button (resets on release)
+bool buttonPlusSet = false;            //Toggled state of button (resets when button action is done / manually)
+unsigned long lastButtonPlusPress = 0; //last button press millis()
 void IRAM_ATTR ISR_buttonPlus()
 {
   if (!digitalRead(_pinButtonPlus))
   {
     if ((millis() - 25 > lastButtonPlusPress) && !buttonPlusPressed)
     {
+      buttonPlusSet = true;
       buttonPlusPressed = true;
       lastButtonPlusPress = millis();
-      //Press action
     }
   }
   else
@@ -70,6 +76,7 @@ void IRAM_ATTR ISR_buttonPlus()
 }
 
 bool buttonSelectPressed = false;
+bool buttonSelectSet = false;
 unsigned long lastButtonSelectPress = 0;
 void IRAM_ATTR ISR_buttonSelect()
 {
@@ -77,6 +84,7 @@ void IRAM_ATTR ISR_buttonSelect()
   {
     if ((millis() - 25 > lastButtonSelectPress) && !buttonSelectPressed)
     {
+      buttonSelectSet = true;
       buttonSelectPressed = true;
       lastButtonSelectPress = millis();
     }
@@ -86,13 +94,13 @@ void IRAM_ATTR ISR_buttonSelect()
     if (buttonSelectPressed)
     {
       buttonSelectPressed = false;
-      _state++;
     }
   }
   lastButtonSelectPress = millis();
 }
 
 bool buttonMinPressed = false;
+bool buttonMinSet = false;
 unsigned long lastButtonMinPress = 0;
 void IRAM_ATTR ISR_buttonMin()
 {
@@ -100,9 +108,9 @@ void IRAM_ATTR ISR_buttonMin()
   {
     if ((millis() - 25 > lastButtonMinPress) && !buttonMinPressed)
     {
+      buttonMinSet = true;
       buttonMinPressed = true;
       lastButtonMinPress = millis();
-      //Press action
     }
   }
   else
@@ -121,14 +129,18 @@ void setup()
   //Config.formatSettings();
   //start serial communication for debugging
   Serial.begin(115200);
+#ifdef DEBUG
   Serial.println("[Status] Initializing...");
+#endif
 
   //init classes
   Rtc.init();
   Config.initPinModes();
 
   Config.loadSettings();
+#ifdef DEBUG
   Serial.println("[Status] Initializing [-][-][-]");
+#endif
   //Display status
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 
@@ -140,7 +152,9 @@ void setup()
   else
   {
     //Set network status to enabled
+#ifdef DEBUG
     Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
+#endif
   }
   //Display status
   delay(1000); //Add delay to show status on screen, or it will skip too fast
@@ -154,7 +168,9 @@ void setup()
   else
   {
     //Set time status to enabled
+#ifdef DEBUG
     Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
+#endif
   }
   //Display status
   delay(1000); //Add delay to show status on screen, or it will skip too fast
@@ -167,7 +183,9 @@ void setup()
   else
   {
     //Set weather status to enabled
+#ifdef DEBUG
     Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
+#endif
   }
   //Display status
 
@@ -188,18 +206,88 @@ void setup()
   attachInterrupt(_pinButtonSelect, ISR_buttonSelect, CHANGE);
   attachInterrupt(_pinButtonMin, ISR_buttonMin, CHANGE);
 
+#ifdef DEBUG
   Serial.println("[Status] Initializing done.");
+#endif
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 }
 
 //main loop on core 1
+
+/**
+ * - set start time
+ * - while held down > wait
+ * - if held for >3 sec > autobrightness on
+ * - display setting
+ * - display brightness for 3 seconds in display class (set a time that brightness was pressed, check in other functions if this time expired)
+ * - autobrightness in disp.cpp
+ */
+
 void loop()
-{
-  /**
-   * Do button check here
-   * If -/+ && autobrightness > autobrightness off
-   *  hold -/+ for autobrightness on
-  */
+{                                                        // Button checks
+  if (buttonPlusSet && buttonMinSet && !buttonSelectSet) //Both plus and min are pressed
+  {
+    while (buttonPlusPressed && buttonMinPressed)
+    {
+      if (lastButtonPlusPress - millis() > 3000)
+      {
+        _autoBrightness = true;
+#ifdef DEBUG
+        Serial.println("[Status] Autobrightness set.");
+#endif
+        break;
+      }
+    }
+    buttonMinSet = false;
+    buttonSelectSet = false;
+    buttonPlusSet = false;
+  }
+  else if (buttonPlusSet && !buttonMinSet && !buttonSelectSet) //only plus was pressed
+  {
+    Display.brightnessUp();
+    while (buttonPlusPressed && !buttonMinPressed)
+      ;
+    if (!buttonMinSet)
+      buttonPlusSet = false;
+    buttonSelectSet = false;
+  }
+  else if (!buttonPlusSet && buttonMinSet && !buttonSelectSet) //only min was pressed
+  {
+    Display.brightnessDown();
+    while (!buttonPlusPressed && buttonMinPressed)
+      ;
+    if (!buttonPlusSet)
+      buttonMinSet = false;
+    buttonSelectSet = false;
+  }
+  else if (!buttonPlusSet && !buttonMinSet && buttonSelectSet) //Only select was pressed
+  {
+    while (buttonSelectPressed)
+    {
+      if (lastButtonSelectPress - millis() > 5000)
+      {
+        Serial.println("[I][Status] Resetting ESP.");
+        buttonMinSet = false;
+        buttonSelectSet = false;
+        buttonPlusSet = false;
+        Network.resetSettings();
+        Config.formatSettings();
+        ESP.restart();
+      }
+    }
+    //ESP did not reset
+    _state++;
+    buttonMinSet = false;
+    buttonSelectSet = false;
+    buttonPlusSet = false;
+  }
+  else
+  {
+    buttonMinSet = false;
+    buttonSelectSet = false;
+    buttonPlusSet = false;
+  }
+
   switch (_state)
   {
   case 0:
@@ -224,8 +312,5 @@ void loop()
   delay(1000);
 }
 
-//TODO: button handler:
-//  Brightness controll (plus/min button)
-//  Reset function (hold select for 5 sec)
-//  Cycle functions
+//TODO:
 //  LDR

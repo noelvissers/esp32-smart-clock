@@ -11,4 +11,8 @@ public:
   void showHumidity();
   void showTimeBin();
   void updateBrightness();
+  void showBrightness();
+  void brightnessUp();
+  void brightnessDown();
+  void showBrightnessManual();
 };
