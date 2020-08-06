@@ -137,7 +137,6 @@ void setup()
   //init classes
   Rtc.init();
   Config.initPinModes();
-
   Config.loadSettings();
 #ifdef DEBUGGING
   Serial.println("[Status] Initializing [-][-][-]");
@@ -307,16 +306,3 @@ void loop()
   }
   */
 }
-
-//TODO:
-//  LDR
-//  Add radio/dropdown menu (or checkbox since thats the only thing available probably) > https://github.com/kentaylor/WiFiManager/blob/master/examples/ConfigOnSwitchFS/ConfigOnSwitchFS.ino
-//    Add Autobrightness setting
-//    Add DDMM setting
-//    Add 12/24 setting:
-
-/**
- * [ ] Autobrightness
- * [ ] Use DDMM format
- * [ ] Use 12h clock
- */

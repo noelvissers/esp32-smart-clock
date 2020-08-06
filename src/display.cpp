@@ -16,9 +16,7 @@ void updateBrightness()
 #endif
   if (_autoBrightness)
   {
-    //read LDR ...
-    //scale to brightness level
-    //brightness = x;
+    //brightness = readLdr();
   }
   //Display.setbrightness(brightness);
 }
@@ -74,47 +72,49 @@ void CDisplay::showDate()
 
 void CDisplay::showTemperature()
 {
-  //if not showing brightness
 #ifdef DEBUGGING
   printf("[Display] Showing temperature (%i °C)...\n", int((_temperature - 273.15) + 0.5));
   printf("[Display] Showing temperature (%i °F)...\n", int(((_temperature - 273.15) * 1.8) + 32.5));
 #endif
+  //if not showing brightness
   updateBrightness();
+  //Check for error (temp < 0)
 }
 
 void CDisplay::showHumidity()
 {
-  //if not showing brightness
 #ifdef DEBUGGING
   printf("[Display] Showing humidity (%u %%)...\n", _humidity);
 #endif
+  //if not showing brightness
   updateBrightness();
+  //check for error (humidity < 0)
 }
 
 void CDisplay::showTimeBin()
 {
-  //if not showing brightness
 #ifdef DEBUGGING
   printf("[Display] Showing binairy time... %u:%02u\n", _timeHour, _timeMinute);
 #endif
+  //if not showing brightness
   updateBrightness();
   RtcDisplay.update();
 }
 
 void CDisplay::showBrightness()
 {
-  //show for 3 sec
 #ifdef DEBUGGING
   printf("[Display] Showing brightness... %u:%02u\n", _timeHour, _timeMinute);
 #endif
+  //show for 3 sec
   updateBrightness();
 }
 
 void CDisplay::showBrightnessManual()
 {
-  //show for 3 sec
 #ifdef DEBUGGING
   printf("[Display] Showing manual brightness setting... %u:%02u\n", _timeHour, _timeMinute);
 #endif
+  //show for 3 sec
   updateBrightness();
 }

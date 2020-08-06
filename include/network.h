@@ -2,7 +2,7 @@
 
 class CNetwork
 {
-    public:
-    bool autoConnect();
-    void resetSettings();
+public:
+  bool autoConnect();
+  void resetSettings();
 };
