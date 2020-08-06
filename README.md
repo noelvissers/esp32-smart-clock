@@ -102,6 +102,6 @@ And ofcourse the most important part: the case.
 ## Wishlist
 These are features I don't expect to implement, but that could be nice for a future update.
 - [x] Have Wifi configurable and not hardcoded.  
-- [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit.  
+- [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit (or any USB interface at all).  
 - [ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).  
 - [ ] Auto detect location to configure weather.  
