@@ -155,4 +155,7 @@ void CConfig::formatSettings()
   {
     Serial.println("[E][Config] An error occurred while formatting SPIFFS.");
   }
+  Serial.println("[Config] SPIFFS formatted. Restarting...");
+  ESP.restart();
+  delay(1000);
 }

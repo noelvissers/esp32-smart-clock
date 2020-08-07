@@ -184,7 +184,7 @@ void setup()
   xTaskCreatePinnedToCore(
       Core_0,
       "TasksCore_0",
-      2048,
+      4096,
       NULL,
       1,
       &TasksCore_0,
@@ -212,7 +212,7 @@ void loop()
       if ((millis() - 3000) > lastButtonPlusPress)
       {
         _autoBrightness = true;
-        Display.showBrightnessAuto();
+        Display.showAutoBrightness();
         Serial.println("[Status] Autobrightness set.");
         break;
       }
@@ -245,12 +245,10 @@ void loop()
     {
       if ((millis() - 5000) > lastButtonSelectPress)
       {
-        Serial.println("[I][Status] Resetting ESP.");
+        Serial.println("[I][Status] Resetting ESP...");
         //Display restart screen
-        delay(1000);
         Network.resetSettings();
         Config.formatSettings();
-        ESP.restart();
       }
     }
     //ESP did not reset
@@ -268,32 +266,31 @@ void loop()
     buttonPlusSet = false;
   }
 
-  /*
   switch (_state)
   {
   case 0:
     Display.showTime();
     break;
   case 1:
-    Display.showDate();
+    //Display.showDate();
     break;
   case 2:
-    Display.showTemperature();
+    //Display.showTemperature();
     break;
   case 3:
-    Display.showHumidity();
+    //Display.showHumidity();
     break;
   case 4:
-    Display.showTimeBin();
+    //Display.showTimeBin();
     break;
   default:
     _state = 0;
     break;
   }
-  */
 
- delay(10);
+ delay(20);
 }
 
 //Implement display
-//Show brightness for x seconds
+//Implement LDR
+//Fix checkbox settings save/load

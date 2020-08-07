@@ -10,6 +10,8 @@ CLdr Ldr;
 
 unsigned int _state = 0;
 unsigned int brightness = 0; //0..15
+unsigned long brightnessDisplayTime = 0;
+unsigned long AutoBrightneDisplassyTime = 0;
 
 void updateBrightness()
 {
@@ -26,13 +28,14 @@ void CDisplay::brightnessUp()
   if (_autoBrightness)
   {
     Serial.println("[Display] Turning off auto brightness...");
-  _autoBrightness = false;
+    _autoBrightness = false;
   }
   if (brightness < 15)
   {
     brightness++;
     updateBrightness();
   }
+  showBrightness();
 }
 
 void CDisplay::brightnessDown()
@@ -48,62 +51,82 @@ void CDisplay::brightnessDown()
     brightness--;
     updateBrightness();
   }
+  showBrightness();
 }
 
 void CDisplay::showTime()
 {
-  //48 easter egg
-  printf("[Display] Showing time... %u:%02u\n", _timeHour, _timeMinute);
   updateBrightness();
-  RtcDisplay.update();
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  {
+    printf("[Display] Showing time... %u:%02u\n", _timeHour, _timeMinute);
+    RtcDisplay.update();
+    //show time disp
+    //48 easter egg
+  }
 }
 
 void CDisplay::showDate()
 {
-  printf("[Display] Showing date (dd/mm: %02u/%02u)...\n", _timeDay, _timeMonth);
-  printf("[Display] Showing date (mm/dd: %02u/%02u)...\n", _timeMonth, _timeDay);
-  //if not showing brightness
   updateBrightness();
-  RtcDisplay.update();
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  {
+    printf("[Display] Showing date (dd/mm: %02u/%02u)...\n", _timeDay, _timeMonth);
+    printf("[Display] Showing date (mm/dd: %02u/%02u)...\n", _timeMonth, _timeDay);
+    RtcDisplay.update();
+    //show date disp
+    //check format
+  }
 }
 
 void CDisplay::showTemperature()
 {
-  printf("[Display] Showing temperature (%i °C)...\n", int((_temperature - 273.15) + 0.5));
-  printf("[Display] Showing temperature (%i °F)...\n", int(((_temperature - 273.15) * 1.8) + 32.5));
-  //if not showing brightness
   updateBrightness();
-  //Check for error (temp < 0)
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  {
+    printf("[Display] Showing temperature (%i °C)...\n", int((_temperature - 273.15) + 0.5));
+    printf("[Display] Showing temperature (%i °F)...\n", int(((_temperature - 273.15) * 1.8) + 32.5));
+    //Check for error (temp < 0)
+    //show temp disp
+    //check unit C/F
+  }
 }
 
 void CDisplay::showHumidity()
 {
-  printf("[Display] Showing humidity (%u %%)...\n", _humidity);
-  //if not showing brightness
   updateBrightness();
-  //check for error (humidity < 0)
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  {
+    printf("[Display] Showing humidity (%u %%)...\n", _humidity);
+    //check for error (humidity < 0)
+    //show humidity disp
+  }
 }
 
 void CDisplay::showTimeBin()
 {
-  printf("[Display] Showing binairy time... %u:%02u\n", _timeHour, _timeMinute);
-  //if not showing brightness
   updateBrightness();
-  RtcDisplay.update();
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  {
+    printf("[Display] Showing binairy time... %u:%02u\n", _timeHour, _timeMinute);
+    RtcDisplay.update();
+    //show time disp
+    //write manual that bin time is always 24h
+  }
 }
 
 void CDisplay::showBrightness()
 {
-  printf("[Display] Showing brightness... %u:%02u\n", _timeHour, _timeMinute);
-  //show for 3 sec
-  //Set timer when it started
+  Serial.println("[Display] Showing brightness...");
+  //show xxxxx------ etc
+  brightnessDisplayTime = millis();
   updateBrightness();
 }
 
-void CDisplay::showBrightnessAuto()
+void CDisplay::showAutoBrightness()
 {
-  printf("[Display] Showing auto brightness setting... %u:%02u\n", _timeHour, _timeMinute);
-  //show for 3 sec
-  //Set timer when it started
+  Serial.println("[Display] Showing auto brightness setting...");
+  //show 'auto'
+  AutoBrightneDisplassyTime = millis();
   updateBrightness();
 }

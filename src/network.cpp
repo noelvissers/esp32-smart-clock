@@ -16,7 +16,7 @@ bool CNetwork::autoConnect()
   char customHtmlAutoBrightness[24] = "type=\"checkbox\""; //Create custom html checkbox
   if (_autoBrightness)                                     //Check if setting is on
   {
-    strcat(customHtmlAutoBrightness, " checked"); //Check checkbox
+    //strcat(customHtmlAutoBrightness, " checked"); //Check checkbox
   }
   WiFiManagerParameter brightnessConfig("AUTO_BRIGHTNESS", "Automatic brightness", "T", 2, customHtmlAutoBrightness, WFM_LABEL_AFTER); //Create config, return "T" is checked
 
