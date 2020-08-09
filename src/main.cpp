@@ -127,8 +127,6 @@ void IRAM_ATTR ISR_buttonMin()
 
 void setup()
 {
-  //Network.resetSettings();
-  //Config.formatSettings();
   //start serial communication for debugging
   Serial.begin(115200);
   Serial.println("[Status] Initializing...");
@@ -181,14 +179,7 @@ void setup()
   //Display status
 
   //Create thread in core 0
-  xTaskCreatePinnedToCore(
-      Core_0,
-      "TasksCore_0",
-      4096,
-      NULL,
-      1,
-      &TasksCore_0,
-      0);
+  xTaskCreatePinnedToCore(Core_0, "TasksCore_0", 4096, NULL, 1, &TasksCore_0, 0);
 
   Config.saveSettings();
 
@@ -288,9 +279,8 @@ void loop()
     break;
   }
 
- delay(20);
+  delay(20);
 }
 
 //Implement display
 //Implement LDR
-//Fix checkbox settings save/load

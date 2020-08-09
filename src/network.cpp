@@ -16,7 +16,7 @@ bool CNetwork::autoConnect()
   char customHtmlAutoBrightness[24] = "type=\"checkbox\""; //Create custom html checkbox
   if (_autoBrightness)                                     //Check if setting is on
   {
-    //strcat(customHtmlAutoBrightness, " checked"); //Check checkbox
+    strcat(customHtmlAutoBrightness, " checked"); //Check checkbox
   }
   WiFiManagerParameter brightnessConfig("AUTO_BRIGHTNESS", "Automatic brightness", "T", 2, customHtmlAutoBrightness, WFM_LABEL_AFTER); //Create config, return "T" is checked
 
@@ -39,7 +39,7 @@ bool CNetwork::autoConnect()
   {
     strcat(customHtmlTemperatureUnit, " checked");
   }
-  WiFiManagerParameter temperatureUnitConfig("TEMPERATURE_UNIT", "Use °C instead of °F", "T", 2, customHtmlTemperatureUnit, WFM_LABEL_AFTER);
+  WiFiManagerParameter temperatureUnitConfig("TEMPERATURE_UNIT", "Use °C as temperature unit", "T", 2, customHtmlTemperatureUnit, WFM_LABEL_AFTER);
 
   //Add all custom parameters to portal
   wm.addParameter(&cityConfig);

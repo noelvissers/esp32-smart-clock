@@ -57,13 +57,27 @@ bool CConfig::saveSettings()
 
     //Save settings
     doc["general"]["autoBrightness"] = _autoBrightness;
+    Serial.print("[Config] autoBrightness = ");
+    Serial.println(_autoBrightness);
     doc["general"]["useDdmmFormat"] = _useDdmm;
+    Serial.print("[Config] useDdmmFormat = ");
+    Serial.println(_useDdmm);
     doc["general"]["use24hFormat"] = _use24h;
+    Serial.print("[Config] use24hFormat = ");
+    Serial.println(_use24h);
     doc["general"]["useCelciusUnit"] = _useCelcius;
+    Serial.print("[Config] useCelciusUnit = ");
+    Serial.println(_useCelcius);
 
     doc["weather"]["weatherCityName"] = _weatherCityName;
+    Serial.print("[Config] weatherCityName = ");
+    Serial.println(_weatherCityName);
     doc["weather"]["weatherCountryCode"] = _weatherCountryCode;
+    Serial.print("[Config] weatherCountryCode = ");
+    Serial.println(_weatherCountryCode);
     doc["weather"]["weatherApiKey"] = _weatherApiKey;
+    Serial.print("[Config] weatherApiKey = ");
+    Serial.println(_weatherApiKey);
 
     serializeJson(doc, fSettings); //Convert doc objects to strings and put them in fSettings file
     fSettings.close();             //Close file
@@ -99,17 +113,33 @@ bool CConfig::loadSettings()
         {
           _autoBrightness = doc["general"]["autoBrightness"];
         }
+        else
+        {
+          _autoBrightness = false;
+        }
         if (doc["general"]["useDdmmFormat"])
         {
           _useDdmm = doc["general"]["useDdmmFormat"];
+        }
+        else
+        {
+          _useDdmm = false;
         }
         if (doc["general"]["use24hFormat"])
         {
           _use24h = doc["general"]["use24hFormat"];
         }
+        else
+        {
+          _use24h = false;
+        }
         if (doc["general"]["useCelciusUnit"])
         {
           _useCelcius = doc["general"]["useCelciusUnit"];
+        }
+        else
+        {
+          _useCelcius = false;
         }
 
         //Weather API settings
