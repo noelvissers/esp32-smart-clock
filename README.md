@@ -96,8 +96,15 @@ Below are the hardware circuits for the clock explained.
 //Mechanical design
 
 ## Case
-And ofcourse the most important part: the case.
-//Pictures
+The case.
+//Pictures   
+Mechanical sketch to quickly see what would go where and how:   
+<img src="https://i.imgur.com/OlD9MNi.png" alt="MCH sktech" width="500">
+
+Mechanical drawing to figure out actual sizes of the case:   
+![MCH drawing]()
+
+//Wood sawing etc...
 
 ## Wishlist
 These are features I don't expect to implement, but that could be nice for a future update.
