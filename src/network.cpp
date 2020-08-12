@@ -50,7 +50,7 @@ bool CNetwork::autoConnect()
   wm.addParameter(&clockFormatConfig);
   wm.addParameter(&temperatureUnitConfig);
 
-//Configure portal
+  //Configure portal
   Serial.println("[Network] Setting up portal...");
   wm.setShowPassword(false);
   wm.setConfigPortalTimeout(180); //Set 3 minute timeout if not configured
@@ -58,6 +58,7 @@ bool CNetwork::autoConnect()
   wm.setClass("invert");          //Dark mode
 
   Serial.println("[Network] Setting up connection (or connecting to saved network)...");
+  delay(1000); //This seems to be a bit more stable
   if (wm.autoConnect("SmartClock"))
   {
     Serial.println("[Network] Connected.");

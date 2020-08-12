@@ -34,6 +34,7 @@ void Core_0(void *parameter)
     {
       Serial.println("[CORE_0] Weather data received.");
     }
+
     if (!Time.update())
     {
       Serial.println("[E][CORE_0] Error while updating online time.");
@@ -135,6 +136,7 @@ void setup()
   Rtc.init();
   Config.initPinModes();
   Config.loadSettings();
+  Display.init();
   Serial.println("[Status] Initializing [-][-][-]");
   //Display status
   delay(1000); //Add delay to show status on screen, or it will skip too fast
@@ -263,10 +265,10 @@ void loop()
     Display.showTime();
     break;
   case 1:
-    //Display.showDate();
+    Display.showDate();
     break;
   case 2:
-    //Display.showTemperature();
+    Display.showTemperature();
     break;
   case 3:
     //Display.showHumidity();
@@ -276,11 +278,13 @@ void loop()
     break;
   default:
     _state = 0;
+    Serial.print("[Status] Changed state: ");
+    Serial.println(_state);
     break;
   }
-
   delay(20);
 }
 
 //Implement display
 //Implement LDR
+//Implement DST

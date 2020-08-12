@@ -8,9 +8,9 @@ unsigned int _pinButtonPlus = 32;
 unsigned int _pinButtonSelect = 33;
 unsigned int _pinButtonMin = 25;
 
-unsigned int _pinDisplayMOSI = 23; //SPI_MOSI
-unsigned int _pinDisplaySS = 5;    //SPI_SS
-unsigned int _pinDisplaySCK = 18;  //SPI_SCK
+//unsigned int _pinDisplayMOSI = 23; //SPI_MOSI
+//unsigned int _pinDisplaySCK = 18;  //SPI_SCK
+unsigned int _pinDisplaySS = 5; //SPI_SS
 
 unsigned int _pinStatusLed = 35;
 

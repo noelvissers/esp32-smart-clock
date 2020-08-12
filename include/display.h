@@ -5,6 +5,7 @@ extern unsigned int _state;
 class CDisplay
 {
 public:
+  void init();
   void showTime();
   void showDate();
   void showTemperature();
