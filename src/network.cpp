@@ -58,22 +58,31 @@ bool CNetwork::autoConnect()
   wm.setClass("invert");          //Dark mode
 
   Serial.println("[Network] Setting up connection (or connecting to saved network)...");
-  if (wm.autoConnect("SmartClock"))
+
+  wm.setEnableConfigPortal(false);
+  if (!wm.autoConnect())
   {
-    Serial.println("[Network] Connected.");
+    //Did not connect to saved credentials, try again.
+    WiFi.disconnect();
+    WiFi.mode(WIFI_OFF);
+    wm.setEnableConfigPortal(true);
 
-    //Read values from portal
-    strcpy(_weatherCityName, cityConfig.getValue());
-    strcpy(_weatherCountryCode, countryConfig.getValue());
-    strcpy(_weatherApiKey, keyConfig.getValue());
-    _autoBrightness = (strncmp(brightnessConfig.getValue(), "T", 1) == 0); //Compare value (returns "T" if checked) with "T", returns 0 if match. 0 == 0 if checked.
-    _useDdmm = (strncmp(dateFormatConfig.getValue(), "T", 1) == 0);
-    _use24h = (strncmp(clockFormatConfig.getValue(), "T", 1) == 0);
-    _useCelcius = (strncmp(temperatureUnitConfig.getValue(), "T", 1) == 0);
+    if (wm.autoConnect("SmartClock"))
+    {
+      Serial.println("[Network] Connected.");
 
-    return true;
+      //Read values from portal
+      strcpy(_weatherCityName, cityConfig.getValue());
+      strcpy(_weatherCountryCode, countryConfig.getValue());
+      strcpy(_weatherApiKey, keyConfig.getValue());
+      _autoBrightness = (strncmp(brightnessConfig.getValue(), "T", 1) == 0); //Compare value (returns "T" if checked) with "T", returns 0 if match. 0 == 0 if checked.
+      _useDdmm = (strncmp(dateFormatConfig.getValue(), "T", 1) == 0);
+      _use24h = (strncmp(clockFormatConfig.getValue(), "T", 1) == 0);
+      _useCelcius = (strncmp(temperatureUnitConfig.getValue(), "T", 1) == 0);
+
+      return true;
+    }
   }
-
   Serial.println("[E][Network] Failed to connect to network.");
   return false;
 }

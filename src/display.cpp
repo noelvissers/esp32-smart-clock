@@ -163,7 +163,7 @@ void CDisplay::showTime()
     lc.clearDisplay(0);
     lc.clearDisplay(1);
 
-    if ((timeHour / 10 % 10) != 0)
+    //if ((timeHour / 10 % 10) != 0) //Hide leading 0
     {
       printDigit(0, 0, timeHour / 10 % 10);
     }
