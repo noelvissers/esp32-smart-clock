@@ -58,7 +58,6 @@ bool CNetwork::autoConnect()
   wm.setClass("invert");          //Dark mode
 
   Serial.println("[Network] Setting up connection (or connecting to saved network)...");
-  delay(1000); //This seems to be a bit more stable
   if (wm.autoConnect("SmartClock"))
   {
     Serial.println("[Network] Connected.");

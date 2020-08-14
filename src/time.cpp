@@ -12,6 +12,8 @@ uint8_t _onlineTimeHour = 0;
 uint8_t _onlineTimeMinute = 0;
 uint8_t _onlineTimeSecond = 0;
 
+bool _onlineSync = false;
+
 long _onlineTimeUnix = -1; //read by update
 int _onlineDayOfWeek = -1; //read by update, 0 = sunday, 6 = saturday
 bool _onlineDst = false;   //read by update
@@ -76,13 +78,18 @@ bool timeSync()
   Serial.println("[Time] Syncing with RTC...");
 
   CRtc RtcSync;
+  _onlineSync= true;
+  delay(50);
   RtcSync.update();
+  _onlineSync = false;
+  printf("TIME RTC: %u:%u:%u\n", _timeHour, _timeMinute, _timeSecond);
+  printf("TIME WEB: %u:%u:%u\n", _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
 
   if ((_timeYear != _onlineTimeYear) || (_timeMonth != _onlineTimeMonth) || (_timeDay != _onlineTimeDay) || (_timeHour != _onlineTimeHour) || (((_timeMinute + 2) <= _onlineTimeMinute) || ((_timeMinute - 2) >= _onlineTimeMinute))) //if more than 2mins difference
   {
+    Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
     if (RtcSync.checkRtc())
     {
-      Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
       RtcSync.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
       Serial.println("[I][Time] RTC set.");
       return true;

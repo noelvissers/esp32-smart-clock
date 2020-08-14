@@ -147,8 +147,8 @@ void CDisplay::showTime()
   updateBrightness();
   if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
   {
-    //printf("[Display] Showing time... %u:%02u\n", _timeHour, _timeMinute);
-    RtcDisplay.update();
+    if (!_onlineSync)
+      RtcDisplay.update();
 
     if (!_use24h && (_timeHour > 12))
     {
@@ -181,9 +181,8 @@ void CDisplay::showDate()
   updateBrightness();
   if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
   {
-    //printf("[Display] Showing date (dd/mm: %02u/%02u)...\n", _timeDay, _timeMonth);
-    //printf("[Display] Showing date (mm/dd: %02u/%02u)...\n", _timeMonth, _timeDay);
-    RtcDisplay.update();
+    if (!_onlineSync)
+      RtcDisplay.update();
 
     lc.clearDisplay(0);
     lc.clearDisplay(1);
@@ -267,9 +266,7 @@ void CDisplay::showTemperature()
         else
         {
           if ((temperature / 10 % 10) != 0)
-          {
             printDigit(0, 3, temperature / 10 % 10);
-          }
           printDigit(0, 7, temperature % 10);
         }
         printChar(1, 3, charDegree, sizeof(charDegree));
@@ -300,8 +297,8 @@ void CDisplay::showTimeBin()
   updateBrightness();
   if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
   {
-    printf("[Display] Showing binairy time... %u:%02u\n", _timeHour, _timeMinute);
-    RtcDisplay.update();
+    if (!_onlineSync)
+      RtcDisplay.update();
     //show time disp
     //write manual that bin time is always 24h
   }
