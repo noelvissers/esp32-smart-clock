@@ -25,19 +25,27 @@ void CRtc::update() //Copy RTC values to time data
 {
   DateTime now = RtcTime.now();
 
-  _timeYear = now.year();
-  _timeMonth = now.month();
-  _timeDay = now.day();
-  _timeDayOfWeek = now.dayOfTheWeek();
-  _timeHour = now.hour();
-  _timeMinute = now.minute();
-  _timeSecond = now.second();
-
-  if (checkDST())
+  if ((now.month() > 12) || (now.day() > 31) || (now.hour() > 23) || (now.minute() > 59) || (now.second() > 59))
   {
-    //Check if online time has different DST
+    Serial.println("[E][Rtc] RTC returned invalid data.");
+    return;
+  }
+  else
+  {
+    _timeYear = now.year();
+    _timeMonth = now.month();
+    _timeDay = now.day();
+    _timeDayOfWeek = now.dayOfTheWeek();
+    _timeHour = now.hour();
+    _timeMinute = now.minute();
+    _timeSecond = now.second();
+
+    if (checkDST())
+    {
+      //Check if online time has different DST
       //Sync time
-    //If local DST and online DST is same do nothing.
+      //If local DST and online DST is same do nothing.
+    }
   }
 }
 

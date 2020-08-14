@@ -8,8 +8,8 @@ unsigned int _pinButtonPlus = 32;
 unsigned int _pinButtonSelect = 33;
 unsigned int _pinButtonMin = 25;
 
-//unsigned int _pinDisplayMOSI = 23; //SPI_MOSI
-//unsigned int _pinDisplaySCK = 18;  //SPI_SCK
+unsigned int _pinDisplayMOSI = 23; //SPI_MOSI, Already auto defined in lc lib
+unsigned int _pinDisplaySCK = 18;  //SPI_SCK, Already auto defined in lc lib
 unsigned int _pinDisplaySS = 5; //SPI_SS
 
 unsigned int _pinStatusLed = 35;
@@ -57,27 +57,27 @@ bool CConfig::saveSettings()
 
     //Save settings
     doc["general"]["autoBrightness"] = _autoBrightness;
-    Serial.print("[Config] autoBrightness = ");
-    Serial.println(_autoBrightness);
+    //Serial.print("[Config] autoBrightness = ");
+    //Serial.println(_autoBrightness);
     doc["general"]["useDdmmFormat"] = _useDdmm;
-    Serial.print("[Config] useDdmmFormat = ");
-    Serial.println(_useDdmm);
+    //Serial.print("[Config] useDdmmFormat = ");
+    //Serial.println(_useDdmm);
     doc["general"]["use24hFormat"] = _use24h;
-    Serial.print("[Config] use24hFormat = ");
-    Serial.println(_use24h);
+    //Serial.print("[Config] use24hFormat = ");
+    //Serial.println(_use24h);
     doc["general"]["useCelciusUnit"] = _useCelcius;
-    Serial.print("[Config] useCelciusUnit = ");
-    Serial.println(_useCelcius);
+    //Serial.print("[Config] useCelciusUnit = ");
+    //Serial.println(_useCelcius);
 
     doc["weather"]["weatherCityName"] = _weatherCityName;
-    Serial.print("[Config] weatherCityName = ");
-    Serial.println(_weatherCityName);
+    //Serial.print("[Config] weatherCityName = ");
+    //Serial.println(_weatherCityName);
     doc["weather"]["weatherCountryCode"] = _weatherCountryCode;
-    Serial.print("[Config] weatherCountryCode = ");
-    Serial.println(_weatherCountryCode);
+    //Serial.print("[Config] weatherCountryCode = ");
+    //Serial.println(_weatherCountryCode);
     doc["weather"]["weatherApiKey"] = _weatherApiKey;
-    Serial.print("[Config] weatherApiKey = ");
-    Serial.println(_weatherApiKey);
+    //Serial.print("[Config] weatherApiKey = ");
+    //Serial.println(_weatherApiKey);
 
     serializeJson(doc, fSettings); //Convert doc objects to strings and put them in fSettings file
     fSettings.close();             //Close file

@@ -5,8 +5,10 @@
 #include "rtc.h"
 #include "ldr.h"
 #include "LedControl_HW_SPI.h"
+//#include "LedControl_SW_SPI.h"
 
 LedControl_HW_SPI lc = LedControl_HW_SPI();
+//LedControl_SW_SPI lc = LedControl_SW_SPI();
 CRtc RtcDisplay;
 CLdr Ldr;
 
@@ -102,6 +104,7 @@ void updateBrightness()
 void CDisplay::init()
 {
   lc.begin(_pinDisplaySS, 2);
+  //lc.begin(_pinDisplayMOSI, _pinDisplaySCK, _pinDisplaySS, 2);
   lc.shutdown(0, false);
   lc.shutdown(1, false);
   lc.setIntensity(0, 1);
@@ -150,19 +153,21 @@ void CDisplay::showTime()
     if (!_onlineSync)
       RtcDisplay.update();
 
-    if (!_use24h && (_timeHour > 12))
+    uint8_t timeHour = _timeHour;
+    
+    if (!_use24h && (timeHour > 12))
     {
-      _timeHour = _timeHour - 12;
+      timeHour = timeHour - 12;
     }
 
     lc.clearDisplay(0);
     lc.clearDisplay(1);
 
-    if ((_timeHour / 10 % 10) != 0)
+    if ((timeHour / 10 % 10) != 0)
     {
-      printDigit(0, 0, _timeHour / 10 % 10);
+      printDigit(0, 0, timeHour / 10 % 10);
     }
-    printDigit(0, 4, _timeHour % 10);
+    printDigit(0, 4, timeHour % 10);
 
     if (_timeMinute != 48)
     {
@@ -228,9 +233,6 @@ void CDisplay::showTemperature()
   updateBrightness();
   if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
   {
-    //printf("[Display] Showing temperature (%i °C)...\n", int((_temperature - 273.15) + 0.5));
-    //printf("[Display] Showing temperature (%i °F)...\n", int(((_temperature - 273.15) * 1.8) + 32.5));
-
     lc.clearDisplay(0);
     lc.clearDisplay(1);
 
@@ -299,6 +301,8 @@ void CDisplay::showTimeBin()
   {
     if (!_onlineSync)
       RtcDisplay.update();
+
+    uint8_t timeHour = _timeHour;
     //show time disp
     //write manual that bin time is always 24h
   }

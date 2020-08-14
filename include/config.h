@@ -5,8 +5,8 @@ extern unsigned int _pinButtonPlus;
 extern unsigned int _pinButtonSelect;
 extern unsigned int _pinButtonMin;
 
-//extern unsigned int _pinDisplayMOSI; //Already auto defined in lc lib
-//extern unsigned int _pinDisplaySCK;  //Already auto defined in lc lib
+extern unsigned int _pinDisplayMOSI; //Already auto defined in lc lib
+extern unsigned int _pinDisplaySCK;  //Already auto defined in lc lib
 extern unsigned int _pinDisplaySS;
 
 extern unsigned int _pinStatusLed;
