@@ -13,7 +13,7 @@ CLdr Ldr;
 unsigned int _state = 0;
 unsigned int brightness = 0; //0..15
 unsigned long brightnessDisplayTime = 0;
-unsigned long AutoBrightneDisplassyTime = 0;
+unsigned long AutoBrightnessDisplayTime = 0;
 
 const char digits[10][3] = {{0b01111100, 0b01000100, 0b01111100},            //0
                             {0b00000000, 0b00000000, 0b01111100},            //1
@@ -145,7 +145,7 @@ void CDisplay::brightnessDown()
 void CDisplay::showTime()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
   {
     if (!_onlineSync)
       RtcDisplay.update();
@@ -179,7 +179,7 @@ void CDisplay::showTime()
 void CDisplay::showDate()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
   {
     if (!_onlineSync)
       RtcDisplay.update();
@@ -226,7 +226,7 @@ void CDisplay::showDate()
 void CDisplay::showTemperature()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
   {
     //printf("[Display] Showing temperature (%i °C)...\n", int((_temperature - 273.15) + 0.5));
     //printf("[Display] Showing temperature (%i °F)...\n", int(((_temperature - 273.15) * 1.8) + 32.5));
@@ -284,7 +284,7 @@ void CDisplay::showTemperature()
 void CDisplay::showHumidity()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
   {
     printf("[Display] Showing humidity (%u %%)...\n", _humidity);
     //check for error (humidity < 0)
@@ -295,7 +295,7 @@ void CDisplay::showHumidity()
 void CDisplay::showTimeBin()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightneDisplassyTime)
+  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
   {
     if (!_onlineSync)
       RtcDisplay.update();
@@ -318,6 +318,6 @@ void CDisplay::showAutoBrightness()
 {
   Serial.println("[Display] Showing auto brightness setting...");
   //show 'auto'
-  AutoBrightneDisplassyTime = millis();
+  AutoBrightnessDisplayTime = millis();
   updateBrightness();
 }
