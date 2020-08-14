@@ -326,7 +326,7 @@ void CDisplay::showTimeBin()
     lc.setRow(0, 6, (digitsBin[_timeSecond / 10 % 10] | 0b00000001));
     lc.setRow(0, 7, (digitsBin[_timeSecond % 10] | 0b00000001));
 
-    if (_useDdmm)
+    if (!_useDdmm)
     {
       lc.setRow(1, 3, (digitsBin[_timeMonth / 10 % 10] | 0b00000001));
       lc.setRow(1, 4, (digitsBin[_timeMonth % 10] | 0b00000001));
