@@ -51,8 +51,8 @@ char charBrightnessFilled[1] = {0b00111100};                                 //-
 char charBrightnessEmpty[1] = {0b00100100};                                  //===
 char charA[3] = {0b01110000, 0b00101000, 0b01110000};                        //A
 char charU[3] = {0b01110000, 0b01000000, 0b01110000};                        //U
-char charT[2] = {0b01111100, 0b00101000};                                    //T
-char charO[3] = {0b01110000, 0b00101000, 0b01110000};                        //O
+char charT[2] = {0b01111100, 0b01010000};                                    //T
+char charO[3] = {0b01110000, 0b01010000, 0b01110000};                        //O
 
 char charSloth[8] = {0b00111100, 0b01011010, 0b10001011, 0b10100011, 0b10100011, 0b10001011, 0b01011010, 0b00111100}; //Slothface
 
@@ -154,7 +154,7 @@ void CDisplay::showTime()
       RtcDisplay.update();
 
     uint8_t timeHour = _timeHour;
-    
+
     if (!_use24h && (timeHour > 12))
     {
       timeHour = timeHour - 12;
@@ -241,45 +241,43 @@ void CDisplay::showTemperature()
       //Error
       printChar(0, 3, charUnknown, sizeof(charUnknown));
       printChar(0, 7, charUnknown, sizeof(charUnknown));
-      printChar(1, 3, charDegree, sizeof(charDegree));
-      if (_useCelcius)
-        printChar(1, 5, charCelcius, sizeof(charCelcius));
-      else
-        printChar(1, 5, charFahrenheit, sizeof(charFahrenheit));
     }
     else
     {
+      int temperature;
+      //Calculate temperature from Kelvin
       if (_useCelcius)
-      {
-        //Celcius
-        int temperature = int((_temperature - 273.15) + 0.5);
-
-        if (temperature <= -10)
-        {
-          printChar(0, 0, charMinus, sizeof(charMinus));
-          printDigit(0, 3, (temperature * -1) / 10 % 10);
-          printDigit(0, 7, (temperature * -1) % 10);
-        }
-        else if (temperature < 0)
-        {
-          printChar(0, 4, charMinus, sizeof(charMinus));
-          printDigit(0, 7, (temperature * -1) % 10);
-        }
-        else
-        {
-          if ((temperature / 10 % 10) != 0)
-            printDigit(0, 3, temperature / 10 % 10);
-          printDigit(0, 7, temperature % 10);
-        }
-        printChar(1, 3, charDegree, sizeof(charDegree));
-        printChar(1, 5, charCelcius, sizeof(charCelcius));
-      }
+        temperature = int((_temperature - 273.15) + 0.5);
       else
+        temperature = int(((_temperature - 273.15) * 1.8) + 32.5);
+
+      //Check if temperature is below 9
+      if (temperature <= -10)
       {
-        //Fahrenheit
-        int temperature = int(((_temperature - 273.15) * 1.8) + 32.5);
+        printChar(0, 0, charMinus, sizeof(charMinus));
+        printDigit(0, 3, (temperature * -1) / 10 % 10);
+        printDigit(0, 7, (temperature * -1) % 10);
       }
+      //Check if temperature is below 0
+      else if (temperature < 0)
+      {
+        printChar(0, 4, charMinus, sizeof(charMinus));
+        printDigit(0, 7, (temperature * -1) % 10);
+      }
+      //Check if temperature is above 100
+      else if (temperature >= 100)
+        printChar(0, 1, charOne, sizeof(charOne));
+      //check if temperature is over 9
+      if (temperature >= 10)
+        printDigit(0, 3, temperature / 10 % 10);
+      printDigit(0, 7, temperature % 10);
     }
+    //Display unit
+    printChar(1, 3, charDegree, sizeof(charDegree));
+    if (_useCelcius)
+      printChar(1, 5, charCelcius, sizeof(charCelcius));
+    else
+      printChar(1, 5, charFahrenheit, sizeof(charFahrenheit));
   }
 }
 
@@ -288,9 +286,23 @@ void CDisplay::showHumidity()
   updateBrightness();
   if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
   {
-    printf("[Display] Showing humidity (%u %%)...\n", _humidity);
-    //check for error (humidity < 0)
-    //show humidity disp
+    lc.clearDisplay(0);
+    lc.clearDisplay(1);
+
+    if ((_humidity < 0) || (_humidity > 100))
+    {
+      printChar(1, 2, charUnknown, sizeof(charUnknown));
+      printChar(1, 6, charUnknown, sizeof(charUnknown));
+    }
+    else
+    {
+      if (_humidity > 99)
+        printChar(0, 0, charOne, sizeof(charOne));
+      if (_humidity > 10)
+        printDigit(0, 2, _humidity / 10 % 10);
+      printDigit(0, 6, _humidity % 10);
+    }
+    printChar(1, 3, charPercentage, sizeof(charPercentage));
   }
 }
 
@@ -302,26 +314,71 @@ void CDisplay::showTimeBin()
     if (!_onlineSync)
       RtcDisplay.update();
 
-    uint8_t timeHour = _timeHour;
-    //show time disp
-    //write manual that bin time is always 24h
+    lc.clearDisplay(0);
+    lc.clearDisplay(1);
+
+    lc.setRow(0, 0, (digitsBin[_timeHour / 10 % 10] | 0b00000001));
+    lc.setRow(0, 1, (digitsBin[_timeHour % 10] | 0b00000001));
+
+    lc.setRow(0, 3, (digitsBin[_timeMinute / 10 % 10] | 0b00000001));
+    lc.setRow(0, 4, (digitsBin[_timeMinute % 10] | 0b00000001));
+
+    lc.setRow(0, 6, (digitsBin[_timeSecond / 10 % 10] | 0b00000001));
+    lc.setRow(0, 7, (digitsBin[_timeSecond % 10] | 0b00000001));
+
+    if (_useDdmm)
+    {
+      lc.setRow(1, 3, (digitsBin[_timeMonth / 10 % 10] | 0b00000001));
+      lc.setRow(1, 4, (digitsBin[_timeMonth % 10] | 0b00000001));
+
+      lc.setRow(1, 6, (digitsBin[_timeDay / 10 % 10] | 0b00000001));
+      lc.setRow(1, 7, (digitsBin[_timeDay % 10] | 0b00000001));
+    }
+    else
+    {
+      lc.setRow(1, 3, (digitsBin[_timeDay / 10 % 10] | 0b00000001));
+      lc.setRow(1, 4, (digitsBin[_timeDay % 10] | 0b00000001));
+
+      lc.setRow(1, 6, (digitsBin[_timeMonth / 10 % 10] | 0b00000001));
+      lc.setRow(1, 7, (digitsBin[_timeMonth % 10] | 0b00000001));
+    }
   }
+  //write manual that bin time is always 24h
 }
 
 void CDisplay::showBrightness()
 {
   Serial.println("[Display] Showing brightness...");
-  //show xxxxx------ etc
+  int i = 0;
+  for (; i <= brightness; i++)
+  {
+    if (i >= 8)
+      printChar(1, i - 8, charBrightnessFilled, sizeof(charBrightnessFilled));
+    else
+      printChar(0, i, charBrightnessFilled, sizeof(charBrightnessFilled));
+  }
+  for (; i < 16; i++)
+  {
+    if (i >= 8)
+      printChar(1, i - 8, charBrightnessEmpty, sizeof(charBrightnessEmpty));
+    else
+      printChar(0, i, charBrightnessEmpty, sizeof(charBrightnessEmpty));
+  }
   brightnessDisplayTime = millis();
   updateBrightness();
 }
 
-//showStatus
-
 void CDisplay::showAutoBrightness()
 {
   Serial.println("[Display] Showing auto brightness setting...");
-  //show 'auto'
+  lc.clearDisplay(0);
+  lc.clearDisplay(1);
+  printChar(0, 1, charA, sizeof(charA));
+  printChar(0, 5, charU, sizeof(charU));
+  printChar(1, 1, charT, sizeof(charT));
+  printChar(1, 4, charO, sizeof(charO));
   AutoBrightnessDisplayTime = millis();
   updateBrightness();
 }
+
+//TODO: showStatus

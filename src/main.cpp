@@ -271,10 +271,10 @@ void loop()
     Display.showTemperature();
     break;
   case 3:
-    //Display.showHumidity();
+    Display.showHumidity();
     break;
   case 4:
-    //Display.showTimeBin();
+    Display.showTimeBin();
     break;
   default:
     _state = 0;

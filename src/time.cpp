@@ -82,9 +82,7 @@ bool timeSync()
   delay(50);
   RtcSync.update();
   _onlineSync = false;
-  printf("TIME RTC: %u:%u:%u\n", _timeHour, _timeMinute, _timeSecond);
-  printf("TIME WEB: %u:%u:%u\n", _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
-
+  delay(10);
   if ((_timeYear != _onlineTimeYear) || (_timeMonth != _onlineTimeMonth) || (_timeDay != _onlineTimeDay) || (_timeHour != _onlineTimeHour) || (((_timeMinute + 2) <= _onlineTimeMinute) || ((_timeMinute - 2) >= _onlineTimeMinute))) //if more than 2mins difference
   {
     Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
