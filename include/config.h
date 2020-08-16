@@ -1,20 +1,21 @@
 #pragma once
+#include <stdint.h>
 
 //Hardware settings:
-extern unsigned int _pinButtonPlus;
-extern unsigned int _pinButtonSelect;
-extern unsigned int _pinButtonMin;
+extern uint8_t _pinButtonPlus;
+extern uint8_t _pinButtonSelect;
+extern uint8_t _pinButtonMin;
 
-extern unsigned int _pinDisplayMOSI; //Already auto defined in lc lib
-extern unsigned int _pinDisplaySCK;  //Already auto defined in lc lib
-extern unsigned int _pinDisplaySS;
+extern uint8_t _pinDisplayMOSI; //Already auto defined in lc lib
+extern uint8_t _pinDisplaySCK;  //Already auto defined in lc lib
+extern uint8_t _pinDisplaySS;
 
-extern unsigned int _pinStatusLed;
+extern uint8_t _pinStatusLed;
 
-//extern unsigned int _pinRtcSCL; //Already auto defined in rtc lib
-//extern unsigned int _pinRtcSDA; //Already auto defined in rtc lib
+extern uint8_t _pinRtcSCL; //Already auto defined in rtc lib
+extern uint8_t _pinRtcSDA; //Already auto defined in rtc lib
 
-extern unsigned int _pinLDR;
+extern uint8_t _pinLDR;
 
 //General settings:
 extern bool _autoBrightness;
@@ -31,6 +32,11 @@ extern char _weatherApiKey[64];
 
 //Time settings:
 extern char _timeEndpoint[64];
+
+//Display settings:
+extern uint16_t _ldrLowerLimit;
+extern uint16_t _ldrUpperLimt;
+extern int _ldrError;
 
 class CConfig
 {

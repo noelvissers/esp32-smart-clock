@@ -4,20 +4,20 @@
 #include "ArduinoJson.h"
 
 //Hardware settings:
-unsigned int _pinButtonPlus = 32;
-unsigned int _pinButtonSelect = 33;
-unsigned int _pinButtonMin = 25;
+uint8_t _pinButtonPlus = 32;
+uint8_t _pinButtonSelect = 33;
+uint8_t _pinButtonMin = 25;
 
-unsigned int _pinDisplayMOSI = 23; //SPI_MOSI, Already auto defined in lc lib
-unsigned int _pinDisplaySCK = 18;  //SPI_SCK, Already auto defined in lc lib
-unsigned int _pinDisplaySS = 5; //SPI_SS
+uint8_t _pinDisplayMOSI = 23; //SPI_MOSI, Already auto defined in lc lib
+uint8_t _pinDisplaySCK = 18;  //SPI_SCK, Already auto defined in lc lib
+uint8_t _pinDisplaySS = 5;    //SPI_SS
 
-unsigned int _pinStatusLed = 35;
+uint8_t _pinStatusLed = 35;
 
-//unsigned int _pinRtcSCL = 22; //SCL, Already auto defined in rtc lib
-//unsigned int _pinRtcSDA = 21; //SDA, Already auto defined in rtc lib
+uint8_t _pinRtcSCL = 22; //SCL, Already auto defined in rtc lib
+uint8_t _pinRtcSDA = 21; //SDA, Already auto defined in rtc lib
 
-unsigned int _pinLDR = 34; //AI
+uint8_t _pinLDR = 34; //Analog input
 
 //General settings:
 bool _autoBrightness = true;
@@ -34,6 +34,11 @@ char _weatherApiKey[64] = "";
 
 //Time settings:
 char _timeEndpoint[64] = "http://worldtimeapi.org/api/ip";
+
+//Display settings:
+uint16_t _ldrLowerLimit = 0;   //0 min ADC/LDR
+uint16_t _ldrUpperLimt = 4095; //4095 max ADC/LDR (making this value higher, lowers the max brightness | making this value lower means the display reaches its max brightness sooner)
+int _ldrError = 50;            //Schmidt trigger threshold
 
 //Set pinmodes for IO
 void CConfig::initPinModes()
