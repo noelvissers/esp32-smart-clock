@@ -137,48 +137,55 @@ void setup()
   Config.initPinModes();
   Config.loadSettings();
   Display.init();
+
+  EStatus statusNetwork = EStatus::Init;
+  EStatus statusTime = EStatus::Init;
+  EStatus statusWeather = EStatus::Init;
+  Display.showStatus(statusNetwork, statusTime, statusWeather);
   Serial.println("[Status] Initializing [-][-][-]");
-  //Display status
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 
   //Setup network connection
   if (!Network.autoConnect())
   {
+    statusNetwork = EStatus::Error;
     Serial.println("[E][Status] Error while configuring network.");
   }
   else
   {
-    //Set network status to enabled
+    statusNetwork = EStatus::Done;
     Serial.println("[Status] Initializing [X][-][-] - Network configuration done.");
   }
-  //Display status
+  Display.showStatus(statusNetwork, statusTime, statusWeather);
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 
   //Get Time
   Rtc.update();
   if (!Time.update())
   {
+    statusTime = EStatus::Error;
     Serial.println("[E][Status] Error while configuring online time.");
   }
   else
   {
-    //Set time status to enabled
+    statusTime = EStatus::Done;
     Serial.println("[Status] Initializing [X][X][-] - Syncing online time done.");
   }
-  //Display status
+  Display.showStatus(statusNetwork, statusTime, statusWeather);
   delay(1000); //Add delay to show status on screen, or it will skip too fast
 
   //Get Weather
   if (!Weather.update())
   {
+    statusWeather = EStatus::Error;
     Serial.println("[E][Status] Error while configuring weather.");
   }
   else
   {
-    //Set weather status to enabled
+    statusWeather = EStatus::Done;
     Serial.println("[Status] Initializing [X][X][X] - Weather data received.");
   }
-  //Display status
+  Display.showStatus(statusNetwork, statusTime, statusWeather);
 
   //Create thread in core 0
   xTaskCreatePinnedToCore(Core_0, "TasksCore_0", 4096, NULL, 1, &TasksCore_0, 0);
@@ -245,7 +252,8 @@ void loop()
         Network.resetSettings();
         Config.formatSettings();
         ESP.restart();
-        for(;;);
+        for (;;)
+          ;
       }
     }
     //ESP did not reset

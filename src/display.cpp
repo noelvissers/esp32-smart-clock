@@ -384,4 +384,45 @@ void CDisplay::showAutoBrightness()
   updateBrightness();
 }
 
-//TODO: showStatus
+void CDisplay::showStatus(EStatus state_1, EStatus state_2, EStatus state_3)
+{
+  //Print state 1
+  switch (state_1)
+  {
+  case EStatus::Init:
+    printChar(0, 0, charLoadingInit, sizeof(charLoadingInit));
+    break;
+  case EStatus::Done:
+    printChar(0, 0, charLoadingDone, sizeof(charLoadingDone));
+    break;
+  default: //Error
+    printChar(0, 0, charLoadingError, sizeof(charLoadingError));
+    break;
+  }
+  //Print state 2
+  switch (state_2)
+  {
+  case EStatus::Init:
+    printChar(0, 6, charLoadingInit, sizeof(charLoadingInit));
+    break;
+  case EStatus::Done:
+    printChar(0, 6, charLoadingDone, sizeof(charLoadingDone));
+    break;
+  default: //Error
+    printChar(0, 6, charLoadingError, sizeof(charLoadingError));
+    break;
+  }
+  //Print state 3
+  switch (state_3)
+  {
+  case EStatus::Init:
+    printChar(1, 4, charLoadingInit, sizeof(charLoadingInit));
+    break;
+  case EStatus::Done:
+    printChar(1, 4, charLoadingDone, sizeof(charLoadingDone));
+    break;
+  default: //Error
+    printChar(1, 4, charLoadingError, sizeof(charLoadingError));
+    break;
+  }
+}
