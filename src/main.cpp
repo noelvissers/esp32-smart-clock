@@ -239,9 +239,13 @@ void loop()
       if ((millis() - 5000) > lastButtonSelectPress)
       {
         Serial.println("[I][Status] Resetting ESP...");
-        //Display restart screen
+        detachInterrupt(_pinButtonMin); //Without detach ESP crashes when releasing the button during reset.
+        detachInterrupt(_pinButtonPlus);
+        detachInterrupt(_pinButtonSelect);
         Network.resetSettings();
         Config.formatSettings();
+        ESP.restart();
+        for(;;);
       }
     }
     //ESP did not reset

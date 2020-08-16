@@ -21,14 +21,15 @@ bool checkDST()
   return true;
 }
 
-void CRtc::update() //Copy RTC values to time data
+bool CRtc::update() //Copy RTC values to time data
 {
   DateTime now = RtcTime.now();
 
   if ((now.month() > 12) || (now.day() > 31) || (now.hour() > 23) || (now.minute() > 59) || (now.second() > 59))
   {
-    Serial.println("[E][Rtc] RTC returned invalid data.");
-    return;
+    Serial.println("[E][Rtc] RTC returned invalid data:");
+    printf("%04u/%02u/%02u - %02u:%02u:%02u\n", now.year(), now.month(), now.day(), now.hour(), now.minute(), now.second());
+    return false;
   }
   else
   {
@@ -46,7 +47,9 @@ void CRtc::update() //Copy RTC values to time data
       //Sync time
       //If local DST and online DST is same do nothing.
     }
+    return true;
   }
+  return false;
 }
 
 void CRtc::setTime(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)

@@ -98,7 +98,8 @@ void updateBrightness()
   {
     brightness = Ldr.read();
   }
-  //Display.setbrightness(brightness);
+  lc.setIntensity(0, brightness);
+  lc.setIntensity(1, brightness);
 }
 
 void CDisplay::init()
@@ -115,7 +116,7 @@ void CDisplay::init()
 
 void CDisplay::brightnessUp()
 {
-  Serial.println("[Display] Turning up brightness...");
+  //Serial.println("[Display] Turning up brightness...");
   if (_autoBrightness)
   {
     Serial.println("[Display] Turning off auto brightness...");
@@ -127,11 +128,12 @@ void CDisplay::brightnessUp()
     updateBrightness();
   }
   showBrightness();
+  printf("[Display] Bightness: %u/15\n", brightness);
 }
 
 void CDisplay::brightnessDown()
 {
-  Serial.println("[Display] Turning down brightness...");
+  //Serial.println("[Display] Turning down brightness...");
   if (_autoBrightness)
   {
     Serial.println("[Display] Turning off auto brightness...");
@@ -143,6 +145,7 @@ void CDisplay::brightnessDown()
     updateBrightness();
   }
   showBrightness();
+  printf("[Display] Bightness: %u/15\n", brightness);
 }
 
 void CDisplay::showTime()
@@ -291,8 +294,8 @@ void CDisplay::showHumidity()
 
     if ((_humidity < 0) || (_humidity > 100))
     {
-      printChar(1, 2, charUnknown, sizeof(charUnknown));
-      printChar(1, 6, charUnknown, sizeof(charUnknown));
+      printChar(0, 2, charUnknown, sizeof(charUnknown));
+      printChar(0, 6, charUnknown, sizeof(charUnknown));
     }
     else
     {
@@ -348,7 +351,7 @@ void CDisplay::showTimeBin()
 
 void CDisplay::showBrightness()
 {
-  Serial.println("[Display] Showing brightness...");
+  //Serial.println("[Display] Showing brightness...");
   int i = 0;
   for (; i <= brightness; i++)
   {

@@ -22,7 +22,7 @@ char _onlineDatetime[64] = "";
 
 bool convertTime()
 {
-//Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like istringstream)
+  //Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like istringstream)
   Serial.println("[Time] Converting 'datetime' to vars...");
   int count = 0;
   String temp = "";
@@ -78,30 +78,33 @@ bool timeSync()
   Serial.println("[Time] Syncing with RTC...");
 
   CRtc RtcSync;
-  _onlineSync= true;
+  _onlineSync = true;
   delay(50);
-  RtcSync.update();
-  _onlineSync = false;
-  delay(10);
-  if ((_timeYear != _onlineTimeYear) || (_timeMonth != _onlineTimeMonth) || (_timeDay != _onlineTimeDay) || (_timeHour != _onlineTimeHour) || (((_timeMinute + 2) <= _onlineTimeMinute) || ((_timeMinute - 2) >= _onlineTimeMinute))) //if more than 2mins difference
+  if (RtcSync.update())
   {
-    Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
-    if (RtcSync.checkRtc())
+    if ((_timeYear != _onlineTimeYear) || (_timeMonth != _onlineTimeMonth) || (_timeDay != _onlineTimeDay) || (_timeHour != _onlineTimeHour) || (((_timeMinute + 2) <= _onlineTimeMinute) || ((_timeMinute - 2) >= _onlineTimeMinute))) //if more than 2mins difference
     {
-      RtcSync.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
-      Serial.println("[I][Time] RTC set.");
-      return true;
+      Serial.println("[I][Time] RTC is out of sync by more than 2 minutes. Setting time...");
+      if (RtcSync.checkRtc())
+      {
+        RtcSync.setTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond);
+        Serial.println("[I][Time] RTC set.");
+        _onlineSync = false;
+        return true;
+      }
+      else
+      {
+        Serial.println("[E][Time] Could not find RTC.");
+      }
     }
     else
     {
-      Serial.println("[E][Time] Could not find RTC.");
+      Serial.println("[Time] RTC is already in sync.");
+      _onlineSync = false;
+      return true;
     }
   }
-  else
-  {
-    Serial.println("[Time] RTC is already in sync.");
-    return true;
-  }
+  _onlineSync = false;
   return false;
 }
 
