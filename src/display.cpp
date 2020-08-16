@@ -387,6 +387,8 @@ void CDisplay::showAutoBrightness()
 void CDisplay::showStatus(EStatus state_1, EStatus state_2, EStatus state_3)
 {
   //Print state 1
+  lc.clearDisplay(0);
+  lc.clearDisplay(1);
   switch (state_1)
   {
   case EStatus::Init:
@@ -425,4 +427,11 @@ void CDisplay::showStatus(EStatus state_1, EStatus state_2, EStatus state_3)
     printChar(1, 4, charLoadingError, sizeof(charLoadingError));
     break;
   }
+}
+
+void CDisplay::showReset()
+{
+  lc.clearDisplay(0);
+  lc.clearDisplay(1);
+  printChar(0, 6, charLoadingInit, sizeof(charLoadingInit));
 }

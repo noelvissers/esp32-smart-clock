@@ -23,4 +23,5 @@ public:
   void brightnessDown();
   void showAutoBrightness();
   void showStatus(EStatus state_1, EStatus state_2, EStatus state_3);
+  void showReset();
 };

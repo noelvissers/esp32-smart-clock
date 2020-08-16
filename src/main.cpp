@@ -246,6 +246,7 @@ void loop()
       if ((millis() - 5000) > lastButtonSelectPress)
       {
         Serial.println("[I][Status] Resetting ESP...");
+        Display.showReset();
         detachInterrupt(_pinButtonMin); //Without detach ESP crashes when releasing the button during reset.
         detachInterrupt(_pinButtonPlus);
         detachInterrupt(_pinButtonSelect);
@@ -299,3 +300,4 @@ void loop()
 
 //Implement LDR
 //Implement DST
+//Implement Cycle
