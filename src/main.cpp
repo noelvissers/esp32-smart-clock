@@ -297,6 +297,5 @@ void loop()
   delay(20);
 }
 
-//Implement display
 //Implement LDR
 //Implement DST
