@@ -29,6 +29,7 @@ bool CRtc::update() //Copy RTC values to time data
   {
     Serial.println("[E][Rtc] RTC returned invalid data:");
     printf("%04u/%02u/%02u - %02u:%02u:%02u\n", now.year(), now.month(), now.day(), now.hour(), now.minute(), now.second());
+    RtcTime.adjust(DateTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond));
     return false;
   }
   else
