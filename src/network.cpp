@@ -11,7 +11,13 @@ bool CNetwork::autoConnect()
   //Bug with ESP, sometimes it opens portal when it can reconnect. Bug in WM lib: wm.setEnableConfigPortal(false) doesnt always work, so can't implement a retry.
   WiFi.disconnect();
   WiFi.mode(WIFI_OFF);
-  wm.setEnableConfigPortal(true);
+  wm.setEnableConfigPortal(false);
+
+  if (wm.autoConnect())
+  {
+    Serial.println("[Network] Connected to saved network.");
+    return true;
+  }
 
   //Add setting fields to config portal
   WiFiManagerParameter cityConfig("CITY_NAME", "City name", _weatherCityName, 64, "placeholder=\"Amsterdam\"");
@@ -27,7 +33,7 @@ bool CNetwork::autoConnect()
   if (_autoCycle) //add to config
     strcat(customHtmlAutoCycle, " checked");
   WiFiManagerParameter autoCycleConfig("AUTO_CYCLE", "Automatic cycling", "T", 2, customHtmlAutoCycle, WFM_LABEL_AFTER);
-  
+
   char customHtmlDateFormat[24] = "type=\"checkbox\"";
   if (_useDdmm) //add to config
     strcat(customHtmlDateFormat, " checked");
@@ -60,6 +66,7 @@ bool CNetwork::autoConnect()
   wm.setConnectTimeout(60);       //Set 1 minute timeout for connecting
   wm.setClass("invert");          //Dark mode
 
+  wm.setEnableConfigPortal(true);
   if (wm.autoConnect("SmartClock"))
   {
     Serial.println("[Network] Connected.");

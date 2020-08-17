@@ -37,9 +37,9 @@ char _weatherApiKey[64] = "";
 char _timeEndpoint[64] = "http://worldtimeapi.org/api/ip";
 
 //Display settings:
-uint16_t _ldrLowerLimit = 0;   //0 min ADC/LDR
+uint16_t _ldrLowerLimit = 0;   //0 min ADC/LDR (making this value higher means the display reaches its min brightness sooner)
 uint16_t _ldrUpperLimt = 4095; //4095 max ADC/LDR (making this value higher, lowers the max brightness | making this value lower means the display reaches its max brightness sooner)
-int _ldrError = 100;           //Schmidt trigger threshold
+int _ldrError = 125;           //Schmidt trigger threshold
 
 //Set pinmodes for IO
 void CConfig::initPinModes()
@@ -122,14 +122,24 @@ bool CConfig::loadSettings()
         {
           _autoBrightness = doc["general"]["autoBrightness"];
         }
+        else
+        {
+          _autoBrightness = false;
+        }
+        //Serial.print("[Config] autoBrightness = ");
+        //Serial.println(_autoBrightness);
+
         if (doc["general"]["autoCycle"])
         {
           _autoCycle = doc["general"]["autoCycle"];
         }
         else
         {
-          _autoBrightness = false;
+          _autoCycle = false;
         }
+        //Serial.print("[Config] autoCycle = ");
+        //Serial.println(_autoCycle);
+
         if (doc["general"]["useDdmmFormat"])
         {
           _useDdmm = doc["general"]["useDdmmFormat"];
@@ -138,6 +148,9 @@ bool CConfig::loadSettings()
         {
           _useDdmm = false;
         }
+        //Serial.print("[Config] useDdmmFormat = ");
+        //Serial.println(_useDdmm);
+
         if (doc["general"]["use24hFormat"])
         {
           _use24h = doc["general"]["use24hFormat"];
@@ -146,6 +159,9 @@ bool CConfig::loadSettings()
         {
           _use24h = false;
         }
+        //Serial.print("[Config] use24hFormat = ");
+        //Serial.println(_use24h);
+
         if (doc["general"]["useCelciusUnit"])
         {
           _useCelcius = doc["general"]["useCelciusUnit"];
@@ -154,6 +170,8 @@ bool CConfig::loadSettings()
         {
           _useCelcius = false;
         }
+        //Serial.print("[Config] useCelciusUnit = ");
+        //Serial.println(_useCelcius);
 
         //Weather API settings
         if (doc["weather"]["weatherCityName"])

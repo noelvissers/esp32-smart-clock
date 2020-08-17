@@ -333,7 +333,7 @@ void loop()
     state = 0;
     break;
   }
-  if (((millis() - _autoCycleTime) > lastAutoCycle) && _autoCycle)
+  if ((((millis() - _autoCycleTime) > lastAutoCycle) && _autoCycle) && (millis() > _autoCycleTime))
   {
     lastAutoCycle = millis();
     state++;
