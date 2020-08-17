@@ -11,9 +11,10 @@ Hardware files are made in Altium and software is written in C++.
 A lot more was possible with WiFi intergration on the ESP32, so thats what made me pick up this project again. I'm most interested in hardware (that's also what I studied) but during this project I learned a lot about C++ in general, so it was a good learning experience. I know the code can get a lot cleaner if I remove some globals vars and structure some things a bit different, but I found a lot of that out while already being pretty far into the project. Maybe something to change in the future, but not for now.
 
 ## Features
-//Pics/different modes    
-//Picture config portal  
-//Automatic timezone/DST  
+//Why is this clock 'smart'
+//Gif of different modes    
+//Picture config portal
+//Automatic timezone/DST
 
 ## Table of content
 - [Features](#features)
@@ -91,12 +92,12 @@ Below are the hardware circuits for the clock explained.
 //Sch.
 
 #### PCB assembly
-//Print on board where components need to be. R1 R2 C1 U1 etc...
-//Order of assembly
+//Print on board where components need to be. R1 R2 C1 U1 etc...   
+//Order of assembly   
 //Mechanical design
 
 ## Case
-The case.
+The case.   
 //Pictures   
 Mechanical sketch to quickly see what would go where and how:   
 <img src="https://i.imgur.com/OlD9MNi.png" alt="MCH sktech" width="500">
@@ -111,4 +112,5 @@ These are features I don't expect to implement, but that could be nice for a fut
 - [x] Have Wifi configurable and not hardcoded.  
 - [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit (or any USB interface at all).  
 - [ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).  
-- [ ] Auto detect location to configure weather.  
+- [ ] Auto detect location to configure weather or use location from app.
+- [ ] Add audio support to add alarms/mp3 playback via app.
