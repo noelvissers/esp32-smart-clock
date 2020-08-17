@@ -12,7 +12,7 @@ extern uint8_t _onlineTimeSecond;
 extern bool _onlineSync;
 
 extern long _onlineTimeUnix;
-extern int _onlineDayOfWeek; //0 = sunday, 6 = saturday
+extern int _onlineDayOfWeek;
 extern bool _onlineDst;
 
 class CTime

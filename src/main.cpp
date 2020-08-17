@@ -199,6 +199,10 @@ void setup()
 
   Serial.println("[Status] Initializing done.");
   delay(1000); //Add delay to show status on screen, or it will skip too fast
+  if ((statusNetwork == EStatus::Error) || (statusTime == EStatus::Error) || (statusWeather == EStatus::Error))
+  {
+    delay(4000); //add more delay if an error occured
+  }
 }
 
 //Main loop on core 1
@@ -298,6 +302,7 @@ void loop()
   delay(20);
 }
 
-//Implement LDR
 //Implement DST
 //Implement Cycle
+//Update brightness graphic
+//Go trhough code to add comments (cpp files only)

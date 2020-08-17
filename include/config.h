@@ -6,14 +6,14 @@ extern uint8_t _pinButtonPlus;
 extern uint8_t _pinButtonSelect;
 extern uint8_t _pinButtonMin;
 
-extern uint8_t _pinDisplayMOSI; //Already auto defined in lc lib
-extern uint8_t _pinDisplaySCK;  //Already auto defined in lc lib
+extern uint8_t _pinDisplayMOSI;
+extern uint8_t _pinDisplaySCK;
 extern uint8_t _pinDisplaySS;
 
 extern uint8_t _pinStatusLed;
 
-extern uint8_t _pinRtcSCL; //Already auto defined in rtc lib
-extern uint8_t _pinRtcSDA; //Already auto defined in rtc lib
+extern uint8_t _pinRtcSCL;
+extern uint8_t _pinRtcSDA;
 
 extern uint8_t _pinLDR;
 

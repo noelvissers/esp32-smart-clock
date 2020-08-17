@@ -9,7 +9,7 @@ extern uint8_t _timeHour;
 extern uint8_t _timeMinute; 
 extern uint8_t _timeSecond;
 
-extern uint8_t _timeDayOfWeek; //0 = sunday, 6 = saturday
+extern uint8_t _timeDayOfWeek;
 
 class CRtc
 {
