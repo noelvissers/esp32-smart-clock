@@ -113,4 +113,6 @@ These are features I don't expect to implement, but that could be nice for a fut
 - [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit (or any USB interface at all).  
 - [ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).  
 - [ ] Auto detect location to configure weather or use location from app.
-- [ ] Add audio support to add alarms/mp3 playback via app.
+- [ ] Add audio support to add alarms/mp3 playback via app.   
+   
+Feel free to submit any issues and/or pull requests if you have new idea's or run into issues. Ofcourse you are also free to implement idea's I mentioned.
