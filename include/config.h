@@ -23,6 +23,7 @@ extern bool _autoCycle;
 extern bool _use24h;
 extern bool _useDdmm;
 extern bool _useCelcius;
+extern unsigned long _autoCycleTime;
 
 //Weather settings:
 extern char _weatherCityName[64];

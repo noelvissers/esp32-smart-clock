@@ -16,8 +16,7 @@ bool _timeDst = false;
 bool checkDST()
 {
   //Check all possible DST conditions
-  //Check if DST is already enabled / differs from set DST
-  //check this for < 3 seconds so it doesnt loop for an hour
+  //Check this for < 3 seconds so it doesnt loop for an hour
   return true;
 }
 

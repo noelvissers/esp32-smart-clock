@@ -11,11 +11,10 @@ LedControl_HW_SPI lc = LedControl_HW_SPI();
 //LedControl_SW_SPI lc = LedControl_SW_SPI();
 CRtc RtcDisplay;
 CLdr Ldr;
+CConfig ConfigDisplay;
 
-unsigned int _state = 0;
 unsigned int brightness = 0; //0..15
-unsigned long brightnessDisplayTime = 0;
-unsigned long AutoBrightnessDisplayTime = 0;
+unsigned long displayDelayTime = 0;
 
 const char digits[10][3] = {{0b01111100, 0b01000100, 0b01111100},            //0
                             {0b00000000, 0b00000000, 0b01111100},            //1
@@ -47,13 +46,13 @@ char charPercentage[4] = {0b01001000, 0b00100000, 0b00010000, 0b01001000};   //%
 char charLoadingInit[4] = {0b00011000, 0b00100100, 0b00100100, 0b00011000};  //[ ] //also used as reset
 char charLoadingDone[4] = {0b00011000, 0b00111100, 0b00111100, 0b00011000};  //[X]
 char charLoadingError[4] = {0b00000000, 0b00011000, 0b00011000, 0b00000000}; // X
-char charBrightnessFilled[1] = {0b00111100};                                 //---
-char charBrightnessEmpty[1] = {0b00100100};                                  //===
 char charA[3] = {0b01110000, 0b00101000, 0b01110000};                        //A
 char charU[3] = {0b01110000, 0b01000000, 0b01110000};                        //U
 char charT[2] = {0b01111100, 0b01010000};                                    //T
 char charO[3] = {0b01110000, 0b01010000, 0b01110000};                        //O
 
+char charBrightness[6] = {0b01000010, 0b00011000, 0b00100100, 0b00100100, 0b00011000, 0b01000010};                    //Sun
+char charCycle[8] = {0b00111000, 0b01000100, 0b10000010, 0b10000010, 0b10000010, 0b01010000, 0b00110000, 0b01110000}; //↻
 char charSloth[8] = {0b00111100, 0b01011010, 0b10001011, 0b10100011, 0b10100011, 0b10001011, 0b01011010, 0b00111100}; //Slothface
 
 void printDigit(unsigned int startAddr, unsigned int startRow, unsigned int digit)
@@ -121,6 +120,7 @@ void CDisplay::brightnessUp()
   {
     Serial.println("[Display] Turning off auto brightness...");
     _autoBrightness = false;
+    ConfigDisplay.saveSettings();
   }
   if (brightness < 15)
   {
@@ -138,6 +138,7 @@ void CDisplay::brightnessDown()
   {
     Serial.println("[Display] Turning off auto brightness...");
     _autoBrightness = false;
+    ConfigDisplay.saveSettings();
   }
   if (brightness > 0)
   {
@@ -151,7 +152,7 @@ void CDisplay::brightnessDown()
 void CDisplay::showTime()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
+  if ((millis() - 3000) > displayDelayTime)
   {
     if (!_onlineSync)
       RtcDisplay.update();
@@ -187,7 +188,7 @@ void CDisplay::showTime()
 void CDisplay::showDate()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
+  if ((millis() - 3000) > displayDelayTime)
   {
     if (!_onlineSync)
       RtcDisplay.update();
@@ -234,7 +235,7 @@ void CDisplay::showDate()
 void CDisplay::showTemperature()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
+  if ((millis() - 3000) > displayDelayTime)
   {
     lc.clearDisplay(0);
     lc.clearDisplay(1);
@@ -287,7 +288,7 @@ void CDisplay::showTemperature()
 void CDisplay::showHumidity()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
+  if ((millis() - 3000) > displayDelayTime)
   {
     lc.clearDisplay(0);
     lc.clearDisplay(1);
@@ -312,7 +313,7 @@ void CDisplay::showHumidity()
 void CDisplay::showTimeBin()
 {
   updateBrightness();
-  if (((millis() - 3000) > brightnessDisplayTime) && (millis() - 3000) > AutoBrightnessDisplayTime)
+  if ((millis() - 3000) > displayDelayTime)
   {
     if (!_onlineSync)
       RtcDisplay.update();
@@ -351,23 +352,58 @@ void CDisplay::showTimeBin()
 
 void CDisplay::showBrightness()
 {
-  //Serial.println("[Display] Showing brightness...");
-  int i = 0;
-  for (; i <= brightness; i++)
+  lc.clearDisplay(0);
+  lc.clearDisplay(1);
+
+  printChar(0, 5, charBrightness, sizeof(charBrightness));
+
+  if (brightness == 0)
   {
-    if (i >= 8)
-      printChar(1, i - 8, charBrightnessFilled, sizeof(charBrightnessFilled));
-    else
-      printChar(0, i, charBrightnessFilled, sizeof(charBrightnessFilled));
+    lc.setRow(0, 0, 0b00000000);
+    lc.setRow(1, 7, 0b00000000);
   }
-  for (; i < 16; i++)
+  else if (brightness == 1 || brightness == 2)
   {
-    if (i >= 8)
-      printChar(1, i - 8, charBrightnessEmpty, sizeof(charBrightnessEmpty));
-    else
-      printChar(0, i, charBrightnessEmpty, sizeof(charBrightnessEmpty));
+    lc.setRow(0, 0, 0b10000000);
+    lc.setRow(1, 7, 0b10000000);
   }
-  brightnessDisplayTime = millis();
+  else if (brightness == 3 || brightness == 4)
+  {
+    lc.setRow(0, 0, 0b11000000);
+    lc.setRow(1, 7, 0b11000000);
+  }
+  else if (brightness == 5 || brightness == 6)
+  {
+    lc.setRow(0, 0, 0b11100000);
+    lc.setRow(1, 7, 0b11100000);
+  }
+  else if (brightness == 7 || brightness == 8)
+  {
+    lc.setRow(0, 0, 0b11110000);
+    lc.setRow(1, 7, 0b11110000);
+  }
+  else if (brightness == 9 || brightness == 10)
+  {
+    lc.setRow(0, 0, 0b11111000);
+    lc.setRow(1, 7, 0b11111000);
+  }
+  else if (brightness == 11 || brightness == 12)
+  {
+    lc.setRow(0, 0, 0b11111100);
+    lc.setRow(1, 7, 0b11111100);
+  }
+  else if (brightness == 13 || brightness == 14)
+  {
+    lc.setRow(0, 0, 0b11111110);
+    lc.setRow(1, 7, 0b11111110);
+  }
+  else if (brightness == 15)
+  {
+    lc.setRow(0, 0, 0b11111111);
+    lc.setRow(1, 7, 0b11111111);
+  }
+
+  displayDelayTime = millis();
   updateBrightness();
 }
 
@@ -380,7 +416,17 @@ void CDisplay::showAutoBrightness()
   printChar(0, 5, charU, sizeof(charU));
   printChar(1, 1, charT, sizeof(charT));
   printChar(1, 4, charO, sizeof(charO));
-  AutoBrightnessDisplayTime = millis();
+  displayDelayTime = millis();
+  updateBrightness();
+}
+
+void CDisplay::showAutoCycle()
+{
+  Serial.println("[Display] Showing auto cycle setting...");
+  lc.clearDisplay(0);
+  lc.clearDisplay(1);
+  printChar(0, 4, charCycle, sizeof(charCycle));
+  displayDelayTime = millis();
   updateBrightness();
 }
 

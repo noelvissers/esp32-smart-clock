@@ -20,6 +20,9 @@ CWeather Weather;
 CRtc Rtc;
 CTime Time;
 
+unsigned long lastAutoCycle = 0;
+unsigned int state = 0;
+
 //Main loop on core 0 (network functions)
 void Core_0(void *parameter)
 {
@@ -211,6 +214,7 @@ void loop()
   // Button checks
   if (buttonPlusSet && buttonMinSet && !buttonSelectSet) //Both plus and min are pressed
   {
+    /*
     while (buttonPlusPressed && buttonMinPressed)
     {
       if ((millis() - 3000) > lastButtonPlusPress)
@@ -224,24 +228,50 @@ void loop()
     buttonMinSet = false;
     buttonSelectSet = false;
     buttonPlusSet = false;
+    */
   }
   else if (buttonPlusSet && !buttonMinSet && !buttonSelectSet) //Only plus was pressed
   {
-    Display.brightnessUp();
+    bool hold = false;
     while (buttonPlusPressed && !buttonMinPressed)
-      delay(10);
+    {
+      if ((millis() - 3000) > lastButtonPlusPress)
+      {
+        _autoBrightness = true;
+        Display.showAutoBrightness();
+        Serial.println("[Status] Autobrightness set.");
+        Config.saveSettings();
+        hold = true;
+        break;
+      }
+    }
     if (!buttonMinSet)
       buttonPlusSet = false;
     buttonSelectSet = false;
+    if (!hold)
+      Display.brightnessUp();
   }
   else if (!buttonPlusSet && buttonMinSet && !buttonSelectSet) //Only min was pressed
   {
-    Display.brightnessDown();
+    bool hold = false;
     while (!buttonPlusPressed && buttonMinPressed)
-      delay(10);
+    {
+      if ((millis() - 3000) > lastButtonMinPress)
+      {
+        _autoCycle = true;
+        Display.showAutoCycle();
+        lastAutoCycle = millis();
+        Serial.println("[Status] AutoCycle set.");
+        Config.saveSettings();
+        hold = true;
+        break;
+      }
+    }
     if (!buttonPlusSet)
       buttonMinSet = false;
     buttonSelectSet = false;
+    if (!hold)
+      Display.brightnessDown();
   }
   else if (!buttonPlusSet && !buttonMinSet && buttonSelectSet) //Only select was pressed
   {
@@ -262,9 +292,13 @@ void loop()
       }
     }
     //ESP did not reset
-    _state++;
-    Serial.print("[Status] Changed state: ");
-    Serial.println(_state);
+    if (_autoCycle)
+    {
+      Serial.println("[Status] Turning off auto cycling...");
+      _autoCycle = false;
+      Config.saveSettings();
+    }
+    state++;
     buttonMinSet = false;
     buttonSelectSet = false;
     buttonPlusSet = false;
@@ -276,7 +310,7 @@ void loop()
     buttonPlusSet = false;
   }
 
-  switch (_state)
+  switch (state)
   {
   case 0:
     Display.showTime();
@@ -290,19 +324,22 @@ void loop()
   case 3:
     Display.showHumidity();
     break;
+  /*
   case 4:
     Display.showTimeBin();
     break;
+  */
   default:
-    _state = 0;
-    Serial.print("[Status] Changed state: ");
-    Serial.println(_state);
+    state = 0;
     break;
+  }
+  if (((millis() - _autoCycleTime) > lastAutoCycle) && _autoCycle)
+  {
+    lastAutoCycle = millis();
+    state++;
   }
   delay(20);
 }
 
 //Implement DST
-//Implement Cycle
-//Update brightness graphic
 //Go trhough code to add comments (cpp files only)

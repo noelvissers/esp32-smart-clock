@@ -23,6 +23,11 @@ bool CNetwork::autoConnect()
     strcat(customHtmlAutoBrightness, " checked");                                                                                      //Check checkbox
   WiFiManagerParameter brightnessConfig("AUTO_BRIGHTNESS", "Automatic brightness", "T", 2, customHtmlAutoBrightness, WFM_LABEL_AFTER); //Create config, return "T" is checked
 
+  char customHtmlAutoCycle[24] = "type=\"checkbox\"";
+  if (_autoCycle) //add to config
+    strcat(customHtmlAutoCycle, " checked");
+  WiFiManagerParameter autoCycleConfig("AUTO_CYCLE", "Automatic cycling", "T", 2, customHtmlAutoCycle, WFM_LABEL_AFTER);
+  
   char customHtmlDateFormat[24] = "type=\"checkbox\"";
   if (_useDdmm) //add to config
     strcat(customHtmlDateFormat, " checked");
@@ -43,6 +48,7 @@ bool CNetwork::autoConnect()
   wm.addParameter(&countryConfig);
   wm.addParameter(&keyConfig);
   wm.addParameter(&brightnessConfig);
+  wm.addParameter(&autoCycleConfig);
   wm.addParameter(&dateFormatConfig);
   wm.addParameter(&clockFormatConfig);
   wm.addParameter(&temperatureUnitConfig);
@@ -63,6 +69,7 @@ bool CNetwork::autoConnect()
     strcpy(_weatherCountryCode, countryConfig.getValue());
     strcpy(_weatherApiKey, keyConfig.getValue());
     _autoBrightness = (strncmp(brightnessConfig.getValue(), "T", 1) == 0); //Compare value (returns "T" if checked) with "T", returns 0 if match. 0 == 0 if checked.
+    _autoCycle = (strncmp(autoCycleConfig.getValue(), "T", 1) == 0);
     _useDdmm = (strncmp(dateFormatConfig.getValue(), "T", 1) == 0);
     _use24h = (strncmp(clockFormatConfig.getValue(), "T", 1) == 0);
     _useCelcius = (strncmp(temperatureUnitConfig.getValue(), "T", 1) == 0);

@@ -25,6 +25,7 @@ bool _autoCycle = false;
 bool _use24h = true;
 bool _useDdmm = true;
 bool _useCelcius = true;
+unsigned long _autoCycleTime = 10000; //Time it takes to cycle to new view (ms)
 
 //Weather settings:
 char _weatherCityName[64] = "";
@@ -38,7 +39,7 @@ char _timeEndpoint[64] = "http://worldtimeapi.org/api/ip";
 //Display settings:
 uint16_t _ldrLowerLimit = 0;   //0 min ADC/LDR
 uint16_t _ldrUpperLimt = 4095; //4095 max ADC/LDR (making this value higher, lowers the max brightness | making this value lower means the display reaches its max brightness sooner)
-int _ldrError = 50;            //Schmidt trigger threshold
+int _ldrError = 100;           //Schmidt trigger threshold
 
 //Set pinmodes for IO
 void CConfig::initPinModes()
@@ -64,6 +65,9 @@ bool CConfig::saveSettings()
     doc["general"]["autoBrightness"] = _autoBrightness;
     //Serial.print("[Config] autoBrightness = ");
     //Serial.println(_autoBrightness);
+    doc["general"]["autoCycle"] = _autoCycle;
+    //Serial.print("[Config] autoCycle = ");
+    //Serial.println(_autoCycle);
     doc["general"]["useDdmmFormat"] = _useDdmm;
     //Serial.print("[Config] useDdmmFormat = ");
     //Serial.println(_useDdmm);
@@ -117,6 +121,10 @@ bool CConfig::loadSettings()
         if (doc["general"]["autoBrightness"])
         {
           _autoBrightness = doc["general"]["autoBrightness"];
+        }
+        if (doc["general"]["autoCycle"])
+        {
+          _autoCycle = doc["general"]["autoCycle"];
         }
         else
         {

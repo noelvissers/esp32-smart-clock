@@ -1,7 +1,5 @@
 #pragma once
 
-extern unsigned int _state;
-
 enum class EStatus
 {
   Init,
@@ -22,6 +20,7 @@ public:
   void brightnessUp();
   void brightnessDown();
   void showAutoBrightness();
+  void showAutoCycle();
   void showStatus(EStatus state_1, EStatus state_2, EStatus state_3);
   void showReset();
 };
