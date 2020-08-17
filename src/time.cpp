@@ -20,9 +20,10 @@ bool _onlineDst = false;   //read by update
 
 char _onlineDatetime[64] = "";
 
+//Convert the received string to usable time data
 bool convertTime()
 {
-  //Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like istringstream)
+  //Convert datetime to usable vars (this is pretty hardcoded but can't find a better way like 'istringstream' in VS)
   Serial.println("[Time] Converting 'datetime' to vars...");
   int count = 0;
   String temp = "";
@@ -73,6 +74,7 @@ bool convertTime()
   return true;
 }
 
+//Sync the online data with the RTC
 bool timeSync()
 {
   Serial.println("[Time] Syncing with RTC...");
@@ -108,10 +110,11 @@ bool timeSync()
   return false;
 }
 
+//Get the data from API
 bool CTime::update()
 {
   Serial.println("[Time] Getting time data...");
-  if (WiFi.isConnected())
+  if (WiFi.isConnected()) //Check if connected to wifi
   {
     Serial.println("[Time] Connected to network.");
     HTTPClient client;
@@ -121,12 +124,13 @@ bool CTime::update()
 
     if (httpCode != 0)
     {
-      DynamicJsonDocument doc(1024);
+      DynamicJsonDocument doc(1024); //Create temp. doc to store JSON data
 
-      String timeData = client.getString();
-      DeserializationError error = deserializeJson(doc, timeData);
+      String timeData = client.getString();                        //Put API code in string
+      DeserializationError error = deserializeJson(doc, timeData); //String to JSON
       if (!error)
       {
+        //Save data to vars
         _onlineTimeUnix = doc["unixtime"];
         _onlineDayOfWeek = doc["day_of_week"];
         _onlineDst = doc["dst"];

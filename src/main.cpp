@@ -342,4 +342,3 @@ void loop()
 }
 
 //Implement DST
-//Go trhough code to add comments (cpp files only)

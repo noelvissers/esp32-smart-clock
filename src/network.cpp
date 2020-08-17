@@ -8,12 +8,12 @@ bool CNetwork::autoConnect()
   WiFiManager wm;
   wm.setShowPassword(false);
   wm.setDebugOutput(false);
-  //Bug with ESP, sometimes it opens portal when it can reconnect. Bug in WM lib: wm.setEnableConfigPortal(false) doesnt always work, so can't implement a retry.
+  //Bug with ESP, sometimes it opens portal when it can reconnect. This seems to make it more stable:
   WiFi.disconnect();
   WiFi.mode(WIFI_OFF);
-  wm.setEnableConfigPortal(false);
+  wm.setEnableConfigPortal(false); //Disable portal since we don't need it when connecting to a saved network
 
-  if (wm.autoConnect())
+  if (wm.autoConnect()) //Try to connect to saved network
   {
     Serial.println("[Network] Connected to saved network.");
     return true;
@@ -61,13 +61,12 @@ bool CNetwork::autoConnect()
 
   //Configure portal
   Serial.println("[Network] Setting up portal...");
-  wm.setShowPassword(false);
+  wm.setEnableConfigPortal(true); //Enable portal
   wm.setConfigPortalTimeout(180); //Set 3 minute timeout if not configured
   wm.setConnectTimeout(60);       //Set 1 minute timeout for connecting
   wm.setClass("invert");          //Dark mode
 
-  wm.setEnableConfigPortal(true);
-  if (wm.autoConnect("SmartClock"))
+  if (wm.autoConnect("Smart Clock")) //Start portal with name "Smart Clock"
   {
     Serial.println("[Network] Connected.");
 
@@ -89,6 +88,7 @@ bool CNetwork::autoConnect()
 
 void CNetwork::resetSettings()
 {
+  //Clear network settings
   WiFiManager wm;
   wm.setDebugOutput(false);
   wm.resetSettings();

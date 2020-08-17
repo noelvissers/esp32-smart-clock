@@ -24,10 +24,11 @@ bool CRtc::update() //Copy RTC values to time data
 {
   DateTime now = RtcTime.now();
 
+  //Check if RTC returned valid data
   if ((now.month() > 12) || (now.day() > 31) || (now.hour() > 23) || (now.minute() > 59) || (now.second() > 59))
   {
     Serial.println("[E][Rtc] RTC returned invalid data:");
-    printf("%04u/%02u/%02u - %02u:%02u:%02u\n", now.year(), now.month(), now.day(), now.hour(), now.minute(), now.second());
+    printf("%04u/%02u/%02u - %02u:%02u:%02u\n", now.year(), now.month(), now.day(), now.hour(), now.minute(), now.second()); //Set the time from web, this could be delayed by the update time, but at least its valid data. Time will sync later.
     RtcTime.adjust(DateTime(_onlineTimeYear, _onlineTimeMonth, _onlineTimeDay, _onlineTimeHour, _onlineTimeMinute, _onlineTimeSecond));
     return false;
   }
@@ -52,11 +53,13 @@ bool CRtc::update() //Copy RTC values to time data
   return false;
 }
 
+//Set the time for the RTC
 void CRtc::setTime(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
 {
   RtcTime.adjust(DateTime(year, month, day, hour, minute, second));
 }
 
+//Initialize RTC
 bool CRtc::init()
 {
   if (RtcTime.begin())
@@ -72,6 +75,7 @@ bool CRtc::init()
   return false;
 }
 
+//Check if rtc is on
 bool CRtc::checkRtc()
 {
   return RtcTime.begin();

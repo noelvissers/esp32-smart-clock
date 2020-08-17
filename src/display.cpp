@@ -7,8 +7,8 @@
 #include "LedControl_HW_SPI.h"
 //#include "LedControl_SW_SPI.h"
 
-LedControl_HW_SPI lc = LedControl_HW_SPI();
-//LedControl_SW_SPI lc = LedControl_SW_SPI();
+LedControl_HW_SPI lc = LedControl_HW_SPI(); //Hardware SPI
+//LedControl_SW_SPI lc = LedControl_SW_SPI(); //Software SPI
 CRtc RtcDisplay;
 CLdr Ldr;
 CConfig ConfigDisplay;
@@ -16,6 +16,7 @@ CConfig ConfigDisplay;
 unsigned int brightness = 0; //0..15
 unsigned long displayDelayTime = 0;
 
+//Sprites
 const char digits[10][3] = {{0b01111100, 0b01000100, 0b01111100},            //0
                             {0b00000000, 0b00000000, 0b01111100},            //1
                             {0b01110100, 0b01010100, 0b01011100},            //2
@@ -55,6 +56,7 @@ char charBrightness[6] = {0b01000010, 0b00011000, 0b00100100, 0b00100100, 0b0001
 char charCycle[8] = {0b00111000, 0b01000100, 0b10000010, 0b10000010, 0b10000010, 0b01010000, 0b00110000, 0b01110000}; //↻
 char charSloth[8] = {0b00111100, 0b01011010, 0b10001011, 0b10100011, 0b10100011, 0b10001011, 0b01011010, 0b00111100}; //Slothface
 
+//Print a single digit 0 - 9
 void printDigit(unsigned int startAddr, unsigned int startRow, unsigned int digit)
 {
   int address = startAddr;
@@ -73,6 +75,7 @@ void printDigit(unsigned int startAddr, unsigned int startRow, unsigned int digi
   }
 }
 
+//Print a char array
 void printChar(unsigned int startAddr, unsigned int startRow, char data[], unsigned int length)
 {
   int address = startAddr;
@@ -91,38 +94,40 @@ void printChar(unsigned int startAddr, unsigned int startRow, char data[], unsig
   }
 }
 
+//Update the display brightness
 void updateBrightness()
 {
-  if (_autoBrightness)
+  if (_autoBrightness) //Check if autobrightness is on
   {
-    brightness = Ldr.read();
+    brightness = Ldr.read(); //Get brightness from LDR sensor
   }
-  lc.setIntensity(0, brightness);
+  lc.setIntensity(0, brightness); //Update the brightness
   lc.setIntensity(1, brightness);
 }
 
+//Initialize the displays
 void CDisplay::init()
 {
-  lc.begin(_pinDisplaySS, 2);
+  lc.begin(_pinDisplaySS, 2); //Define CS pin
   //lc.begin(_pinDisplayMOSI, _pinDisplaySCK, _pinDisplaySS, 2);
-  lc.shutdown(0, false);
+  lc.shutdown(0, false); //Get display out of sleep mode
   lc.shutdown(1, false);
-  lc.setIntensity(0, 1);
-  lc.setIntensity(1, 1);
-  lc.clearDisplay(0);
+  lc.setIntensity(0, 6); //Set to medium brightness while starting up
+  lc.setIntensity(1, 6);
+  lc.clearDisplay(0); //Clear the display if anything was still on there
   lc.clearDisplay(1);
 }
 
+//Turn up the brightness by 1
 void CDisplay::brightnessUp()
 {
-  //Serial.println("[Display] Turning up brightness...");
-  if (_autoBrightness)
+  if (_autoBrightness) //If autobrightness was enabled, disable it
   {
     Serial.println("[Display] Turning off auto brightness...");
     _autoBrightness = false;
     ConfigDisplay.saveSettings();
   }
-  if (brightness < 15)
+  if (brightness < 15) //Check if brightness is not max
   {
     brightness++;
     updateBrightness();
@@ -131,16 +136,16 @@ void CDisplay::brightnessUp()
   printf("[Display] Bightness: %u/15\n", brightness);
 }
 
-void CDisplay::brightnessDown()
+//Turn down the brightness by 1
+void CDisplay::brightnessDown() //If autobrightness was enabled, disable it
 {
-  //Serial.println("[Display] Turning down brightness...");
   if (_autoBrightness)
   {
     Serial.println("[Display] Turning off auto brightness...");
     _autoBrightness = false;
     ConfigDisplay.saveSettings();
   }
-  if (brightness > 0)
+  if (brightness > 0) //Check if brightness is not min
   {
     brightness--;
     updateBrightness();
@@ -149,16 +154,18 @@ void CDisplay::brightnessDown()
   printf("[Display] Bightness: %u/15\n", brightness);
 }
 
+//Display the time
 void CDisplay::showTime()
 {
   updateBrightness();
-  if ((millis() - 3000) > displayDelayTime)
+  if ((millis() - 3000) > displayDelayTime) //Check if no setting is showing
   {
-    if (!_onlineSync)
-      RtcDisplay.update();
+    if (!_onlineSync)      //Check if RTC is not used by the other core
+      RtcDisplay.update(); //Let RTC update global time
 
     uint8_t timeHour = _timeHour;
 
+    //Handle 12H clock
     if (!_use24h && (timeHour > 12))
     {
       timeHour = timeHour - 12;
@@ -167,7 +174,8 @@ void CDisplay::showTime()
     lc.clearDisplay(0);
     lc.clearDisplay(1);
 
-    //if ((timeHour / 10 % 10) != 0) //Hide leading 0
+    //Print time
+    //if ((timeHour / 10 % 10) != 0) //Uncomment to hide leading 0
     {
       printDigit(0, 0, timeHour / 10 % 10);
     }
@@ -185,17 +193,19 @@ void CDisplay::showTime()
   }
 }
 
+//Display the date
 void CDisplay::showDate()
 {
   updateBrightness();
-  if ((millis() - 3000) > displayDelayTime)
+  if ((millis() - 3000) > displayDelayTime) //Check if no setting is showing
   {
-    if (!_onlineSync)
-      RtcDisplay.update();
+    if (!_onlineSync)      //Check if RTC is not used by the other core
+      RtcDisplay.update(); //Let RTC update global time
 
     lc.clearDisplay(0);
     lc.clearDisplay(1);
 
+    //Handle date format
     if (_useDdmm) //Day - Month
     {
       if ((_timeDay / 10 % 10) != 0)
@@ -232,15 +242,16 @@ void CDisplay::showDate()
   }
 }
 
+//Display the temperature
 void CDisplay::showTemperature()
 {
   updateBrightness();
-  if ((millis() - 3000) > displayDelayTime)
+  if ((millis() - 3000) > displayDelayTime) //Check if no setting is showing
   {
     lc.clearDisplay(0);
     lc.clearDisplay(1);
 
-    if (_temperature < 0)
+    if (_temperature < 0) //Check if temperature is up to date. If it couldn't sync or if not connected the temperature is -1 Kelvin.
     {
       //Error
       printChar(0, 3, charUnknown, sizeof(charUnknown));
@@ -285,15 +296,16 @@ void CDisplay::showTemperature()
   }
 }
 
+//Display the humidity
 void CDisplay::showHumidity()
 {
   updateBrightness();
-  if ((millis() - 3000) > displayDelayTime)
+  if ((millis() - 3000) > displayDelayTime) //Check if no setting is showing
   {
     lc.clearDisplay(0);
     lc.clearDisplay(1);
 
-    if ((_humidity < 0) || (_humidity > 100))
+    if ((_humidity < 0) || (_humidity > 100)) //Check if humidity is up to date or out of range. If it couldn't sync or if not connected the humidity is -1%.
     {
       printChar(0, 2, charUnknown, sizeof(charUnknown));
       printChar(0, 6, charUnknown, sizeof(charUnknown));
@@ -310,6 +322,7 @@ void CDisplay::showHumidity()
   }
 }
 
+//Display time and date in binary
 void CDisplay::showTimeBin()
 {
   updateBrightness();
@@ -350,6 +363,7 @@ void CDisplay::showTimeBin()
   //write manual that bin time is always 24h
 }
 
+//Display the brightness value
 void CDisplay::showBrightness()
 {
   lc.clearDisplay(0);
@@ -407,6 +421,7 @@ void CDisplay::showBrightness()
   updateBrightness();
 }
 
+//Show text 'Auto' to indicate autobrightness is active
 void CDisplay::showAutoBrightness()
 {
   Serial.println("[Display] Showing auto brightness setting...");
@@ -420,6 +435,7 @@ void CDisplay::showAutoBrightness()
   updateBrightness();
 }
 
+//Show the char '↻' to indicate auto cycling is active
 void CDisplay::showAutoCycle()
 {
   Serial.println("[Display] Showing auto cycle setting...");
@@ -430,6 +446,7 @@ void CDisplay::showAutoCycle()
   updateBrightness();
 }
 
+//Show status while initializing
 void CDisplay::showStatus(EStatus state_1, EStatus state_2, EStatus state_3)
 {
   //Print state 1
@@ -475,6 +492,7 @@ void CDisplay::showStatus(EStatus state_1, EStatus state_2, EStatus state_3)
   }
 }
 
+//Show reset icon to indicate ESP is resetting
 void CDisplay::showReset()
 {
   lc.clearDisplay(0);
