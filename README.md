@@ -1,3 +1,4 @@
+
 # Smart Clock
 
 [![Build Status](https://travis-ci.com/noelvissers/esp32-smart-clock.svg?token=iFxUVHtLTBXHs7qouyTv&branch=master)](https://travis-ci.com/noelvissers/esp32-smart-clock)
@@ -8,13 +9,24 @@ Hardware files are made in Altium and software is written in C++.
 ![Smart Clock](/thumbnail.png?raw=true "Smart Clock")
 
 'Smart Clock' is a project I started years ago with an idea for my arduino nano after seeing [this](https://www.instructables.com/id/Making-a-Wooden-LED-Clock/) project. I got the basics to work but wanted to expand on this idea.
-A lot more was possible with WiFi intergration on the ESP32, so thats what made me pick up this project again. I'm most interested in hardware (that's also what I studied) but during this project I learned a lot about C++ in general, so it was a good learning experience. I know the code can get a lot cleaner if I remove some globals vars and structure some things a bit different, but I found a lot of that out while already being pretty far into the project. Maybe something to change in the future, but not for now.
+A lot more was possible with WiFi integration on the ESP32, so that's what made me pick up this project again. I'm most interested in hardware (that's also what I studied) but during this project I learned a lot about C++ in general, so it was a good learning experience. I know the code can get a lot cleaner if I remove some global vars and structure some things a bit different, but I found a lot of that out while already being pretty far into the project. Maybe something to change in the future, but not for now.
 
 ## Features
-//Why is this clock 'smart'
-//Gif of different modes    
-//Picture config portal
-//Automatic timezone/DST
+I called this project 'Smart Clock' but what does this exactly mean in this project? The clock in 'smart' in a way that it does a lot of things automatically, without the need of any user input. This results to the following features: 
+- Automatic network configuration:   
+The clock can automatically connect to a saved WiFi network. When there is no network configured, it sets up its own network to connect to via your PC, tablet or phone. A new WiFi connection can be configured in the portal that shows up after connecting. The settings of the clock can also be configured in this portal as shown below:   
+![Configuration portal]()   
+- As shown in the portal, the clock has a lot of different settings:
+   - Auto brightness: Automatically change the brightness of the matrix display depending on the light level in the room. This can also be manually controlled with the buttons on top of the clock (this will disable auto brightness and can be enabled again by holding the '+' button). Sensitivity can be adjusted in software, and with the potentitometer on the PCB.
+   - Auto cycling: Auto cycle between the different screens like time, date and weather information. This can also be manually done by pressing the middle button on the clock. Doing this will disable auto cycling. To enable this again, hold the '-' button.
+   - Clock format: Choose between 12 hour or 24 hour clock format.
+   - Date format: Choose between Day-Month format or Month-Day format.
+   - Temperature unit: Choose between °F or °C. 
+   - City/Country: Get accurate weather information from your specified location. Check the available locations and valid format [here](https://openweathermap.org/).
+- The clock automatically changes to DST when this is applicable for your location (automatically detected). 
+- The RTC is synced with the web. This means if for some reason the RTc gets out of sync, the right time is set based on your [IP/location](http://worldtimeapi.org/api/ip).   
+Cycling through the different modes:   
+![Modes gif]()   
 
 ## Table of content
 - [Features](#features)
@@ -33,11 +45,11 @@ A lot more was possible with WiFi intergration on the ESP32, so thats what made 
     + [Buttons](#buttons)
     + [PCB assembly](#pcb-assembly)
 - [Case](#case)
-- [Wishlist](#wishlist)
+- [Wish list](#wish-list)
 
 ## Project directories
 ### `/hardware`
-This directory includes all the hardware files used in this project. The .pdf files of the SmartClock schematic and PCB design are located in the main folder. The original Altium Designer files and gerber files are located in the subfolders.
+This directory includes all the hardware files used in this project. The .pdf files of the Smart Clock schematic and PCB design are located in the main folder. The original Altium Designer files and gerber files are located in the sub folders.
 ### `/include`
 The include directory contains all the header files needed for this project. 
 ### `/src`
@@ -53,15 +65,39 @@ This project is written in C++ on the Arduino framework using PlatformIO.
 ### Libraries
 - Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`.
 ### Documentation 
-- //how to connect via portal etc
-- //valid inputs for portal
-- //how to setup weather acc / key
-- //overall functionality (what do buttons do etc)
-- See comments in source files for the explanation of the code.
+- Explanation of code   
+See comments in source files for the explanation of the code.
+- Powering the Smart Clock   
+The clock is USB powered via USB type C. Connect an USB cable to a power source (like a phone charger or USB port) and connect the USB type C connector to the back of the clock like shown below.   
+![USB C connector]()   
+- Setting up the Smart Clock   
+	1. To connect the ESP32 to a network, power the clock and wait for the status icon to appear:   
+![Init status]()   
+	2. Meaning of status icons:   
+![Status meaning]()   (what is what (wifi/time/weather) and what does the icon mean ⚪⦿●)   
+	3. When the network status is 'stuck' on this initializing, it means it couldn't connect to a saved network and it needs to be configured. To do this, open the WiFi settings on your phone (or other device) and connect with 'Smart Clock'. After connecting with the ESP, the configuration portal will appear.
+	4. Click on X to configure WiFi and settings:   
+![Portal login screen]() ![Portal config screen]()   
+	5. Select the network you want to connect to and fill in the password.
+	6. Check the settings to your preference:   
+![Portal setting screen]()   
+	7. Fill in your location and API key:   
+  - **City**: The name of the city you want to get the weather data from (ex. Amsterdam). 
+  - **Country code**: The country the city is in (ex. Netherlands).
+	  Valid location data can be found on the [OpenWeatherMap site](https://openweathermap.org/).
+  - **API key**: Your OpenWeatherMap API key (see [here](https://openweathermap.org/appid) how to get an API key).   
+![Portal weather settings]()   
+  - After setting up your network, the clock should be configured and show the current time.   
+   
+- Buttons   
+![Buttons]()
+`- | Min` Brightness level down (this disables auto brightness if enabled). Hold to enable auto cycling.
+`○ | Select` Cycle between time, date, temperature and humidity (this disables auto cycling if enabled). Hold (for 5 seconds) to reset clock (wipes settings and saved networks).
+`+ | Plus`  Brightness level up (this disables auto brightness if enabled). Hold (for 3 seconds) to enable auto brightness.
 
 ## Hardware
 The whole project is built on the ESP32. The board I used is the [ESP32-DevKitC V4](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html). This microcontroller is easy to use (uses the Arduino framework) and has built-in bluetooth and wifi connectivity. This controller also has two cores which is very usefull in some situations.
-### Components
+### Components (needs updating!)
 - [ESP32-WROOM-32D](https://aliexpress.com/item/4000103411061.html?spm=a2g0o.productlist.0.0.65194be4xhn0yb&algo_pvid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2&algo_expid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2-1&btsid=0b0a187915827913900936140e29eb&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_)
 - [Micro USB cable extender](https://aliexpress.com/item/32859863965.html?spm=a2g0s.9042311.0.0.27424c4du3jPcB)
 - [USB C (F) to micro USB (M)](https://aliexpress.com/item/33004521025.html?spm=a2g0s.9042311.0.0.27424c4du3jPcB)
@@ -107,12 +143,12 @@ Mechanical drawing to figure out actual sizes of the case:
 
 //Wood sawing etc...
 
-## Wishlist
+## Wish list
 These are features I don't expect to implement, but that could be nice for a future update.
-- [x] Have Wifi configurable and not hardcoded.  
-- [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev kit (or any USB interface at all).  
+- [x] Have Wifi configurable and not hard-coded.  
+- [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev. kit (or any USB interface at all).  
 - [ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).  
 - [ ] Auto detect location to configure weather or use location from app.
 - [ ] Add audio support to add alarms/mp3 playback via app.   
    
-Feel free to submit any issues and/or pull requests if you have new idea's or run into issues. Ofcourse you are also free to implement idea's I mentioned.
+Feel free to submit any issues and/or pull requests if you have new idea's or run into issues. Of course you are also free to implement idea's I mentioned.
