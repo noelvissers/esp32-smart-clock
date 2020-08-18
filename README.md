@@ -90,14 +90,13 @@ The clock is USB powered via USB type C. Connect an USB cable to a power source 
 ### Language
 This project is written in C++ on the Arduino framework using PlatformIO. 
 ### IDE
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
+- [Visual Studio Code](https://code.visualstudio.com/) (Free)
+- [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode) (Extension for VSCode. This basically is a fancy Arduino IDE and I recommend it for everyone programming an Arduino or using the Arduino platform since it's way more user and debug friendly)
 - [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
 ### Libraries
 - Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`.
 ### Documentation
-- Explanation of code   
-See comments in source files for the explanation of the code.
+- See comments in source files for the explanation of the code.
 
 ## Hardware
 The whole project is built on the ESP32. The board I used is the [ESP32-DevKitC V4](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html). This microcontroller is easy to use (uses the Arduino framework) and has built-in bluetooth and wifi connectivity. This controller also has two cores which is very usefull in some situations.
