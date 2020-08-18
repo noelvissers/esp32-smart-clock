@@ -34,7 +34,7 @@ A lot more was possible with WiFi integration on the ESP32, so that's what made 
 I called this project 'Smart Clock' but what does this exactly mean in this project? The clock in 'smart' in a way that it does a lot of things automatically, without the need of any user input. This results to the following features: 
 - Displaying time and weather information   
 Of course the most important feature of a clock: Displaying the time. Besides displaying time, the Smart Clock can display date, temperature, humidity and time with date in binary (when enabled and always in 24H format).    
-[Diffrent modes gif]()   
+![Diffrent modes gif]()   
 - Automatic network configuration:   
 The clock can automatically connect to a saved WiFi network. When there is no network configured, it sets up its own network to connect to via your PC, tablet or phone. A new WiFi connection can be configured in the portal that shows up after connecting. The settings of the clock can also be configured in this portal as shown below:   
 ![Configuration portal]()   
