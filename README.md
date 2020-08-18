@@ -14,11 +14,12 @@ A lot more was possible with WiFi integration on the ESP32, so that's what made 
 ## Table of content
 - [Features](#features)
 - [Project directories](#project-directories)
+- [Manual](#manual)
 - [Software](#software)
   * [Language](#language)
   * [IDE](#ide)
   * [Libraries](#libraries)
-  * [Documentation and use](#documentation-and-use)
+  * [Documentation](#documentation)
 - [Hardware](#hardware)
   * [Components](#components)
   * [Circuits](#circuits)
@@ -56,18 +57,7 @@ The include directory contains all the header files needed for this project.
 ### `/src`
 The src directory contains all the `.cpp` files needed to run this project, including the `main.cpp` file.
 
-## Software
-### Language
-This project is written in C++ on the Arduino framework using PlatformIO. 
-### IDE
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
-- [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
-### Libraries
-- Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`.
-### Documentation and use
-- Explanation of code   
-See comments in source files for the explanation of the code.
+## Manual
 - Powering the Smart Clock   
 The clock is USB powered via USB type C. Connect an USB cable to a power source (like a phone charger or USB port) and connect the USB type C connector to the back of the clock like shown below.   
 ![USB C connector]()   
@@ -96,9 +86,23 @@ The clock is USB powered via USB type C. Connect an USB cable to a power source 
 `○ | Select` Cycle between time, date, temperature and humidity (this disables auto cycling if enabled). Hold (for 5 seconds) to reset clock (wipes settings and saved networks).   
 `+ | Plus`  Brightness level up (this disables auto brightness if enabled). Hold (for 3 seconds) to enable auto brightness.   
 
+## Software
+### Language
+This project is written in C++ on the Arduino framework using PlatformIO. 
+### IDE
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [PlatformIO for VSCode](https://platformio.org/install/ide?install=vscode)
+- [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
+### Libraries
+- Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`.
+### Documentation
+- Explanation of code   
+See comments in source files for the explanation of the code.
+
 ## Hardware
 The whole project is built on the ESP32. The board I used is the [ESP32-DevKitC V4](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html). This microcontroller is easy to use (uses the Arduino framework) and has built-in bluetooth and wifi connectivity. This controller also has two cores which is very usefull in some situations.
-### Components (needs updating!)
+### Components   
+NEEDS UPDATING!!!   
 - [ESP32-WROOM-32D](https://aliexpress.com/item/4000103411061.html?spm=a2g0o.productlist.0.0.65194be4xhn0yb&algo_pvid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2&algo_expid=acb1591c-bfd1-4233-9fea-c6a11bc02fd2-1&btsid=0b0a187915827913900936140e29eb&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_)
 - [Micro USB cable extender](https://aliexpress.com/item/32859863965.html?spm=a2g0s.9042311.0.0.27424c4du3jPcB)
 - [USB C (F) to micro USB (M)](https://aliexpress.com/item/33004521025.html?spm=a2g0s.9042311.0.0.27424c4du3jPcB)
