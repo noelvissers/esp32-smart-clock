@@ -47,7 +47,7 @@ The clock can automatically connect to a saved WiFi network. When there is no ne
    - **Temperature unit**: Choose between °F or °C. 
    - **City/Country**: Get accurate weather information from your specified location. Check the available locations and valid format [here](https://openweathermap.org/).
 - The clock automatically changes to DST when this is applicable for your location (automatically detected). 
-- The RTC is synced with the web. This means if for some reason the RTc gets out of sync, the right time is set based on your [IP/location](http://worldtimeapi.org/api/ip).   
+- The RTC is synced with the web. This means if for some reason the RTC gets out of sync, the right time is set based on your [IP/location](http://worldtimeapi.org/api/ip).   
 
 ## Project directories
 ### `/hardware`
