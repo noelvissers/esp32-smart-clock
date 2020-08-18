@@ -40,12 +40,12 @@ Of course the most important feature of a clock: Displaying the time. Besides di
 The clock can automatically connect to a saved WiFi network. When there is no network configured, it sets up its own network to connect to via your PC, tablet or phone. A new WiFi connection can be configured in the portal that shows up after connecting. The settings of the clock can also be configured in this portal as shown below:   
 ![Configuration portal]()   
 - As shown in the portal, the clock has a lot of different settings:
-   - Auto brightness: Automatically change the brightness of the matrix display depending on the light level in the room. This can also be manually controlled with the buttons on top of the clock (this will disable auto brightness and can be enabled again by holding the '+' button). Sensitivity can be adjusted in software, and with the potentitometer on the PCB.
-   - Auto cycling: Auto cycle between the different screens like time, date and weather information. This can also be manually done by pressing the middle button on the clock. Doing this will disable auto cycling. To enable this again, hold the '-' button.
-   - Clock format: Choose between 12 hour or 24 hour clock format.
-   - Date format: Choose between Day-Month format or Month-Day format.
-   - Temperature unit: Choose between °F or °C. 
-   - City/Country: Get accurate weather information from your specified location. Check the available locations and valid format [here](https://openweathermap.org/).
+   - **Auto brightness**: Automatically change the brightness of the matrix display depending on the light level in the room. This can also be manually controlled with the buttons on top of the clock (this will disable auto brightness and can be enabled again by holding the '+' button). Sensitivity can be adjusted in software, and with the potentitometer on the PCB.
+   - **Auto cycling**: Auto cycle between the different screens like time, date and weather information. This can also be manually done by pressing the middle button on the clock. Doing this will disable auto cycling. To enable this again, hold the '-' button.
+   - **Clock format**: Choose between 12 hour or 24 hour clock format.
+   - **Date format**: Choose between Day-Month format or Month-Day format.
+   - **Temperature unit**: Choose between °F or °C. 
+   - **City/Country**: Get accurate weather information from your specified location. Check the available locations and valid format [here](https://openweathermap.org/).
 - The clock automatically changes to DST when this is applicable for your location (automatically detected). 
 - The RTC is synced with the web. This means if for some reason the RTc gets out of sync, the right time is set based on your [IP/location](http://worldtimeapi.org/api/ip).   
 
