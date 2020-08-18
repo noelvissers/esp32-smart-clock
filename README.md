@@ -90,10 +90,10 @@ The clock is USB powered via USB type C. Connect an USB cable to a power source 
   - After setting up your network, the clock should be configured and show the current time.   
    
 - Buttons   
-![Buttons]()
-`- | Min` Brightness level down (this disables auto brightness if enabled). Hold to enable auto cycling.
-`○ | Select` Cycle between time, date, temperature and humidity (this disables auto cycling if enabled). Hold (for 5 seconds) to reset clock (wipes settings and saved networks).
-`+ | Plus`  Brightness level up (this disables auto brightness if enabled). Hold (for 3 seconds) to enable auto brightness.
+![Buttons]()   
+`- | Min` Brightness level down (this disables auto brightness if enabled). Hold to enable auto cycling.   
+`○ | Select` Cycle between time, date, temperature and humidity (this disables auto cycling if enabled). Hold (for 5 seconds) to reset clock (wipes settings and saved networks).   
+`+ | Plus`  Brightness level up (this disables auto brightness if enabled). Hold (for 3 seconds) to enable auto brightness.   
 
 ## Hardware
 The whole project is built on the ESP32. The board I used is the [ESP32-DevKitC V4](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html). This microcontroller is easy to use (uses the Arduino framework) and has built-in bluetooth and wifi connectivity. This controller also has two cores which is very usefull in some situations.
