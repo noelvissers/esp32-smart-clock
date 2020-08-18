@@ -32,7 +32,7 @@ A lot more was possible with WiFi integration on the ESP32, so that's what made 
 - [Wish list](#wish-list)
 
 ## Features
-I called this project 'Smart Clock' but what does this exactly mean in this project? The clock in 'smart' in a way that it does a lot of things automatically, without the need of any user input. This results to the following features: 
+I called this project 'Smart Clock' but what does this exactly mean in this project? The clock is 'smart' in a way that it does a lot of things automatically, without the need of any user input. This results to the following features: 
 - Displaying time and weather information   
 Of course the most important feature of a clock: Displaying the time. Besides displaying time, the Smart Clock can display date, temperature, humidity and time with date in binary (when enabled and always in 24H format).    
 ![Diffrent modes gif]()   
