@@ -11,23 +11,6 @@ Hardware files are made in Altium and software is written in C++.
 'Smart Clock' is a project I started years ago with an idea for my arduino nano after seeing [this](https://www.instructables.com/id/Making-a-Wooden-LED-Clock/) project. I got the basics to work but wanted to expand on this idea.
 A lot more was possible with WiFi integration on the ESP32, so that's what made me pick up this project again. I'm most interested in hardware (that's also what I studied) but during this project I learned a lot about C++ in general, so it was a good learning experience. I know the code can get a lot cleaner if I remove some global vars and structure some things a bit different, but I found a lot of that out while already being pretty far into the project. Maybe something to change in the future, but not for now.
 
-## Features
-I called this project 'Smart Clock' but what does this exactly mean in this project? The clock in 'smart' in a way that it does a lot of things automatically, without the need of any user input. This results to the following features: 
-- Automatic network configuration:   
-The clock can automatically connect to a saved WiFi network. When there is no network configured, it sets up its own network to connect to via your PC, tablet or phone. A new WiFi connection can be configured in the portal that shows up after connecting. The settings of the clock can also be configured in this portal as shown below:   
-![Configuration portal]()   
-- As shown in the portal, the clock has a lot of different settings:
-   - Auto brightness: Automatically change the brightness of the matrix display depending on the light level in the room. This can also be manually controlled with the buttons on top of the clock (this will disable auto brightness and can be enabled again by holding the '+' button). Sensitivity can be adjusted in software, and with the potentitometer on the PCB.
-   - Auto cycling: Auto cycle between the different screens like time, date and weather information. This can also be manually done by pressing the middle button on the clock. Doing this will disable auto cycling. To enable this again, hold the '-' button.
-   - Clock format: Choose between 12 hour or 24 hour clock format.
-   - Date format: Choose between Day-Month format or Month-Day format.
-   - Temperature unit: Choose between °F or °C. 
-   - City/Country: Get accurate weather information from your specified location. Check the available locations and valid format [here](https://openweathermap.org/).
-- The clock automatically changes to DST when this is applicable for your location (automatically detected). 
-- The RTC is synced with the web. This means if for some reason the RTc gets out of sync, the right time is set based on your [IP/location](http://worldtimeapi.org/api/ip).   
-Cycling through the different modes:   
-![Modes gif]()   
-
 ## Table of content
 - [Features](#features)
 - [Project directories](#project-directories)
@@ -46,6 +29,23 @@ Cycling through the different modes:
     + [PCB assembly](#pcb-assembly)
 - [Case](#case)
 - [Wish list](#wish-list)
+
+## Features
+I called this project 'Smart Clock' but what does this exactly mean in this project? The clock in 'smart' in a way that it does a lot of things automatically, without the need of any user input. This results to the following features: 
+- Automatic network configuration:   
+The clock can automatically connect to a saved WiFi network. When there is no network configured, it sets up its own network to connect to via your PC, tablet or phone. A new WiFi connection can be configured in the portal that shows up after connecting. The settings of the clock can also be configured in this portal as shown below:   
+![Configuration portal]()   
+- As shown in the portal, the clock has a lot of different settings:
+   - Auto brightness: Automatically change the brightness of the matrix display depending on the light level in the room. This can also be manually controlled with the buttons on top of the clock (this will disable auto brightness and can be enabled again by holding the '+' button). Sensitivity can be adjusted in software, and with the potentitometer on the PCB.
+   - Auto cycling: Auto cycle between the different screens like time, date and weather information. This can also be manually done by pressing the middle button on the clock. Doing this will disable auto cycling. To enable this again, hold the '-' button.
+   - Clock format: Choose between 12 hour or 24 hour clock format.
+   - Date format: Choose between Day-Month format or Month-Day format.
+   - Temperature unit: Choose between °F or °C. 
+   - City/Country: Get accurate weather information from your specified location. Check the available locations and valid format [here](https://openweathermap.org/).
+- The clock automatically changes to DST when this is applicable for your location (automatically detected). 
+- The RTC is synced with the web. This means if for some reason the RTc gets out of sync, the right time is set based on your [IP/location](http://worldtimeapi.org/api/ip).   
+Cycling through the different modes:   
+![Modes gif]()   
 
 ## Project directories
 ### `/hardware`
