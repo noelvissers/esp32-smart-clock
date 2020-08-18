@@ -35,7 +35,7 @@ Cycling through the different modes:
   * [Language](#language)
   * [IDE](#ide)
   * [Libraries](#libraries)
-  * [Documentation](#documentation)
+  * [Documentation and use](#documentation-and-use)
 - [Hardware](#hardware)
   * [Components](#components)
   * [Circuits](#circuits)
@@ -64,7 +64,7 @@ This project is written in C++ on the Arduino framework using PlatformIO.
 - [Tutorial for using PlatformIO with ESP32](https://docs.platformio.org/en/latest/tutorials/espressif32/arduino_debugging_unit_testing.html)
 ### Libraries
 - Libraries are automatically downloaded when building the project. They are defined in `platformio.ini`.
-### Documentation 
+### Documentation and use
 - Explanation of code   
 See comments in source files for the explanation of the code.
 - Powering the Smart Clock   
