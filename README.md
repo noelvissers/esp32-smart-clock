@@ -129,12 +129,12 @@ For the buttons I used a simple debounce circuit. In testing I found out that th
 ### Testing
 Testing all the hardware (and also software). This is to check if all the circuits work as intented.   
    
-![Breadboard testing](https://i.imgur.com/rwo62C9.png)   
+![Breadboard testing](/pictures/breadboard_test?raw=true "Breadboard testing")
    
 As you can see, the right display has a different brightness. During the testing phase, I found out the display can actually get pretty bright and also blinding. So I expirimented with different resistor values.
 
 ### PCB
-//Design (connectors etc)...
+//Design (connectors etc)...   
 //Print on board where components need to be. R1 R2 C1 U1 etc...   
 //Order of assembly   
 
@@ -146,7 +146,7 @@ Mechanical sketch to quickly see what would go where and how:
 
 Mechanical drawing to figure out actual sizes of the case:   
    
-![MCH drawing]()
+![3D sketch](/pictures/3d_sketch.png?raw=true "3D sketch")
 
 //Wood sawing etc...
 
