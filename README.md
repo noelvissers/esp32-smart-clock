@@ -129,7 +129,7 @@ For the buttons I used a simple debounce circuit. In testing I found out that th
 ### Testing
 Testing all the hardware (and also software). This is to check if all the circuits work as intented.   
    
-![Breadboard testing](/pictures/breadboard_test?raw=true "Breadboard testing")
+![Breadboard testing](/pictures/breadboard_test.png?raw=true "Breadboard testing")
    
 As you can see, the right display has a different brightness. During the testing phase, I found out the display can actually get pretty bright and also blinding. So I expirimented with different resistor values.
 
