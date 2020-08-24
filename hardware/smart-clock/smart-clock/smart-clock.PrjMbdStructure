@@ -1,0 +1,4 @@
+Record=DiagramHierarchy|SourceDocument=smart-clock-mutliboard.MbsDoc|Kind=Multi-board Schematic Module|Designator=Display|Source=..\smart-clock-display\smart-clock-display.PrjPcb
+Record=SubProject|SourceDocument=smart-clock-mutliboard.MbsDoc|ProjectPath=..\smart-clock-display\smart-clock-display.PrjPcb
+Record=DiagramHierarchy|SourceDocument=smart-clock-mutliboard.MbsDoc|Kind=Multi-board Schematic Module|Designator=Main board|Source=..\smart-clock-main-board\smart-clock-main-board.PrjPcb
+Record=SubProject|SourceDocument=smart-clock-mutliboard.MbsDoc|ProjectPath=..\smart-clock-main-board\smart-clock-main-board.PrjPcb
