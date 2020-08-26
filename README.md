@@ -142,7 +142,7 @@ As you can see, the right display has a different brightness. During the testing
 The case.   
 //Pictures   
 Mechanical sketch to quickly see what would go where and how:   
-<img src="https://i.imgur.com/OlD9MNi.png" alt="MCH sktech" width="500">
+![3D sketch](/pictures/mch_sketch.png?raw=true "MCH sketch")
 
 Mechanical drawing to figure out actual sizes of the case:   
    
