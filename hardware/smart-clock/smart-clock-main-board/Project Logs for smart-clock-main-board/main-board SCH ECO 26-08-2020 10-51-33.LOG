@@ -1,0 +1,8 @@
+Replace Part FD1 FD in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with FD from smart-clock-lib.IntLib
+Replace Part FD2 FD in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with FD from smart-clock-lib.IntLib
+Replace Part H1 MOUNTING-HOLE in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with MOUNTING-HOLE from smart-clock-lib.IntLib
+Replace Part H2 MOUNTING-HOLE in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with MOUNTING-HOLE from smart-clock-lib.IntLib
+Replace Part H3 MOUNTING-HOLE in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with MOUNTING-HOLE from smart-clock-lib.IntLib
+Replace Part H4 MOUNTING-HOLE in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with MOUNTING-HOLE from smart-clock-lib.IntLib
+Replace Part X1 HEADER-2x5 in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with HEADER-2x5 from smart-clock-lib.IntLib
+Replace Part X2 HEADER-2x5 in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\main-board.SchDoc with HEADER-2x5 from smart-clock-lib.IntLib

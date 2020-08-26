@@ -1,0 +1,4 @@
+Added Component: Designator=H1(HOLE)
+Added Component: Designator=H2(HOLE)
+Added Pin To Net: NetName=GND Pin=H1-1
+Added Pin To Net: NetName=GND Pin=H2-1

@@ -1,0 +1,140 @@
+Added Component: Designator=C4000(TH-CAPACITOR)
+Added Component: Designator=C4001(TH-CAPACITOR)
+Added Component: Designator=C4002(TH-CAPACITOR)
+Added Component: Designator=FD1(FD)
+Added Component: Designator=FD2(FD)
+Added Component: Designator=H1(M3-SCREW)
+Added Component: Designator=H2(M3-SCREW)
+Added Component: Designator=H3(M3-SCREW)
+Added Component: Designator=H4(M3-SCREW)
+Added Component: Designator=R3000(TH-LDR)
+Added Component: Designator=R3001(POTENTIOMETER)
+Added Component: Designator=R3002(AXIAL RESISTOR)
+Added Component: Designator=R4000(AXIAL RESISTOR)
+Added Component: Designator=R4001(AXIAL RESISTOR)
+Added Component: Designator=R4002(AXIAL RESISTOR)
+Added Component: Designator=R4003(AXIAL RESISTOR)
+Added Component: Designator=R4004(AXIAL RESISTOR)
+Added Component: Designator=R4005(AXIAL RESISTOR)
+Added Component: Designator=SW4000(TH-PUSHBUTTON)
+Added Component: Designator=SW4001(TH-PUSHBUTTON)
+Added Component: Designator=SW4002(TH-PUSHBUTTON)
+Added Component: Designator=U1000(ESP32-DEVKITC-32D)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Espressif Systems"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ESP32-DEVKITC-32D"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/ESP32-DEVKITC-32D/Espressif%20Systems/view-part/2777395/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U1001(LEVEL-SHIFTER)
+Added Component: Designator=X1(HEADER-2x5-FEMALE)
+Add component (AddParameter): Name = "System"; Value = "Connector"; VariantName = "[No Variations]"
+Added Component: Designator=X2(HEADER-2x5-FEMALE)
+Add component (AddParameter): Name = "System"; Value = "Connector"; VariantName = "[No Variations]"
+Added Component: Designator=X2000(DS3231-MINI)
+Added Pin To Net: NetName=3V3_VCC Pin=R3000-1
+Added Pin To Net: NetName=3V3_VCC Pin=R4000-1
+Added Pin To Net: NetName=3V3_VCC Pin=R4002-1
+Added Pin To Net: NetName=3V3_VCC Pin=R4004-1
+Added Pin To Net: NetName=3V3_VCC Pin=U1000-1
+Added Pin To Net: NetName=3V3_VCC Pin=U1001-6
+Added Pin To Net: NetName=3V3_VCC Pin=X2000-1
+Added Net: Name=3V3_VCC
+Added Pin To Net: NetName=5V_VCC Pin=U1000-19
+Added Pin To Net: NetName=5V_VCC Pin=U1001-5
+Added Pin To Net: NetName=5V_VCC Pin=X1-7
+Added Pin To Net: NetName=5V_VCC Pin=X1-9
+Added Pin To Net: NetName=5V_VCC Pin=X2-1
+Added Pin To Net: NetName=5V_VCC Pin=X2-3
+Added Pin To Net: NetName=5V_VCC Pin=X2-5
+Added Pin To Net: NetName=5V_VCC Pin=X2-7
+Added Pin To Net: NetName=5V_VCC Pin=X2-9
+Added Net: Name=5V_VCC
+Added Pin To Net: NetName=CS_3V3 Pin=U1000-29
+Added Pin To Net: NetName=CS_3V3 Pin=U1001-10
+Added Net: Name=CS_3V3
+Added Pin To Net: NetName=GND Pin=C4000-2
+Added Pin To Net: NetName=GND Pin=C4001-2
+Added Pin To Net: NetName=GND Pin=C4002-2
+Added Pin To Net: NetName=GND Pin=H1-1
+Added Pin To Net: NetName=GND Pin=H2-1
+Added Pin To Net: NetName=GND Pin=H3-1
+Added Pin To Net: NetName=GND Pin=H4-1
+Added Pin To Net: NetName=GND Pin=R3002-2
+Added Pin To Net: NetName=GND Pin=SW4000-3
+Added Pin To Net: NetName=GND Pin=SW4000-4
+Added Pin To Net: NetName=GND Pin=SW4001-3
+Added Pin To Net: NetName=GND Pin=SW4001-4
+Added Pin To Net: NetName=GND Pin=SW4002-3
+Added Pin To Net: NetName=GND Pin=SW4002-4
+Added Pin To Net: NetName=GND Pin=U1000-14
+Added Pin To Net: NetName=GND Pin=U1000-20
+Added Pin To Net: NetName=GND Pin=U1000-26
+Added Pin To Net: NetName=GND Pin=U1001-7
+Added Pin To Net: NetName=GND Pin=U1001-8
+Added Pin To Net: NetName=GND Pin=X1-2
+Added Pin To Net: NetName=GND Pin=X1-4
+Added Pin To Net: NetName=GND Pin=X1-6
+Added Pin To Net: NetName=GND Pin=X1-8
+Added Pin To Net: NetName=GND Pin=X1-10
+Added Pin To Net: NetName=GND Pin=X2-2
+Added Pin To Net: NetName=GND Pin=X2-4
+Added Pin To Net: NetName=GND Pin=X2-6
+Added Pin To Net: NetName=GND Pin=X2-8
+Added Pin To Net: NetName=GND Pin=X2-10
+Added Pin To Net: NetName=GND Pin=X2000-5
+Added Net: Name=GND
+Added Pin To Net: NetName=MOSI_3V3 Pin=U1000-21
+Added Pin To Net: NetName=MOSI_3V3 Pin=U1001-2
+Added Net: Name=MOSI_3V3
+Added Pin To Net: NetName=NetC4000_1 Pin=C4000-1
+Added Pin To Net: NetName=NetC4000_1 Pin=R4001-1
+Added Pin To Net: NetName=NetC4000_1 Pin=U1000-7
+Added Net: Name=NetC4000_1
+Added Pin To Net: NetName=NetC4001_1 Pin=C4001-1
+Added Pin To Net: NetName=NetC4001_1 Pin=R4003-1
+Added Pin To Net: NetName=NetC4001_1 Pin=U1000-8
+Added Net: Name=NetC4001_1
+Added Pin To Net: NetName=NetC4002_1 Pin=C4002-1
+Added Pin To Net: NetName=NetC4002_1 Pin=R4005-1
+Added Pin To Net: NetName=NetC4002_1 Pin=U1000-9
+Added Net: Name=NetC4002_1
+Added Pin To Net: NetName=NetR3000_2 Pin=R3000-2
+Added Pin To Net: NetName=NetR3000_2 Pin=R3001-1
+Added Pin To Net: NetName=NetR3000_2 Pin=U1000-5
+Added Net: Name=NetR3000_2
+Added Pin To Net: NetName=NetR3001_2 Pin=R3001-2
+Added Pin To Net: NetName=NetR3001_2 Pin=R3001-3
+Added Pin To Net: NetName=NetR3001_2 Pin=R3002-1
+Added Net: Name=NetR3001_2
+Added Pin To Net: NetName=NetR4000_2 Pin=R4000-2
+Added Pin To Net: NetName=NetR4000_2 Pin=R4001-2
+Added Pin To Net: NetName=NetR4000_2 Pin=SW4000-1
+Added Net: Name=NetR4000_2
+Added Pin To Net: NetName=NetR4002_2 Pin=R4002-2
+Added Pin To Net: NetName=NetR4002_2 Pin=R4003-2
+Added Pin To Net: NetName=NetR4002_2 Pin=SW4001-1
+Added Net: Name=NetR4002_2
+Added Pin To Net: NetName=NetR4004_2 Pin=R4004-2
+Added Pin To Net: NetName=NetR4004_2 Pin=R4005-2
+Added Pin To Net: NetName=NetR4004_2 Pin=SW4002-1
+Added Net: Name=NetR4004_2
+Added Pin To Net: NetName=NetU1000_22 Pin=U1000-22
+Added Pin To Net: NetName=NetU1000_22 Pin=X2000-3
+Added Net: Name=NetU1000_22
+Added Pin To Net: NetName=NetU1000_25 Pin=U1000-25
+Added Pin To Net: NetName=NetU1000_25 Pin=X2000-2
+Added Net: Name=NetU1000_25
+Added Pin To Net: NetName=NetU1001_1 Pin=U1001-1
+Added Pin To Net: NetName=NetU1001_1 Pin=X1-5
+Added Net: Name=NetU1001_1
+Added Pin To Net: NetName=NetU1001_3 Pin=U1001-3
+Added Pin To Net: NetName=NetU1001_3 Pin=X1-1
+Added Net: Name=NetU1001_3
+Added Pin To Net: NetName=NetU1001_9 Pin=U1001-9
+Added Pin To Net: NetName=NetU1001_9 Pin=X1-3
+Added Net: Name=NetU1001_9
+Added Pin To Net: NetName=SCK_3V3 Pin=U1000-28
+Added Pin To Net: NetName=SCK_3V3 Pin=U1001-4
+Added Net: Name=SCK_3V3

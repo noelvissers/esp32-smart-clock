@@ -1,0 +1,3 @@
+Replace Part R3000 LDR in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\ldr.SchDoc with LDR from smart-clock-lib.IntLib
+Replace Part R3001 POTMETER in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\ldr.SchDoc with POTMETER from smart-clock-lib.IntLib
+Replace Part R3002 RESISTOR in C:\Git\esp32-smart-clock\hardware\smart-clock\smart-clock-main-board\ldr.SchDoc with RESISTOR from smart-clock-lib.IntLib

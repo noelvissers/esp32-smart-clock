@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=CS_3V3 Pin=U1001-2
+Removed Pin From Net: NetName=MOSI_3V3 Pin=U1001-10
+Added Pin To Net: NetName=MOSI_3V3 Pin=U1001-2
+Added Pin To Net: NetName=CS_3V3 Pin=U1001-10
