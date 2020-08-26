@@ -12,7 +12,7 @@ uint8_t _pinDisplayMOSI = 23; //SPI_MOSI, Already auto defined in lc lib
 uint8_t _pinDisplaySCK = 18;  //SPI_SCK, Already auto defined in lc lib
 uint8_t _pinDisplaySS = 5;    //SPI_SS
 
-uint8_t _pinStatusLed = 35;
+uint8_t _pinStatusLed = 35; //Not used
 
 uint8_t _pinRtcSCL = 22; //SCL, Already auto defined in rtc lib
 uint8_t _pinRtcSDA = 21; //SDA, Already auto defined in rtc lib
