@@ -146,7 +146,9 @@ Mechanical sketch to quickly see what would go where and how:
 
 Mechanical drawing to figure out actual sizes of the case:   
    
-![3D sketch](/pictures/3d_sketch.png?raw=true "3D sketch")
+![3D sketch](/pictures/3d_sketch.png?raw=true "3D sketch")   
+   
+Note that there is a 8x18 grid of holes in the case, while the display is only 8x16 pixels. This (in my opinion) looks better if a digit is displayed on the edge of the display.
 
 //Wood sawing etc...
 
