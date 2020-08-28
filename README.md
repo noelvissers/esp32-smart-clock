@@ -105,31 +105,43 @@ The electronics for this project are fairly simple. I choose to use TH component
 ### Circuits
 Below are the hardware circuits for the clock explained. If you have any questions about the circuits, or anything else, you can make an [issue](https://github.com/noelvissers/esp32-smart-clock/issues) and I'll try to answer it as soon as I can.   
 
+Below you can see...   
+   
+![SCH](/pictures/sch_smartclock.png?raw=true "SCH")   
+   
+Below you can see...   
+   
+![SCH base board](/pictures/sch_mainboard.png?raw=true "SCH base board")  
+#### ESP32
+Explain...   
+   
+![ESP32](/pictures/sch_esp32.png?raw=true "ESP32")   
+
 #### RTC
 To keep track of the time, even when the clock is powered off, we need a RTC. The DS3231 RTC used in this project communicates via I2C. This means we need 4 pins connected to the ESP: SDA, SCL and GND/VCC. The DS3231 has a [typical input voltage of 3.3V](https://datasheets.maximintegrated.com/en/ds/DS3231.pdf) which is perfect since the ESP runs on 3.3V. This also means there is no level shifter needed for the data and clock lines. Since the ESP32 has dedicated I2C pins, we can use these to communicate with the RTC. These are pin IO21 (SDA) and IO21 (SCL).   
    
-![RTC schematic]()   
+![RTC schematic](/pictures/sch_rtc.png?raw=true "RTC schematic")   
 
 #### LDR
 This is a simple voltage divider. The resistance of the LDR changes depending on the light level; more light means less resistance. This means the voltage to the analog input of the ESP changes; a higher voltage level with more light, a lower voltage level with less light. The sensitivity can be set with the potentiometer. Since this is an analog output, we need to make sure it is connected to an analog input on the ESP so we can use the ADC from the ESP to read this value.    
    
-![LDR schematic]()
+![LDR schematic](/pictures/sch_ldr.png?raw=true "LDR schematic")   
 
 #### Display
 The dot matrix displays are powered via the [MAX7219 display driver](https://datasheets.maximintegrated.com/en/ds/MAX7219-MAX7221.pdf) on 5V. Since the ESP developer board is powered by USB (5V), we can use the input voltage of the board to power the MAX7219. The other parts of ESP run on 3.3V, so we need a level shifter for the 3 data lines: D<sub>IN</sub>, CS and CLK. The CS and CLK lines go to both display 1 and 2, while the data line (D<sub>IN</sub>) only goes to display 1. The MAX7219 has a data out (D<sub>OUT</sub>) pin that can be connected to the data in pin of display 1. This way we can daisy chain the displays together.   
 The I<sub>SET</sub> resistor sets the maximal current for the display. This means you will get less brightness with a higher resistor value. I found that the typical circuit that uses around 10kOhm is way too bright, especially at night. You might want to experiment with this a bit and see what value you prefer. In [this video](https://www.youtube.com/watch?v=MT4PSEJzVU0) you can see the effect of different resistor values, although a camera always tries to compensate for this light level. This video does however give a good indication of the minimum brightness. I used a 100k potentiometer in series with the recommended 10k resistor, so I can tweak it after assembly, where 10k is too bright and 100k (or 110k in this case) is probably too dark. So somewhere in the middle should be the sweat spot.   
    
-![Display schematic]()
+![Display schematic](/pictures/sch_display.png?raw=true "Display schematic")   
 
 #### Buttons
-For the buttons I used a simple debounce circuit. In testing I found out that this doesn't filter out all the bouncing, so this is also handled in software. This could be because of bad buttons or wrong resistor/capacitor values, but the solution I found in software with interrupts works very smooth right now. Having a pull-up resistor to 3.3V means the button is active LOW.   
+For the buttons I used a simple debounce circuit. In testing I found out that this sometimes doesn't filter out all the bouncing, so this is also handled in software. This could be because of bad buttons or wrong resistor/capacitor values, but the solution I found in software with interrupts works very smooth right now. Having a pull-up resistor to 3.3V means the button is active LOW.   
    
-![Buttons schematic]()
+![Buttons schematic](/pictures/sch_button.png?raw=true "Buttons schematic")   
 
 ### Testing
 Testing all the hardware (and also software). This is to check if all the circuits work as intented.   
    
-![Breadboard testing](/pictures/breadboard_test.png?raw=true "Breadboard testing")
+![Breadboard testing](/pictures/breadboard_test.png?raw=true "Breadboard testing")   
    
 As you can see, the right display has a different brightness. During the testing phase, I found out the display can actually get pretty bright and also blinding. So I expirimented with different resistor values.
 
@@ -137,12 +149,14 @@ As you can see, the right display has a different brightness. During the testing
 //Design (connectors etc)...   
 //Print on board where components need to be. R1 R2 C1 U1 etc...   
 //Order of assembly   
-
+   
+![PCB](/pictures/pcb_layout.png?raw=true "PCB")   
+   
 ## Case
 The case.   
 //Pictures   
 Mechanical sketch to quickly see what would go where and how:   
-![3D sketch](/pictures/mch_sketch.png?raw=true "MCH sketch")
+[3D sketch](/pictures/mch_sketch.png)
 
 Mechanical drawing to figure out actual sizes of the case:   
    
