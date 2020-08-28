@@ -105,17 +105,22 @@ The electronics for this project are fairly simple. I choose to use TH component
 ### Circuits
 Below are the hardware circuits for the clock explained. If you have any questions about the circuits, or anything else, you can make an [issue](https://github.com/noelvissers/esp32-smart-clock/issues) and I'll try to answer it as soon as I can.   
 
-Below you can see...   
+Below you can see the two PCB projects, since we need two PCB's to make this clock. This is becuase the display is at a different angle (see [PCB](#pcb)).   
    
 ![SCH](/pictures/sch_smartclock.png?raw=true "SCH")   
    
-Below you can see...   
+Below you can see the schematic (blocks) for the main board. This is where most components are (outside the display). The buttons, RTC and LDR are all connected to the microcontroller, the ESP32, and the microcontroller is connected to the header that connects to the display PCB. X1 is just there for support. Note that there is no power input anywhere in these schematics. The power comes from the ESP32's USB port. This will be showed later in the mechanical design.   
    
 ![SCH base board](/pictures/sch_mainboard.png?raw=true "SCH base board")  
 #### ESP32
-Explain...   
+This is the heart of the clock; the microcontroller a.k.a. the ESP32. Since it the operating voltage of the microcontroller is 3.3V, the normal 5V USB voltage won't be suited. On the devkit there is a voltage regulator to bring down the 5V to 3.3V, but there is still a pin we can use that is connected to the 5V input. This means we can drive the 5V display from this USB power. For the data lines we need a level shifter (U1001). This means the ESP can send on 3.3V and the MAX7219 will receive this as 5V. 
    
 ![ESP32](/pictures/sch_esp32.png?raw=true "ESP32")   
+
+#### Buttons
+For the buttons I used a simple debounce circuit. In testing I found out that this sometimes doesn't filter out all the bouncing, so this is also handled in software. This could be because of bad buttons or wrong resistor/capacitor values, but the solution I found in software with interrupts works very smooth right now. Having a pull-up resistor to 3.3V means the button is active LOW.   
+   
+![Buttons schematic](/pictures/sch_button.png?raw=true "Buttons schematic")   
 
 #### RTC
 To keep track of the time, even when the clock is powered off, we need a RTC. The DS3231 RTC used in this project communicates via I2C. This means we need 4 pins connected to the ESP: SDA, SCL and GND/VCC. The DS3231 has a [typical input voltage of 3.3V](https://datasheets.maximintegrated.com/en/ds/DS3231.pdf) which is perfect since the ESP runs on 3.3V. This also means there is no level shifter needed for the data and clock lines. Since the ESP32 has dedicated I2C pins, we can use these to communicate with the RTC. These are pin IO21 (SDA) and IO21 (SCL).   
@@ -133,11 +138,6 @@ The I<sub>SET</sub> resistor sets the maximal current for the display. This mean
    
 ![Display schematic](/pictures/sch_display.png?raw=true "Display schematic")   
 
-#### Buttons
-For the buttons I used a simple debounce circuit. In testing I found out that this sometimes doesn't filter out all the bouncing, so this is also handled in software. This could be because of bad buttons or wrong resistor/capacitor values, but the solution I found in software with interrupts works very smooth right now. Having a pull-up resistor to 3.3V means the button is active LOW.   
-   
-![Buttons schematic](/pictures/sch_button.png?raw=true "Buttons schematic")   
-
 ### Testing
 Testing all the hardware (and also software). This is to check if all the circuits work as intented.   
    
@@ -146,25 +146,29 @@ Testing all the hardware (and also software). This is to check if all the circui
 As you can see, the right display has a different brightness. During the testing phase, I found out the display can actually get pretty bright and also blinding. So I expirimented with different resistor values.
 
 ### PCB
-//Design (connectors etc)...   
-//Print on board where components need to be. R1 R2 C1 U1 etc...   
-//Order of assembly   
+Below you can see (from left to right) the top, front and side view of the PCB.   
    
 ![PCB](/pictures/pcb_layout.png?raw=true "PCB")   
    
-## Case
-The case.   
-//Pictures   
-Mechanical sketch to quickly see what would go where and how:   
-[3D sketch](/pictures/mch_sketch.png)
-
-Mechanical drawing to figure out actual sizes of the case:   
+The gerber files to order the PCB are located [here](/hardware/gerber).
    
-![3D sketch](/pictures/3d_sketch.png?raw=true "3D sketch")   
+## Case
+To see what would go where (on the PCB as well as the mechanical design) I created a [mechanical sketch](/pictures/mch_sketch.png) (yes, in paint).   
+   
+After this, I could make the PCB and a real mechanical drawing to figure out actual sizes of the case:   
+   
+![MCH design](/pictures/smart_clock.gif?raw=true "MCH design")   
+   
+After I was happy with how everything turned out, I rendered the image to get a clear view of what the end result would be like:   
+   
+![3D render](/pictures/3d_sketch.png?raw=true "3D render")   
    
 Note that there is a 8x18 grid of holes in the case, while the display is only 8x16 pixels. This (in my opinion) looks better if a digit is displayed on the edge of the display.
+   
+After having all the files, the PCB, all hardware components, and the software done, it was time to finish this project (v1). 
 
-//Wood sawing etc...
+### End result
+![Result](/pictures/result.png?raw=true "Result")   
 
 ## Manual
 - Powering the Smart Clock   
