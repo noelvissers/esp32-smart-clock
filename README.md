@@ -150,7 +150,7 @@ Below you can see (from left to right) the top, front and side view of the PCB.
    
 ![PCB](/pictures/pcb_layout.png?raw=true "PCB")   
    
-The gerber files to order the PCB are located [here](/hardware/gerber).
+The gerber files to order the PCB are located in the designated hardware folder.
    
 ## Case
 To see what would go where (on the PCB as well as the mechanical design) I created a [mechanical sketch](/pictures/mch_sketch.png) (yes, in paint).   
