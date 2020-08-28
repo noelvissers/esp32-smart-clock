@@ -146,7 +146,9 @@ Mechanical sketch to quickly see what would go where and how:
 
 Mechanical drawing to figure out actual sizes of the case:   
    
-![3D sketch](/pictures/3d_sketch.png?raw=true "3D sketch")
+![3D sketch](/pictures/3d_sketch.png?raw=true "3D sketch")   
+   
+Note that there is a 8x18 grid of holes in the case, while the display is only 8x16 pixels. This (in my opinion) looks better if a digit is displayed on the edge of the display.
 
 //Wood sawing etc...
 
@@ -180,12 +182,13 @@ The clock is USB powered via USB type C. Connect an USB cable to a power source 
 `+ | Plus`  Brightness level up (this disables auto brightness if enabled). Hold (for 3 seconds) to enable auto brightness.   
 
 ## Wish list
-These are features I don't expect to implement, but that could be nice for a future update.
+These are features I don't expect to implement in this version, but that could be nice for a future update.
 - [x] Have wifi configurable and not hard-coded.  
 - [ ] Have all the components (SMD) on 1 PCB so the whole thing can be a lot smaller. This also means not using an ESP32 dev. kit (or any USB interface at all).  
 - [ ] Have an app or better online portal to configure all the settings, whenever you want (not only on startup).  
 - [ ] Auto detect location to configure weather or use location from app.
 - [ ] Add audio support to add alarms/mp3 playback via app.   
-- [ ] Clean up the code a lot   
+- [ ] Add RGB display and/or more displays, to be able to implement more features (like LaMetric Time).
+- [ ] Clean up the code a lot.   
    
 Feel free to submit any issues and/or pull requests if you have new idea's or run into issues. Of course, you are also free to implement idea's I mentioned.
