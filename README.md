@@ -157,7 +157,7 @@ To see what would go where (on the PCB as well as the mechanical design) I creat
    
 After this, I could make the PCB and a real mechanical drawing to figure out actual sizes of the case:   
    
-![MCH design](/pictures/smart_clock.gif?raw=true "MCH design")   
+![MCH design](/pictures/smart-clock.gif?raw=true "MCH design")   
    
 After I was happy with how everything turned out, I rendered the image to get a clear view of what the end result would be like:   
    
