@@ -1,5 +1,0 @@
-Change Component Designator: OldDesignator=SW4000 NewDesignator=MIN
-Change Component Designator: OldDesignator=SW4001 NewDesignator=SLCT
-Change Component Designator: OldDesignator=SW4002 NewDesignator=PLUS
-Change Net Name : Old Net Name=NetR4000_2 New Net Name=NetMIN_1
-Change Net Name : Old Net Name=NetR4004_2 New Net Name=NetPLUS_1

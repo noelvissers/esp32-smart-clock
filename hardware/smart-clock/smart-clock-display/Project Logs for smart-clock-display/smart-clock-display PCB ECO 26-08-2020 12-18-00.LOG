@@ -1,4 +1,0 @@
-Removed Pin From Net: NetName=MOSI Pin=X2-1
-Removed Pin From Net: NetName=CS Pin=X2-5
-Added Pin To Net: NetName=CS Pin=X2-1
-Added Pin To Net: NetName=MOSI Pin=X2-5

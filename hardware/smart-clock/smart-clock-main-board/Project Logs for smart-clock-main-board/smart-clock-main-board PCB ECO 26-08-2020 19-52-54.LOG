@@ -1,6 +1,0 @@
-Change Physical Footprint: Designator=H2 Old Footprint=HOLE New Footprint=HOLE
-Change Physical Footprint: Designator=R3000 Old Footprint=TH-LDR New Footprint=TH-LDR
-Change Physical Footprint: Designator=R3002 Old Footprint=AXIAL RESISTOR New Footprint=AXIAL RESISTOR
-Change Physical Footprint: Designator=U1000 Old Footprint=ESP32-DEVKITC-32D New Footprint=ESP32-DEVKITC-32D
-Change Physical Footprint: Designator=X1 Old Footprint=HEADER-2x5-FEMALE New Footprint=HEADER-2x5-FEMALE
-Change Physical Footprint: Designator=X2 Old Footprint=HEADER-2x5-FEMALE New Footprint=HEADER-2x5-FEMALE
