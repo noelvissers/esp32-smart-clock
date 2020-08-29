@@ -52,7 +52,7 @@ Of course, the most important feature of a clock: Displaying the time. Besides d
 - Automatic network configuration:   
 The clock can automatically connect to a saved wifi network. When there is no network configured, it sets up its own network to connect to via your PC, tablet or phone. A new wifi connection can be configured in the portal that shows up after connecting. The settings of the clock can also be configured in this portal as shown below:   
    
-   ![Configuration portal]()   
+   ![Configuration portal](/pictures/portal.png?raw=true "Configuration portal")   
 
 - As shown in the portal, the clock has a lot of different settings:
    - **Auto brightness**: Automatically change the brightness of the matrix display depending on the light level in the room. This can also be manually controlled with the buttons on top of the clock (this will disable auto brightness and can be enabled again by holding the '+' button). Sensitivity can be adjusted in software, and with the potentiometer on the PCB.
