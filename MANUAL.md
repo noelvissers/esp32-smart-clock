@@ -16,7 +16,7 @@ The clock is USB powered via USB type C. Connect an USB cable to a power source 
 4. Click on "Configure WiFi" to configure wifi and settings.   
 5. Select the network you want to connect to and fill in the password:   
    
-![Portal wifi](/pictures/portal_wifilist.png?raw=true "Portal wifi")   
+![Portal wifi](/pictures/portal_wifi.png?raw=true "Portal wifi")   
    
 6. Check the settings to your preference:   
    
