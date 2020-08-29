@@ -11,7 +11,7 @@ The clock is USB powered via USB type C. Connect an USB cable to a power source 
 ![Status meaning]()   (what is what (wifi/time/weather) and what does the icon mean ⚪⦿●)   
 3. When the network status is 'stuck' on this initializing, it means it couldn't connect to a saved network and it needs to be configured. To do this, open the wifi settings on your phone (or other device) and connect with 'Smart Clock'. Click to sign in to the clock and to open the portal:   
    
-![Portal login screen](/pictures/portal_wifilist.png?raw=true "Portal login screen") ![Portal config screen](/pictures/portal_start.png?raw=true "Portal config screen")   
+![Portal login screen](/pictures/portal_wificonnect.png?raw=true "Portal login screen") ![Portal config screen](/pictures/portal_start.png?raw=true "Portal config screen")   
    
 4. Click on "Configure WiFi" to configure wifi and settings.   
 5. Select the network you want to connect to and fill in the password:   
