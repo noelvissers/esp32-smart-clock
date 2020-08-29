@@ -1,0 +1,12 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [smart-clock-main-board.PcbDoc]
+   Generated File[smart-clock-main-board.TXT]
+   Generated File[smart-clock-main-board.LDP]
+   Generated File[smart-clock-main-board.DRR]
+
+
+Files Generated   : 3
+Documents Printed : 0
+
+Finished Output Generation At 16:04:04 On 29/08/2020

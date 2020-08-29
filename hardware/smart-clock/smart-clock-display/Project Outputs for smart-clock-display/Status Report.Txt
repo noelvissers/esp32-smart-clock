@@ -1,0 +1,27 @@
+Project Outputs Generation Report
+---------------------------------
+Start Output Generation At 16:01:45 On 29/08/2020
+
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of PCB Document [smart-clock-display.PcbDoc]
+   Generated File[smart-clock-display.GTO]
+   Generated File[smart-clock-display.GTS]
+   Generated File[smart-clock-display.GTL]
+   Generated File[smart-clock-display.G1]
+   Generated File[smart-clock-display.G2]
+   Generated File[smart-clock-display.GBL]
+   Generated File[smart-clock-display.GBS]
+   Generated File[smart-clock-display.GBO]
+   Generated File[smart-clock-display.GM1]
+   Generated File[smart-clock-display.GM3]
+   Generated File[smart-clock-display.GKO]
+   Generated File[smart-clock-display.RUL]
+   Generated File[smart-clock-display.EXTREP]
+   Generated File[smart-clock-display.REP]
+
+
+Files Generated   : 14
+Documents Printed : 0
+
+Finished Output Generation At 16:01:46 On 29/08/2020
