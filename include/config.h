@@ -25,6 +25,17 @@ extern bool _useDdmm;
 extern bool _useCelcius;
 extern unsigned long _autoCycleTime;
 
+//Button states:
+extern unsigned long _lastButtonPlusPress;
+extern bool _buttonPlusPressed;
+extern bool _buttonPlusSet;
+extern unsigned long _lastButtonSelectPress;
+extern bool _buttonSelectPressed;
+extern bool _buttonSelectSet;
+extern unsigned long _lastButtonMinPress;
+extern bool _buttonMinPressed;
+extern bool _buttonMinSet;
+
 //Weather settings:
 extern char _weatherCityName[64];
 extern char _weatherCountryCode[3];

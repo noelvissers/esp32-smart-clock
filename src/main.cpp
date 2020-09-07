@@ -10,6 +10,7 @@
 #include "weather.h"
 #include "rtc.h"
 #include "time.h"
+#include "pong.h"
 
 //create objects
 TaskHandle_t TasksCore_0;
@@ -19,6 +20,7 @@ CNetwork Network;
 CWeather Weather;
 CRtc Rtc;
 CTime Time;
+CPong Pong;
 
 unsigned long lastAutoCycle = 0;
 unsigned int state = 0;
@@ -50,83 +52,74 @@ void Core_0(void *parameter)
 }
 
 //ISRs//Buttons:
-bool buttonPlusPressed = false;        //Current state of button (resets on release)
-bool buttonPlusSet = false;            //Toggled state of button (resets when button action is done / manually)
-unsigned long lastButtonPlusPress = 0; //Last button press millis()
 void IRAM_ATTR ISR_buttonPlus()
 {
   if (!digitalRead(_pinButtonPlus)) //Chek if falling edge
   {
-    if ((millis() - 25 > lastButtonPlusPress) && !buttonPlusPressed) //Debounce
+    if ((millis() - 25 > _lastButtonPlusPress) && !_buttonPlusPressed) //Debounce
     {
       //Set button states
       Serial.print("↓ ");
-      buttonPlusSet = true;
-      buttonPlusPressed = true;
-      lastButtonPlusPress = millis();
+      _buttonPlusSet = true;
+      _buttonPlusPressed = true;
+      _lastButtonPlusPress = millis();
     }
   }
   else //Rising edge
   {
-    if (buttonPlusPressed) //Check if it was pressed to filter out false releases from bounce
+    if (_buttonPlusPressed) //Check if it was pressed to filter out false releases from bounce
     {
       Serial.print("↑ ");
-      buttonPlusPressed = false; //Reset button state
+      _buttonPlusPressed = false; //Reset button state
     }
   }
-  lastButtonPlusPress = millis();
+  _lastButtonPlusPress = millis();
 }
 
-bool buttonSelectPressed = false;
-bool buttonSelectSet = false;
-unsigned long lastButtonSelectPress = 0;
 void IRAM_ATTR ISR_buttonSelect()
 {
   if (!digitalRead(_pinButtonSelect))
   {
-    if ((millis() - 50 > lastButtonSelectPress) && !buttonSelectPressed)
+    if ((millis() - 50 > _lastButtonSelectPress) && !_buttonSelectPressed)
     {
       Serial.print("↓ ");
-      buttonSelectSet = true;
-      buttonSelectPressed = true;
-      lastButtonSelectPress = millis();
+      _buttonSelectSet = true;
+      _buttonSelectPressed = true;
+      _lastButtonSelectPress = millis();
     }
   }
   else
   {
-    if (buttonSelectPressed)
+    if (_buttonSelectPressed)
     {
       Serial.print("↑ ");
-      buttonSelectPressed = false;
+      _buttonSelectPressed = false;
     }
   }
-  lastButtonSelectPress = millis();
+  _lastButtonSelectPress = millis();
 }
 
-bool buttonMinPressed = false;
-bool buttonMinSet = false;
-unsigned long lastButtonMinPress = 0;
 void IRAM_ATTR ISR_buttonMin()
 {
   if (!digitalRead(_pinButtonMin))
   {
-    if ((millis() - 25 > lastButtonMinPress) && !buttonMinPressed)
+    if ((millis() - 25 > _lastButtonMinPress) && !_buttonMinPressed)
     {
       Serial.print("↓ ");
-      buttonMinSet = true;
-      buttonMinPressed = true;
-      lastButtonMinPress = millis();
+      _buttonMinSet = true;
+      _buttonMinPressed = true;
+      _lastButtonMinPress = millis();
     }
   }
   else
   {
-    if (buttonMinPressed)
+    if (_buttonMinPressed)
     {
       Serial.print("↑ ");
-      buttonMinPressed = false;
+      _buttonMinPressed = false;
     }
   }
-  lastButtonMinPress = millis();
+  _lastButtonMinPress = millis();
 }
 
 void setup()
@@ -212,30 +205,38 @@ void setup()
 void loop()
 {
   // Button checks
-  if (buttonPlusSet && buttonMinSet && !buttonSelectSet) //Both plus and min are pressed
+  if (_buttonPlusSet && _buttonMinSet && !_buttonSelectSet) //Both plus and min are pressed
   {
-    /*
-    while (buttonPlusPressed && buttonMinPressed)
+    while (_buttonPlusPressed && _buttonMinPressed)
     {
-      if ((millis() - 3000) > lastButtonPlusPress)
+      if ((millis() - 3000) > _lastButtonPlusPress)
       {
-        _autoBrightness = true;
-        Display.showAutoBrightness();
-        Serial.println("[Status] Autobrightness set.");
+        detachInterrupt(_pinButtonMin);
+        detachInterrupt(_pinButtonPlus);
+        detachInterrupt(_pinButtonSelect);
+
+        _buttonMinSet = false;
+        _buttonSelectSet = false;
+        _buttonPlusSet = false;
+
+        Pong.start();
+
+        attachInterrupt(_pinButtonPlus, ISR_buttonPlus, CHANGE); //Attatch interrupts for buttons
+        attachInterrupt(_pinButtonSelect, ISR_buttonSelect, CHANGE);
+        attachInterrupt(_pinButtonMin, ISR_buttonMin, CHANGE);
         break;
       }
     }
-    buttonMinSet = false;
-    buttonSelectSet = false;
-    buttonPlusSet = false;
-    */
+    _buttonMinSet = false;
+    _buttonSelectSet = false;
+    _buttonPlusSet = false;
   }
-  else if (buttonPlusSet && !buttonMinSet && !buttonSelectSet) //Only plus was pressed
+  else if (_buttonPlusSet && !_buttonMinSet && !_buttonSelectSet) //Only plus was pressed
   {
     bool hold = false;
-    while (buttonPlusPressed && !buttonMinPressed)
+    while (_buttonPlusPressed && !_buttonMinPressed)
     {
-      if ((millis() - 3000) > lastButtonPlusPress)
+      if ((millis() - 3000) > _lastButtonPlusPress)
       {
         _autoBrightness = true;
         Display.showAutoBrightness();
@@ -245,18 +246,18 @@ void loop()
         break;
       }
     }
-    if (!buttonMinSet)
-      buttonPlusSet = false;
-    buttonSelectSet = false;
+    if (!_buttonMinSet)
+      _buttonPlusSet = false;
+    _buttonSelectSet = false;
     if (!hold)
       Display.brightnessUp();
   }
-  else if (!buttonPlusSet && buttonMinSet && !buttonSelectSet) //Only min was pressed
+  else if (!_buttonPlusSet && _buttonMinSet && !_buttonSelectSet) //Only min was pressed
   {
     bool hold = false;
-    while (!buttonPlusPressed && buttonMinPressed)
+    while (!_buttonPlusPressed && _buttonMinPressed)
     {
-      if ((millis() - 3000) > lastButtonMinPress)
+      if ((millis() - 3000) > _lastButtonMinPress)
       {
         _autoCycle = true;
         Display.showAutoCycle();
@@ -267,17 +268,17 @@ void loop()
         break;
       }
     }
-    if (!buttonPlusSet)
-      buttonMinSet = false;
-    buttonSelectSet = false;
+    if (!_buttonPlusSet)
+      _buttonMinSet = false;
+    _buttonSelectSet = false;
     if (!hold)
       Display.brightnessDown();
   }
-  else if (!buttonPlusSet && !buttonMinSet && buttonSelectSet) //Only select was pressed
+  else if (!_buttonPlusSet && !_buttonMinSet && _buttonSelectSet) //Only select was pressed
   {
-    while (buttonSelectPressed)
+    while (_buttonSelectPressed)
     {
-      if ((millis() - 5000) > lastButtonSelectPress)
+      if ((millis() - 5000) > _lastButtonSelectPress)
       {
         Serial.println("[I][Status] Resetting ESP...");
         Display.showReset();
@@ -291,7 +292,7 @@ void loop()
           ;
       }
     }
-    //ESP did not reset
+
     if (_autoCycle)
     {
       Serial.println("[Status] Turning off auto cycling...");
@@ -299,15 +300,15 @@ void loop()
       Config.saveSettings();
     }
     state++;
-    buttonMinSet = false;
-    buttonSelectSet = false;
-    buttonPlusSet = false;
+    _buttonMinSet = false;
+    _buttonSelectSet = false;
+    _buttonPlusSet = false;
   }
   else
   {
-    buttonMinSet = false;
-    buttonSelectSet = false;
-    buttonPlusSet = false;
+    _buttonMinSet = false;
+    _buttonSelectSet = false;
+    _buttonPlusSet = false;
   }
 
   switch (state)

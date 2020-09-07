@@ -3,5 +3,5 @@
 class CPong
 {
 public:
-    void start();
+  void start();
 };

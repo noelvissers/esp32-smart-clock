@@ -27,6 +27,17 @@ bool _useDdmm = true;
 bool _useCelcius = true;
 unsigned long _autoCycleTime = 10000; //Time it takes to cycle to new view (ms)
 
+//Button states:
+unsigned long _lastButtonPlusPress = 0; //Last button press millis()
+bool _buttonPlusPressed = false;        //Current state of button (resets on release)
+bool _buttonPlusSet = false;            //Toggled state of button (resets when button action is done / manually)
+unsigned long _lastButtonSelectPress = 0;
+bool _buttonSelectPressed = false;
+bool _buttonSelectSet = false;
+unsigned long _lastButtonMinPress = 0;
+bool _buttonMinPressed = false;
+bool _buttonMinSet = false;
+
 //Weather settings:
 char _weatherCityName[64] = "";
 char _weatherCountryCode[3] = "";
