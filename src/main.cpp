@@ -211,19 +211,11 @@ void loop()
     {
       if ((millis() - 3000) > _lastButtonPlusPress)
       {
-        detachInterrupt(_pinButtonMin);
-        detachInterrupt(_pinButtonPlus);
-        detachInterrupt(_pinButtonSelect);
-
         _buttonMinSet = false;
         _buttonSelectSet = false;
         _buttonPlusSet = false;
 
         Pong.start();
-
-        attachInterrupt(_pinButtonPlus, ISR_buttonPlus, CHANGE); //Attatch interrupts for buttons
-        attachInterrupt(_pinButtonSelect, ISR_buttonSelect, CHANGE);
-        attachInterrupt(_pinButtonMin, ISR_buttonMin, CHANGE);
         break;
       }
     }
@@ -249,7 +241,7 @@ void loop()
     if (!_buttonMinSet)
       _buttonPlusSet = false;
     _buttonSelectSet = false;
-    if (!hold)
+    if (!hold && !_buttonMinSet)
       Display.brightnessUp();
   }
   else if (!_buttonPlusSet && _buttonMinSet && !_buttonSelectSet) //Only min was pressed
@@ -271,7 +263,7 @@ void loop()
     if (!_buttonPlusSet)
       _buttonMinSet = false;
     _buttonSelectSet = false;
-    if (!hold)
+    if (!hold && !_buttonPlusSet)
       Display.brightnessDown();
   }
   else if (!_buttonPlusSet && !_buttonMinSet && _buttonSelectSet) //Only select was pressed

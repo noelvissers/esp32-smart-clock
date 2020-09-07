@@ -70,7 +70,11 @@ void CPong::start()
 
     //Check for exit button (select)
     if (_buttonSelectSet)
+    {
+      Serial.println("[Pong] Stopped...");
+      _buttonSelectSet = false;
       break;
+    }
 
     //handle bat bounce
     if (posBall_X == 14)

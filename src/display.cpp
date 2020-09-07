@@ -18,7 +18,7 @@ unsigned long displayDelayTime = 0;
 
 //Sprites
 const char digits[10][3] = {{0b01111100, 0b01000100, 0b01111100},            //0
-                            {0b00000000, 0b00000000, 0b01111100},            //1
+                            {0b01001000, 0b01111100, 0b01000000},            //1
                             {0b01110100, 0b01010100, 0b01011100},            //2
                             {0b01000100, 0b01010100, 0b01111100},            //3
                             {0b00011100, 0b00010000, 0b01111100},            //4
@@ -193,7 +193,7 @@ void CDisplay::showTime()
   }
 }
 
-//Display the date
+//Display the date (TODO: NEEDS UPDATING FOR '1')
 void CDisplay::showDate()
 {
   updateBrightness();
@@ -242,7 +242,7 @@ void CDisplay::showDate()
   }
 }
 
-//Display the temperature
+//Display the temperature (TODO: NEEDS UPDATING FOR '1')
 void CDisplay::showTemperature()
 {
   updateBrightness();
@@ -266,7 +266,7 @@ void CDisplay::showTemperature()
       else
         temperature = int(((_temperature - 273.15) * 1.8) + 32.5);
 
-      //Check if temperature is below 9
+      //Check if temperature is below -9
       if (temperature <= -10)
       {
         printChar(0, 0, charMinus, sizeof(charMinus));
@@ -296,7 +296,7 @@ void CDisplay::showTemperature()
   }
 }
 
-//Display the humidity
+//Display the humidity (TODO: NEEDS UPDATING FOR '1')
 void CDisplay::showHumidity()
 {
   updateBrightness();

@@ -4,9 +4,9 @@
 #include "ArduinoJson.h"
 
 //Hardware settings:
-uint8_t _pinButtonPlus = 32;
+uint8_t _pinButtonPlus = 25;
 uint8_t _pinButtonSelect = 33;
-uint8_t _pinButtonMin = 25;
+uint8_t _pinButtonMin = 32;
 
 uint8_t _pinDisplayMOSI = 23; //SPI_MOSI, Already auto defined in lc lib
 uint8_t _pinDisplaySCK = 18;  //SPI_SCK, Already auto defined in lc lib
