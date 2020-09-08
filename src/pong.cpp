@@ -23,9 +23,10 @@ unsigned long lastDown = 0;
 void reset()
 {
   posBat = 4;
+  dirBall_X = 0;
   posBall_X = 7;
-  posBall_Y = 4;
-  speedBall = 250;
+  posBall_Y = random(0, 7);
+  speedBall = 200;
 }
 
 bool generateWall()
@@ -122,7 +123,7 @@ void CPong::start()
       if (posBall_X == 15)
       {
         //Ball is on the same line as bat, so you lost...
-        //Play restart animation
+        PongDisplay.renderPongReset();
         reset();
       }
 
@@ -133,8 +134,8 @@ void CPong::start()
         {
           //Bounced
           dirBall_X = 0;
-          speedBall = speedBall - 10;
-          if (speedBall < 10)
+          speedBall = speedBall - 20;
+          if (speedBall < 10 || speedBall > 1000)
             speedBall = 10;
         }
       }

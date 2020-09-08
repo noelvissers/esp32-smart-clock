@@ -30,7 +30,7 @@ void Core_0(void *parameter)
 {
   for (;;)
   {
-    delay(150000); //Do an update every 2.5 minutes
+    delay(60000); //Do an update every minute
     if (!Weather.update())
     {
       Serial.println("[E][CORE_0] Error while updating weather.");
@@ -333,5 +333,3 @@ void loop()
   }
   delay(20);
 }
-
-//Implement DST

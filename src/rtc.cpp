@@ -11,14 +11,6 @@ uint8_t _timeMinute = 0;
 uint8_t _timeSecond = 0;
 
 uint8_t _timeDayOfWeek = -1; //0 = sunday, 6 = saturday
-bool _timeDst = false;
-
-bool checkDST()
-{
-  //Check all possible DST conditions
-  //Check this for < 3 seconds so it doesnt loop for an hour
-  return true;
-}
 
 bool CRtc::update() //Copy RTC values to time data
 {
@@ -42,12 +34,6 @@ bool CRtc::update() //Copy RTC values to time data
     _timeMinute = now.minute();
     _timeSecond = now.second();
 
-    if (checkDST())
-    {
-      //Check if online time has different DST
-      //Sync time
-      //If local DST and online DST is same do nothing.
-    }
     return true;
   }
   return false;

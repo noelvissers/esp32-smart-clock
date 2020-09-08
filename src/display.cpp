@@ -179,7 +179,7 @@ void CDisplay::showTime()
     lc.clearDisplay(1);
 
     //Print time
-    //if ((timeHour / 10 % 10) != 0) //Uncomment to hide leading 0
+    if ((timeHour / 10 % 10) != 0) //Uncomment to hide leading 0
     {
       printDigit(0, 0, timeHour / 10 % 10);
     }
@@ -544,4 +544,25 @@ void CDisplay::renderPong(int posBat, int posBall_X, int posBall_Y, int possWall
 
 void CDisplay::renderPongReset()
 {
+  for (int i = 0; i < 8; i++)
+  {
+    lc.setRow(1, 7 - i, 0b11111111);
+    delay(30);
+  }
+  for (int i = 0; i < 8; i++)
+  {
+    lc.setRow(0, 7 - i, 0b11111111);
+    delay(30);
+  }
+  for (int i = 0; i < 8; i++)
+  {
+    lc.setRow(1, 7 - i, 0b00000000);
+    lc.setRow(1, 7, 0b00011100);
+    delay(30);
+  }
+  for (int i = 0; i < 8; i++)
+  {
+    lc.setRow(0, 7 - i, 0b00000000);
+    delay(30);
+  }
 }
