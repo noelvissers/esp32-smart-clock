@@ -25,7 +25,6 @@ A lot more was possible with wifi integration on the ESP32, so that's what made 
   * [Components](#components)
   * [PCB](#pcb)
 - [Case](#case)
-- [Manual](#manual)
 - [Wish list](#wish-list)
 
 ## Project directories
