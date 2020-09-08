@@ -18,7 +18,7 @@ unsigned long displayDelayTime = 0;
 
 //Sprites
 const char digits[10][3] = {{0b01111100, 0b01000100, 0b01111100},            //0
-                            {0b01001000, 0b01111100, 0b01000000},            //1
+                            {0b00000000, 0b00000000, 0b01111100},            //1
                             {0b01110100, 0b01010100, 0b01011100},            //2
                             {0b01000100, 0b01010100, 0b01111100},            //3
                             {0b00011100, 0b00010000, 0b01111100},            //4
@@ -55,6 +55,10 @@ char charO[3] = {0b01110000, 0b01010000, 0b01110000};                        //O
 char charBrightness[6] = {0b01000010, 0b00011000, 0b00100100, 0b00100100, 0b00011000, 0b01000010};                    //Sun
 char charCycle[8] = {0b00111000, 0b01000100, 0b10000010, 0b10000010, 0b10000010, 0b01010000, 0b00110000, 0b01110000}; //↻
 char charSloth[8] = {0b00111100, 0b01011010, 0b10001011, 0b10100011, 0b10100011, 0b10001011, 0b01011010, 0b00111100}; //Slothface
+
+char pongBall[8] = {0b10000000, 0b01000000, 0b00100000, 0b00010000, 0b00001000, 0b00000100, 0b00000010, 0b00000001};
+char pongBat[6] = {0b11100000, 0b01110000, 0b00111000, 0b00011100, 0b00001110, 0b00000111};
+char pongWall = 0b11111111;
 
 //Print a single digit 0 - 9
 void printDigit(unsigned int startAddr, unsigned int startRow, unsigned int digit)
@@ -181,6 +185,7 @@ void CDisplay::showTime()
     }
     printDigit(0, 4, timeHour % 10);
 
+    /*
     if (_timeMinute != 48)
     {
       printDigit(1, 1, _timeMinute / 10 % 10);
@@ -190,10 +195,14 @@ void CDisplay::showTime()
     {
       printChar(1, 0, charSloth, 8);
     }
+    */
+
+    printDigit(1, 1, _timeMinute / 10 % 10);
+    printDigit(1, 5, _timeMinute % 10);
   }
 }
 
-//Display the date (TODO: NEEDS UPDATING FOR '1')
+//Display the date
 void CDisplay::showDate()
 {
   updateBrightness();
@@ -242,7 +251,7 @@ void CDisplay::showDate()
   }
 }
 
-//Display the temperature (TODO: NEEDS UPDATING FOR '1')
+//Display the temperature
 void CDisplay::showTemperature()
 {
   updateBrightness();
@@ -296,7 +305,7 @@ void CDisplay::showTemperature()
   }
 }
 
-//Display the humidity (TODO: NEEDS UPDATING FOR '1')
+//Display the humidity
 void CDisplay::showHumidity()
 {
   updateBrightness();
@@ -498,4 +507,41 @@ void CDisplay::showReset()
   lc.clearDisplay(0);
   lc.clearDisplay(1);
   printChar(0, 6, charLoadingInit, sizeof(charLoadingInit));
+}
+
+void CDisplay::renderPong(int posBat, int posBall_X, int posBall_Y, int possWall, bool wall)
+{
+  int ball_addr = 0;
+  int ball_row = 0;
+
+  if (posBall_X > 7)
+  {
+    ball_addr = 1;
+    ball_row = posBall_X - 8;
+  }
+  else
+  {
+    ball_addr = 0;
+    ball_row = posBall_X;
+  }
+
+  updateBrightness();
+  lc.clearDisplay(0);
+  lc.clearDisplay(1);
+
+  //ball
+  lc.setRow(ball_addr, ball_row, pongBall[posBall_Y]);
+
+  //bat
+  lc.setRow(1, 7, pongBat[posBat - 1]);
+
+  //wall
+  if (wall)
+  {
+    lc.setRow(0, possWall, pongWall);
+  }
+}
+
+void CDisplay::renderPongReset()
+{
 }

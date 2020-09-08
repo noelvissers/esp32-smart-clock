@@ -3,11 +3,13 @@
 #include "display.h"
 #include "config.h"
 
-unsigned int posBat = 5;      //1-6
+CDisplay PongDisplay;
+
+unsigned int posBat = 4;      //1-6
 unsigned int posBall_X = 7;   //0-15
-unsigned int posBall_Y = 5;   //0-7
+unsigned int posBall_Y = 4;   //0-7
 unsigned int speedBall = 250; //10-250
-unsigned int speedBat = 50;   //delay in ms for bat to move
+unsigned int speedBat = 75;   //delay in ms for bat to move
 bool dirBall_X = 0;           //0 = Left, 1 = Right
 bool dirBall_Y = 0;           //0 = Up, 1 = Down
 bool wall = false;
@@ -20,9 +22,9 @@ unsigned long lastDown = 0;
 
 void reset()
 {
-  posBat = 5;
+  posBat = 4;
   posBall_X = 7;
-  posBall_Y = 5;
+  posBall_Y = 4;
   speedBall = 250;
 }
 
@@ -76,78 +78,82 @@ void CPong::start()
       break;
     }
 
-    //handle bat bounce
-    if (posBall_X == 14)
-    {
-      if (((posBall_Y - 1) == posBat) || (posBall_Y == posBat) || ((posBall_Y + 1) == posBat))
-      {
-        //Bounced
-        dirBall_Y = !dirBall_Y;
-        dirBall_X = 0;
-        speedBall = speedBall - 10;
-        if (speedBall < 10)
-          speedBall = 10;
-      }
-    }
-
-    //Check for loss
-    if (posBall_X == 15)
-    {
-      //Ball is on the same line as bat, so you lost...
-      //Play restart animation
-      reset();
-    }
-
-    //Handle wall bounce
-    if (wall && dirBall_X)
-    {
-      if ((posBall_X + 1) == posWall)
-      {
-        //Bounced
-        dirBall_X = 0;
-        dirBall_Y = !dirBall_Y;
-        lifeWall--;
-        if (lifeWall <= 0)
-          wall = false;
-      }
-    }
-
     //Handle ball pos
-    //X
     if ((millis() - lastBallPosChange) > speedBall)
     {
       lastBallPosChange = millis();
 
-      if (posBall_X == 0)
-      {
-        dirBall_X = 1;
-        dirBall_Y = !dirBall_Y;
-      }
-
-      if (dirBall_X) //RIGHT
-        posBall_X++;
-      else //LEFT
+      if (!dirBall_X) //Left
       {
         posBall_X--;
-        if (posBall_X == 0 && !wall)
-          wall = generateWall();
+        if (posBall_X == 0)
+        {
+          dirBall_X = 1;
+          if (!wall)
+          {
+            wall = generateWall();
+          }
+          else
+          {
+            if (lifeWall <= 0)
+              wall = false;
+          }
+        }
+      }
+      else //Right
+      {
+        posBall_X++;
       }
 
-      //Y
-      if (posBall_Y == 0 || posBall_Y == 1)
-        posBall_Y = !posBall_Y;
-      if (dirBall_Y) //UP
+      if (!dirBall_Y) //Up
+      {
         posBall_Y++;
-      else //DOWN
+        if (posBall_Y == 7)
+          dirBall_Y = !dirBall_Y;
+      }
+      else //Down
+      {
         posBall_Y--;
+        if (posBall_Y == 0)
+          dirBall_Y = !dirBall_Y;
+      }
+
+      //Check for loss
+      if (posBall_X == 15)
+      {
+        //Ball is on the same line as bat, so you lost...
+        //Play restart animation
+        reset();
+      }
+
+      //Check for bounce
+      if (posBall_X == 14)
+      {
+        if (((posBall_Y - 1) == posBat) || (posBall_Y == posBat) || ((posBall_Y + 1) == posBat))
+        {
+          //Bounced
+          dirBall_X = 0;
+          speedBall = speedBall - 10;
+          if (speedBall < 10)
+            speedBall = 10;
+        }
+      }
+
+      //Handle wall bounce
+      if (wall && dirBall_X)
+      {
+        if ((posBall_X + 1) == posWall)
+        {
+          //Bounced
+          dirBall_X = 0;
+          lifeWall--;
+        }
+      }
     }
 
     //Draw pong
-    //...
-    //Display.printPong(posBat, posBall_X, posBall_Y, posWall, wall);
-
+    PongDisplay.renderPong(posBat, posBall_X, posBall_Y, posWall, wall);
     delay(5);
   }
   reset();
 }
-
